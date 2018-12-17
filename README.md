@@ -1,2 +1,2 @@
-# atomiv-backend-java
-Atomiv - Backend (Java)
+# atomiv-backend-java-spring
+Atomiv - Backend (Java - Spring)
