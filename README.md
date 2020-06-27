@@ -1,6 +1,6 @@
 # Atomiv Java
 
-Welcome to the Atomiv Java repository. This repository contains a sample Java project using an e-commerce example (customers, products, orders). Initially it will be developed as a plain CRUD application but will later be migrated to Clean Architecture / DDD.
+Welcome to the Atomiv Java repository. This repository contains a sample Java project using an e-commerce example (customers, products, orders). It uses Spring Boot. Initially it will be developed as a plain CRUD application but will later be migrated to Clean Architecture / DDD.
 
 ## Documentation
 
