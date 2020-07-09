@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 
@@ -21,11 +22,11 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@NotNull(message="First name cannot be missing or empty")
+	@NotEmpty(message="First name cannot be missing or empty")
 	@Column(name = "firstName")
 	private String firstName;
 	
-	@NotNull(message="Last name cannot be missing or empty")
+	@NotEmpty(message="Last name cannot be missing or empty")
 	@Column(name = "lastName")
 	private String lastName;
 
