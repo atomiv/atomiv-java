@@ -2,12 +2,13 @@ package org.atomiv.template.web.restapi.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.atomiv.template.web.restapi.models.Customer;
 import org.atomiv.template.web.restapi.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class CustomerController {
 
 	@Autowired
@@ -31,7 +32,7 @@ public class CustomerController {
 	}
 
 	@PostMapping("/customers")
-	public Customer createCustomer(@Validated @RequestBody Customer customer) {
+	public Customer createCustomer(@Valid @RequestBody Customer customer) {
 		return customerRepository.save(customer);
 
 	}
