@@ -64,10 +64,10 @@ public class Product {
 	public void setUnitPrice(double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
-	public boolean isListed() {
+	public boolean getIsListed() {
 		return isListed;
 	}
-	public void setListed(boolean isListed) {
+	public void setIsListed(boolean isListed) {
 		this.isListed = isListed;
 	}
 	
