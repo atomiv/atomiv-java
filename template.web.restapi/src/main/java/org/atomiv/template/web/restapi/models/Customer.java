@@ -23,13 +23,13 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@NotEmpty
+	@NotNull
 	@Size(min = 2, message = "First name cannot be missing or empty")
 	@Column(name = "firstName")
 	private String firstName;
 	
-	@NotEmpty
-	@Size(min = 2, message = "First name cannot be missing or empty")
+	@NotNull
+	@Size(min = 2, message = "Last name cannot be missing or empty")
 	@Column(name = "lastName")
 	private String lastName;
 
