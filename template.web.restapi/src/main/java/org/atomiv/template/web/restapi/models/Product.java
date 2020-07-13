@@ -30,9 +30,9 @@ public class Product {
 	@Column(name = "discription")
 	private String discription;
 	
-	@PositiveOrZero
-	@DecimalMin(value = "0.0", inclusive = false)
-	@Digits(integer=3, fraction=2)
+	@PositiveOrZero(message = "The price should be either positive or zero")
+	@DecimalMin("0.00")
+	@Digits(integer=6, fraction=2)
 	@Column(name = "unitPrice")
 	private double unitPrice;
 	
