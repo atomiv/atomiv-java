@@ -31,8 +31,32 @@ public class ProductController {
 	}
 
 	@PostMapping("/products")
-	public Product createProduct(@Valid @RequestBody Product product) {
-		return productRepository.save(product);
+	public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
+		product.setIsListed(true);
+		productRepository.save(product);
+		return ResponseEntity.ok().body(product);
+	}
+	
+	@PostMapping("/products/{id}/unlist")
+	public ResponseEntity<Product> unlistProduct(@PathVariable(value = "id") long productId)
+			throws ResourceNotFoundException {
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new ResourceNotFoundException(" Product not found for this id: " + productId));
+		product.setIsListed(false);
+		productRepository.save(product);
+		return ResponseEntity.ok().body(product);
+
+	}
+
+	@PostMapping("/products/{id}/relist")
+	public ResponseEntity<Product> relistProduct(@PathVariable(value = "id") long productId)
+			throws ResourceNotFoundException {
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new ResourceNotFoundException(" Product not found for this id: " + productId));
+		product.setIsListed(true);
+		productRepository.save(product);
+		return ResponseEntity.ok().body(product);
+
 	}
 
 	@GetMapping("/products/{id}")
@@ -49,7 +73,7 @@ public class ProductController {
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Product not found for this id: " + productId));
 		product.setCode(productDetails.getCode());
-		product.setDiscription(productDetails.getDiscription());
+		product.setDescription(productDetails.getDescription());
 		product.setUnitPrice(productDetails.getUnitPrice());
 		product.setIsListed(productDetails.getIsListed());
 		productRepository.save(product);

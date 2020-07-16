@@ -25,10 +25,10 @@ public class Product {
 	@Column(name = "code")
 	private String code;
 	
-	@NotNull(message = "Discription cannot be null")
-	@Size(min = 1, max = 100, message = "Discription must be max length 100 characters")
-	@Column(name = "discription")
-	private String discription;
+	@NotNull(message = "Description cannot be null")
+	@Size(min = 1, max = 100, message = "Description must be max length 100 characters")
+	@Column(name = "description")
+	private String description;
 	
 	@PositiveOrZero(message = "The price should be either positive or zero")
 	@DecimalMin("0.00")
@@ -44,11 +44,11 @@ public class Product {
 	public Product() {
 		super();
 	}
-	public Product(long id, String code, String discription, double unitPrice, boolean isListed) {
+	public Product(long id, String code, String description, double unitPrice, boolean isListed) {
 		super();
 		this.id = id;
 		this.code = code;
-		this.discription = discription;
+		this.description = description;
 		this.unitPrice = unitPrice;
 		this.isListed = isListed;
 	}
@@ -64,11 +64,11 @@ public class Product {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public String getDiscription() {
-		return discription;
+	public String getDescription() {
+		return description;
 	}
-	public void setDiscription(String discription) {
-		this.discription = discription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public double getUnitPrice() {
 		return unitPrice;
