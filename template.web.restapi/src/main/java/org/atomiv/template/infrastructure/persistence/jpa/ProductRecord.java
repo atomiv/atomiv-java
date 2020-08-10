@@ -1,5 +1,7 @@
 package org.atomiv.template.infrastructure.persistence.jpa;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,13 +14,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
+import org.atomiv.framework.infrastructure.jpa.Record;
+
 @Entity
 @Table(name = "products")
-public class ProductRecord {
-	
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Id
-	private long id;
+public class ProductRecord extends Record<UUID> {
 	
 	@NotNull(message = "Code cannot be null")
 	@Size(min = 1, max = 10, message = "Code must be max length 10 characters")
@@ -44,19 +44,12 @@ public class ProductRecord {
 	public ProductRecord() {
 		super();
 	}
-	public ProductRecord(long id, String code, String description, double unitPrice, boolean isListed) {
-		super();
-		this.id = id;
+	public ProductRecord(UUID id, String code, String description, double unitPrice, boolean isListed) {
+		super(id);
 		this.code = code;
 		this.description = description;
 		this.unitPrice = unitPrice;
 		this.isListed = isListed;
-	}
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
 	}
 	public String getCode() {
 		return code;

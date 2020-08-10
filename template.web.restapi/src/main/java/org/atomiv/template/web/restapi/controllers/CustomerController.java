@@ -1,11 +1,15 @@
 package org.atomiv.template.web.restapi.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.atomiv.template.core.domain.customers.Customer;
+import org.atomiv.template.core.domain.customers.CustomerIdentity;
+import org.atomiv.template.core.domain.customers.CustomerRepository;
 import org.atomiv.template.infrastructure.persistence.jpa.CustomerRecord;
-import org.atomiv.template.infrastructure.repositories.jpa.CustomerRepository;
+import org.atomiv.template.infrastructure.repositories.jpa.CustomerJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,19 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	@PostMapping
+	public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerRecord customerRecord) {
+		var customerId = new CustomerIdentity(UUID.randomUUID());
+		var customer = new Customer(customerId, customerRecord.getFirstName(), customerRecord.getLastName());
+		customerRepository.add(customer);
+		return ResponseEntity.ok().build();
+	}
+	
+	/*
+	
+	@Autowired
+	private CustomerJpaRepository customerRepository;
 
 	@GetMapping
 	public ResponseEntity<List<CustomerRecord>> getAllCustomers() {
@@ -66,5 +83,7 @@ public class CustomerController {
 		return ResponseEntity.ok().build();
 
 	}
+	
+	*/
 
 }

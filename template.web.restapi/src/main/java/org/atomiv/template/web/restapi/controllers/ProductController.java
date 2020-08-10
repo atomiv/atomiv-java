@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.atomiv.template.infrastructure.persistence.jpa.ProductRecord;
-import org.atomiv.template.infrastructure.repositories.jpa.ProductRepository;
+import org.atomiv.template.infrastructure.repositories.jpa.ProductJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/products")
 public class ProductController {
 
+	/*
+	
 	@Autowired
-	private ProductRepository productRepository;
+	private ProductJpaRepository productRepository;
 
 	@GetMapping
 	public ResponseEntity<List<ProductRecord>> getAllProducts() {
@@ -91,4 +93,5 @@ public class ProductController {
 		return ResponseEntity.ok().build();
 	}
 
+	*/
 }
