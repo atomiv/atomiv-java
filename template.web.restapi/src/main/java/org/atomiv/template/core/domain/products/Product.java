@@ -1,26 +1,22 @@
-package org.atomiv.template.core.domain;
+package org.atomiv.template.core.domain.products;
 
-public class Product {
+import org.atomiv.framework.core.domain.Entity;
+
+public class Product extends Entity<ProductIdentity> {
 	
-	private long id;
 	private String code;
 	private String description;
 	private double unitPrice;
 	private boolean isListed;
 	
-	public Product(long id, String code, String description, double unitPrice, boolean isListed) {
-		this.id = id;
+	public Product(ProductIdentity id, String code, String description, double unitPrice, boolean isListed) {
+		super(id);
 		this.code = code;
 		this.description = description;
 		this.unitPrice = unitPrice;
 		this.isListed = isListed;
 	}
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
+	
 	public String getCode() {
 		return code;
 	}

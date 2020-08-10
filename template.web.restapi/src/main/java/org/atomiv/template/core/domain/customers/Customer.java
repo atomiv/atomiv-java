@@ -1,19 +1,16 @@
-package org.atomiv.template.core.domain;
+package org.atomiv.template.core.domain.customers;
 
-public class Customer {
+import org.atomiv.framework.core.domain.Entity;
+
+public class Customer extends Entity<CustomerIdentity> {
 	
-	private long id;
 	private String firstName;
 	private String lastName;
 	
-	public Customer(long id, String firstName, String lastName) {
-		this.id = id;
+	public Customer(CustomerIdentity id, String firstName, String lastName) {
+		super(id);
 		this.firstName = firstName;
 		this.lastName = lastName;
-	}
-	
-	public long getId() {
-		return id;
 	}
 
 	public String getFirstName() {
