@@ -26,15 +26,15 @@ public class CustomerController {
 	private CustomerRepository customerRepository;
 
 	@GetMapping
-	public List<Customer> getAllCustomers() {
-		return customerRepository.findAll();
-
+	public ResponseEntity<List<Customer>> getAllCustomers() {
+		var customers = customerRepository.findAll();
+		return ResponseEntity.ok().body(customers);
 	}
 
 	@PostMapping
-	public Customer createCustomer(@Valid @RequestBody Customer customer) {
-		return customerRepository.save(customer);
-
+	public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
+		customerRepository.save(customer);
+		return ResponseEntity.ok().body(customer);
 	}
 
 	@GetMapping("{id}")
@@ -43,7 +43,6 @@ public class CustomerController {
 		Customer customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
 		return ResponseEntity.ok().body(customer);
-
 	}
 
 	@PutMapping("{id}")

@@ -26,8 +26,9 @@ public class ProductController {
 	private ProductRepository productRepository;
 
 	@GetMapping
-	public List<Product> getAllProducts() {
-		return productRepository.findAll();
+	public ResponseEntity<List<Product>> getAllProducts() {
+		var products = productRepository.findAll(); 
+		return ResponseEntity.ok().body(products);
 	}
 
 	@PostMapping
@@ -88,7 +89,6 @@ public class ProductController {
 				.orElseThrow(() -> new ResourceNotFoundException(" Product not found for this id: " + productId));
 		productRepository.deleteById(productId);
 		return ResponseEntity.ok().build();
-
 	}
 
 }
