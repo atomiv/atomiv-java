@@ -1,4 +1,4 @@
-package org.atomiv.template.web.restapi.models;
+package org.atomiv.template.infrastructure.persistence.jpa;
 
 import java.util.Objects;
 
@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "customers")
-public class Customer {
+public class CustomerRecord {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,11 +33,11 @@ public class Customer {
 	@Column(name = "lastName")
 	private String lastName;
 
-	public Customer() {
+	public CustomerRecord() {
 		super();
 	}
 
-	public Customer(long id, String firstName, String lastName) {
+	public CustomerRecord(long id, String firstName, String lastName) {
 		super();
 		this.id = id;
 		this.firstName = firstName;

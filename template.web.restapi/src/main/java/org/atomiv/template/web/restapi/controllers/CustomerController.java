@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.atomiv.template.web.restapi.models.Customer;
-import org.atomiv.template.web.restapi.repositories.CustomerRepository;
+import org.atomiv.template.infrastructure.persistence.jpa.CustomerRecord;
+import org.atomiv.template.infrastructure.repositories.jpa.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -26,29 +26,29 @@ public class CustomerController {
 	private CustomerRepository customerRepository;
 
 	@GetMapping
-	public ResponseEntity<List<Customer>> getAllCustomers() {
+	public ResponseEntity<List<CustomerRecord>> getAllCustomers() {
 		var customers = customerRepository.findAll();
 		return ResponseEntity.ok().body(customers);
 	}
 
 	@PostMapping
-	public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
+	public ResponseEntity<CustomerRecord> createCustomer(@Valid @RequestBody CustomerRecord customer) {
 		customerRepository.save(customer);
 		return ResponseEntity.ok().body(customer);
 	}
 
 	@GetMapping("{id}")
-	public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") long customerId)
+	public ResponseEntity<CustomerRecord> getCustomerById(@PathVariable(value = "id") long customerId)
 			throws ResourceNotFoundException {
-		Customer customer = customerRepository.findById(customerId)
+		CustomerRecord customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
 		return ResponseEntity.ok().body(customer);
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") long customerId,
-			@RequestBody Customer customerDetails) throws ResourceNotFoundException {
-		Customer customer = customerRepository.findById(customerId)
+	public ResponseEntity<CustomerRecord> updateCustomer(@PathVariable(value = "id") long customerId,
+			@RequestBody CustomerRecord customerDetails) throws ResourceNotFoundException {
+		CustomerRecord customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
 		customer.setFirstName(customerDetails.getFirstName());
 		customer.setLastName(customerDetails.getLastName());

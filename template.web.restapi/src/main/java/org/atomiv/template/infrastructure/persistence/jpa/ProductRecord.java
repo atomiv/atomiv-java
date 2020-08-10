@@ -1,4 +1,4 @@
-package org.atomiv.template.web.restapi.models;
+package org.atomiv.template.infrastructure.persistence.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "products")
-public class Product {
+public class ProductRecord {
 	
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
@@ -41,10 +41,10 @@ public class Product {
 	
 	
 	
-	public Product() {
+	public ProductRecord() {
 		super();
 	}
-	public Product(long id, String code, String description, double unitPrice, boolean isListed) {
+	public ProductRecord(long id, String code, String description, double unitPrice, boolean isListed) {
 		super();
 		this.id = id;
 		this.code = code;
