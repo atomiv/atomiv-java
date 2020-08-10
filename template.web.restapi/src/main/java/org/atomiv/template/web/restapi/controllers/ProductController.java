@@ -19,25 +19,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/products")
 public class ProductController {
 
 	@Autowired
 	private ProductRepository productRepository;
 
-	@GetMapping("/products")
+	@GetMapping
 	public List<Product> getAllProducts() {
 		return productRepository.findAll();
 	}
 
-	@PostMapping("/products")
+	@PostMapping
 	public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
 		product.setIsListed(true);
 		productRepository.save(product);
 		return ResponseEntity.ok().body(product);
 	}
 	
-	@PostMapping("/products/{id}/unlist")
+	@PostMapping("{id}/unlist")
 	public ResponseEntity<Product> unlistProduct(@PathVariable(value = "id") long productId)
 			throws ResourceNotFoundException {
 		Product product = productRepository.findById(productId)
@@ -48,7 +48,7 @@ public class ProductController {
 
 	}
 
-	@PostMapping("/products/{id}/relist")
+	@PostMapping("{id}/relist")
 	public ResponseEntity<Product> relistProduct(@PathVariable(value = "id") long productId)
 			throws ResourceNotFoundException {
 		Product product = productRepository.findById(productId)
@@ -59,7 +59,7 @@ public class ProductController {
 
 	}
 
-	@GetMapping("/products/{id}")
+	@GetMapping("{id}")
 	public ResponseEntity<Product> getProductById(@PathVariable(value = "id") long productId)
 			throws ResourceNotFoundException {
 		Product product = productRepository.findById(productId)
@@ -67,7 +67,7 @@ public class ProductController {
 		return ResponseEntity.ok().body(product);
 	}
 
-	@PutMapping("/products/{id}")
+	@PutMapping("{id}")
 	public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") long productId,
 			@RequestBody Product productDetails) throws ResourceNotFoundException {
 		Product product = productRepository.findById(productId)
@@ -81,7 +81,7 @@ public class ProductController {
 
 	}
 
-	@DeleteMapping("/products/{id}")
+	@DeleteMapping("{id}")
 	public ResponseEntity<?> deleteProduct(@PathVariable(value = "id") long productId)
 			throws ResourceNotFoundException {
 		productRepository.findById(productId)

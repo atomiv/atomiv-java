@@ -19,25 +19,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/customers")
 public class CustomerController {
 
 	@Autowired
 	private CustomerRepository customerRepository;
 
-	@GetMapping("/customers")
+	@GetMapping
 	public List<Customer> getAllCustomers() {
 		return customerRepository.findAll();
 
 	}
 
-	@PostMapping("/customers")
+	@PostMapping
 	public Customer createCustomer(@Valid @RequestBody Customer customer) {
 		return customerRepository.save(customer);
 
 	}
 
-	@GetMapping("/customers/{id}")
+	@GetMapping("{id}")
 	public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") long customerId)
 			throws ResourceNotFoundException {
 		Customer customer = customerRepository.findById(customerId)
@@ -46,7 +46,7 @@ public class CustomerController {
 
 	}
 
-	@PutMapping("/customers/{id}")
+	@PutMapping("{id}")
 	public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") long customerId,
 			@RequestBody Customer customerDetails) throws ResourceNotFoundException {
 		Customer customer = customerRepository.findById(customerId)
@@ -58,7 +58,7 @@ public class CustomerController {
 
 	}
 
-	@DeleteMapping("/customers/{id}")
+	@DeleteMapping("{id}")
 	public ResponseEntity<?> deleteCustomer(@PathVariable(value = "id") long customerId)
 			throws ResourceNotFoundException {
 		customerRepository.findById(customerId)
