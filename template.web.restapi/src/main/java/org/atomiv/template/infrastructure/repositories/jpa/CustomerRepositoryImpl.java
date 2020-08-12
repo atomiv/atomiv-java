@@ -1,9 +1,12 @@
 package org.atomiv.template.infrastructure.repositories.jpa;
 
+import java.util.List;
+
 import org.atomiv.template.core.domain.customers.Customer;
 import org.atomiv.template.core.domain.customers.CustomerIdentity;
 import org.atomiv.template.core.domain.customers.CustomerRepository;
-import org.atomiv.template.infrastructure.persistence.jpa.CustomerRecord;
+import org.atomiv.template.infrastructure.persistence.jpa.records.CustomerRecord;
+import org.atomiv.template.infrastructure.persistence.jpa.repos.CustomerJpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -46,6 +49,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 		var lastName = customer.getLastName();
 		
 		return new CustomerRecord(id, firstName, lastName);
+	}
+
+	@Override
+	public List<Customer> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

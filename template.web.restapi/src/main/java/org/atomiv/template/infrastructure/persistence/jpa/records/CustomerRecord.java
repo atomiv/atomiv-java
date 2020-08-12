@@ -1,6 +1,5 @@
-package org.atomiv.template.infrastructure.persistence.jpa;
+package org.atomiv.template.infrastructure.persistence.jpa.records;
 
-import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -54,33 +53,4 @@ public class CustomerRecord extends Record<UUID> {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-//	@Override
-//	public long hashCode() {
-//		long hash = 7;
-//		hash = 79 * hash + Objects.hashCode(this.id);
-//		hash = 79 * hash + Objects.hashCode(this.firstName);
-//		hash = 79 * hash + Objects.hashCode(this.lastName);
-//		return hash;
-//	}
-//	
-//	@Override
-//	public boolean equals(Object obj) {
-//		if(this == obj) {
-//			return true;
-//			
-//		}
-//		if(obj == null) {
-//			return false;
-//			
-//		}
-//		final Customer other = (Customer) obj;
-//		if(this.firstName != other.firstName) {
-//			return false;
-//			
-//		}
-//		
-//		
-//	}
-
 }

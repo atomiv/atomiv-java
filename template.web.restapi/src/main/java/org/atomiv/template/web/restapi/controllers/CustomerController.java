@@ -5,11 +5,17 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.atomiv.template.core.application.commands.customers.CreateCustomerCommand;
+import org.atomiv.template.core.application.commands.customers.CreateCustomerCommandResponse;
+import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponse;
+import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponseRecord;
 import org.atomiv.template.core.domain.customers.Customer;
 import org.atomiv.template.core.domain.customers.CustomerIdentity;
 import org.atomiv.template.core.domain.customers.CustomerRepository;
-import org.atomiv.template.infrastructure.persistence.jpa.CustomerRecord;
-import org.atomiv.template.infrastructure.repositories.jpa.CustomerJpaRepository;
+import org.atomiv.template.infrastructure.persistence.jpa.records.CustomerRecord;
+import org.atomiv.template.infrastructure.persistence.jpa.repos.CustomerJpaRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import an.awesome.pipelinr.Pipeline;
+
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
@@ -29,24 +37,58 @@ public class CustomerController {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
-	@PostMapping
-	public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerRecord customerRecord) {
-		var customerId = new CustomerIdentity(UUID.randomUUID());
-		var customer = new Customer(customerId, customerRecord.getFirstName(), customerRecord.getLastName());
-		customerRepository.add(customer);
-		return ResponseEntity.ok().build();
-	}
-	
-	/*
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	@Autowired
-	private CustomerJpaRepository customerRepository;
-
-	@GetMapping
-	public ResponseEntity<List<CustomerRecord>> getAllCustomers() {
-		var customers = customerRepository.findAll();
-		return ResponseEntity.ok().body(customers);
+	private Pipeline pipeline;
+	
+	@PostMapping
+	public ResponseEntity<CreateCustomerCommandResponse> createCustomer(@Valid @RequestBody CreateCustomerCommand command) {
+		
+		var response = pipeline.send(command);
+		return ResponseEntity.ok().body(response);
+		
+		/*
+		var customerId = new CustomerIdentity(UUID.randomUUID());
+		var firstName = command.getFirstName();
+		var lastName = command.getLastName();
+		var customer = new Customer(customerId, firstName, lastName);
+		
+		customerRepository.add(customer);
+		
+		var response = modelMapper.map(customer, CreateCustomerCommandResponse.class);
+		
+		return ResponseEntity.ok().body(response);
+		*/
 	}
+	
+	// TODO: VC: Request should include 
+	
+	@GetMapping
+	public ResponseEntity<BrowseCustomersQueryResponse> browseCustomers(int page, int size) {
+		
+		var response = new BrowseCustomersQueryResponse();
+		
+		return ResponseEntity.ok().body(response);
+		
+		
+		/*
+		var customers = customerRepository.findAll();
+		
+		var responseRecords = modelMapper.map(customers, new TypeToken<List<BrowseCustomersQueryResponseRecord>>() {}.getType());
+		
+		var response
+		
+		return ResponseEntity.ok().body(customers);
+		*/
+	}
+
+	
+	/*
+
+
+
 
 	@PostMapping
 	public ResponseEntity<CustomerRecord> createCustomer(@Valid @RequestBody CustomerRecord customer) {

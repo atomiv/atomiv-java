@@ -2,7 +2,7 @@ package org.atomiv.template.infrastructure.repositories.jpa;
 
 import org.atomiv.template.core.domain.products.Product;
 import org.atomiv.template.core.domain.products.ProductIdentity;
-import org.atomiv.template.infrastructure.persistence.jpa.ProductRepository;
+import org.atomiv.template.core.domain.products.ProductRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

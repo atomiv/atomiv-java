@@ -1,4 +1,4 @@
-package org.atomiv.template.infrastructure.persistence.jpa;
+package org.atomiv.template.infrastructure.persistence.jpa.records;
 
 import java.util.UUID;
 
