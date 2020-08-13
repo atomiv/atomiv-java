@@ -1,5 +1,12 @@
 package org.atomiv.template.core.application.commands.customers;
 
-public class EditCustomerCommand {
+import java.util.UUID;
 
+import lombok.Getter;
+import lombok.Setter;
+
+public class EditCustomerCommand {
+	@Getter @Setter private UUID id;
+	@Getter @Setter private String firstName;
+	@Getter @Setter private String lastName;
 }

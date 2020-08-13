@@ -1,10 +1,10 @@
-package org.atomiv.template.core.application.commands.customers;
+package org.atomiv.template.core.application.queries.products;
 
 import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class DeleteCustomerCommand {
+public class ViewProductQuery {
 	@Getter @Setter private UUID id;
 }

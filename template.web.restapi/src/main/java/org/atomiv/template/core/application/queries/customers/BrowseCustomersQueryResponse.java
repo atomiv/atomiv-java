@@ -7,4 +7,5 @@ import lombok.Setter;
 
 public class BrowseCustomersQueryResponse {
 	@Getter @Setter List<BrowseCustomersQueryResponseRecord> records;
+	@Getter @Setter long totalRecords;
 }

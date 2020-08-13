@@ -33,12 +33,6 @@ import an.awesome.pipelinr.Pipeline;
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
-
-	@Autowired
-	private CustomerRepository customerRepository;
-	
-	@Autowired
-	private ModelMapper modelMapper;
 	
 	@Autowired
 	private Pipeline pipeline;
@@ -48,19 +42,6 @@ public class CustomerController {
 		
 		var response = pipeline.send(command);
 		return ResponseEntity.ok().body(response);
-		
-		/*
-		var customerId = new CustomerIdentity(UUID.randomUUID());
-		var firstName = command.getFirstName();
-		var lastName = command.getLastName();
-		var customer = new Customer(customerId, firstName, lastName);
-		
-		customerRepository.add(customer);
-		
-		var response = modelMapper.map(customer, CreateCustomerCommandResponse.class);
-		
-		return ResponseEntity.ok().body(response);
-		*/
 	}
 	
 	// TODO: VC: Request should include 

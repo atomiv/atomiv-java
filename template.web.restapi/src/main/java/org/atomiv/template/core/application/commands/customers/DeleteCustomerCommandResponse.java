@@ -1,5 +1,10 @@
 package org.atomiv.template.core.application.commands.customers;
 
-public class DeleteCustomerCommandResponse {
+import java.util.UUID;
 
+import lombok.Getter;
+import lombok.Setter;
+
+public class DeleteCustomerCommandResponse {
+	@Getter @Setter private UUID id;
 }
