@@ -7,8 +7,15 @@ import javax.validation.Valid;
 
 import org.atomiv.template.core.application.commands.customers.CreateCustomerCommand;
 import org.atomiv.template.core.application.commands.customers.CreateCustomerCommandResponse;
+import org.atomiv.template.core.application.commands.customers.DeleteCustomerCommand;
+import org.atomiv.template.core.application.commands.customers.DeleteCustomerCommandResponse;
+import org.atomiv.template.core.application.commands.customers.EditCustomerCommand;
+import org.atomiv.template.core.application.commands.customers.EditCustomerCommandResponse;
+import org.atomiv.template.core.application.queries.customers.BrowseCustomersQuery;
 import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponse;
 import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponseRecord;
+import org.atomiv.template.core.application.queries.customers.ViewCustomerQuery;
+import org.atomiv.template.core.application.queries.customers.ViewCustomerQueryResponse;
 import org.atomiv.template.core.domain.customers.Customer;
 import org.atomiv.template.core.domain.customers.CustomerIdentity;
 import org.atomiv.template.core.domain.customers.CustomerRepository;
@@ -37,76 +44,49 @@ public class CustomerController {
 	@Autowired
 	private Pipeline pipeline;
 	
+	// Commands
+	
 	@PostMapping
 	public ResponseEntity<CreateCustomerCommandResponse> createCustomer(@Valid @RequestBody CreateCustomerCommand command) {
-		
 		var response = pipeline.send(command);
 		return ResponseEntity.ok().body(response);
 	}
 	
-	// TODO: VC: Request should include 
+	@DeleteMapping("{id}")
+	public ResponseEntity<DeleteCustomerCommandResponse> deleteCustomer(@PathVariable(value = "id") UUID id)
+			throws ResourceNotFoundException {
+		var command = new DeleteCustomerCommand();
+		command.setId(id);
+		var response = pipeline.send(command);
+		return ResponseEntity.ok().body(response);
+	}
+	
+	@PutMapping("{id}")
+	public ResponseEntity<EditCustomerCommandResponse> editCustomer(@PathVariable(value = "id") UUID id,
+			@RequestBody EditCustomerCommand command) throws ResourceNotFoundException {
+		var response = pipeline.send(command);
+		return ResponseEntity.ok().body(response);
+	}
+	
+	
+	// Queries
 	
 	@GetMapping
 	public ResponseEntity<BrowseCustomersQueryResponse> browseCustomers(int page, int size) {
-		
-		var response = new BrowseCustomersQueryResponse();
-		
+		var query = new BrowseCustomersQuery();
+		query.setPage(page);
+		query.setSize(size);
+		var response = pipeline.send(query);
 		return ResponseEntity.ok().body(response);
-		
-		
-		/*
-		var customers = customerRepository.findAll();
-		
-		var responseRecords = modelMapper.map(customers, new TypeToken<List<BrowseCustomersQueryResponseRecord>>() {}.getType());
-		
-		var response
-		
-		return ResponseEntity.ok().body(customers);
-		*/
 	}
-
 	
-	/*
-
-
-
-
-	@PostMapping
-	public ResponseEntity<CustomerRecord> createCustomer(@Valid @RequestBody CustomerRecord customer) {
-		customerRepository.save(customer);
-		return ResponseEntity.ok().body(customer);
-	}
-
 	@GetMapping("{id}")
-	public ResponseEntity<CustomerRecord> getCustomerById(@PathVariable(value = "id") long customerId)
+	public ResponseEntity<ViewCustomerQueryResponse> viewCustomer(@PathVariable(value = "id") UUID id)
 			throws ResourceNotFoundException {
-		CustomerRecord customer = customerRepository.findById(customerId)
-				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
-		return ResponseEntity.ok().body(customer);
+		var query = new ViewCustomerQuery();
+		query.setId(id);
+		var response = pipeline.send(query);
+		return ResponseEntity.ok().body(response);
 	}
-
-	@PutMapping("{id}")
-	public ResponseEntity<CustomerRecord> updateCustomer(@PathVariable(value = "id") long customerId,
-			@RequestBody CustomerRecord customerDetails) throws ResourceNotFoundException {
-		CustomerRecord customer = customerRepository.findById(customerId)
-				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
-		customer.setFirstName(customerDetails.getFirstName());
-		customer.setLastName(customerDetails.getLastName());
-		customerRepository.save(customer);
-		return ResponseEntity.ok().body(customer);
-
-	}
-
-	@DeleteMapping("{id}")
-	public ResponseEntity<?> deleteCustomer(@PathVariable(value = "id") long customerId)
-			throws ResourceNotFoundException {
-		customerRepository.findById(customerId)
-				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
-		customerRepository.deleteById(customerId);
-		return ResponseEntity.ok().build();
-
-	}
-	
-	*/
 
 }
