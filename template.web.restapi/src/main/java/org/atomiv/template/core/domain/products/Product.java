@@ -38,8 +38,15 @@ public class Product extends Entity<ProductIdentity> {
 	public boolean getIsListed() {
 		return isListed;
 	}
-	public void setIsListed(boolean isListed) {
-		this.isListed = isListed;
+
+	public void relist() {
+		// TODO: VC: Throw exception if already listed
+		this.isListed = true;
+	}
+
+	public void unlist() {
+		// TODO: VC: Throw exception if already not listed
+		this.isListed = false;
 	}
 	
 }

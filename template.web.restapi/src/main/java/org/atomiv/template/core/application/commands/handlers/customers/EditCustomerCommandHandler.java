@@ -1,30 +1,45 @@
 package org.atomiv.template.core.application.commands.handlers.customers;
 
-import org.atomiv.template.core.application.commands.customers.DeleteCustomerCommand;
-import org.atomiv.template.core.application.commands.customers.DeleteCustomerCommandResponse;
+import org.atomiv.framework.core.application.ExistenceException;
 import org.atomiv.template.core.application.commands.customers.EditCustomerCommand;
 import org.atomiv.template.core.application.commands.customers.EditCustomerCommandResponse;
-
+import org.atomiv.template.core.domain.customers.Customer;
+import org.atomiv.template.core.domain.customers.CustomerIdentity;
+import org.atomiv.template.core.domain.customers.CustomerRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import an.awesome.pipelinr.Command;
 
 public class EditCustomerCommandHandler implements Command.Handler<EditCustomerCommand, EditCustomerCommandResponse> {
 
+	@Autowired
+	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	@Override
 	public EditCustomerCommandResponse handle(EditCustomerCommand command) {
+		var id = new CustomerIdentity(command.getId());
+		var customer = customerRepository.find(id);
 		
-		/*
-		 * 		CustomerRecord customer = customerRepository.findById(customerId)
-				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
-		customer.setFirstName(customerDetails.getFirstName());
-		customer.setLastName(customerDetails.getLastName());
-		customerRepository.save(customer);
-		return ResponseEntity.ok().body(customer); 
-		 *
-		 */
+		if(customer == null) {
+			throw new ExistenceException(" Customer not found for this id: " + id);
+		}
 		
+		Update(customer, command);
 		
-		// TODO Auto-generated method stub
-		return null;
+		customerRepository.update(customer);
+		
+		return modelMapper.map(customer, EditCustomerCommandResponse.class);
+	}
+	
+	private void Update(Customer customer, EditCustomerCommand command) {
+		var firstName = command.getFirstName();
+		var lastName = command.getLastName();
+		
+		customer.setFirstName(firstName);
+		customer.setLastName(lastName);
 	}
 
 }

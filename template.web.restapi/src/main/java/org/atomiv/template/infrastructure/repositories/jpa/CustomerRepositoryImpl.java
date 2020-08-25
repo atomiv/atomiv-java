@@ -1,6 +1,7 @@
 package org.atomiv.template.infrastructure.repositories.jpa;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.atomiv.template.core.domain.customers.Customer;
 import org.atomiv.template.core.domain.customers.CustomerIdentity;
@@ -12,22 +13,28 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository {
 	
-	private CustomerJpaRepository jpaRepository;
+	private CustomerJpaRepository customerJpaRepository;
 	
-	public CustomerRepositoryImpl(CustomerJpaRepository jpaRepository) {
-		this.jpaRepository = jpaRepository;
+	public CustomerRepositoryImpl(CustomerJpaRepository customerJpaRepository) {
+		this.customerJpaRepository = customerJpaRepository;
 	}
 
 	@Override
 	public void add(Customer customer) {
 		var customerRecord = getCustomerRecord(customer);
-		jpaRepository.save(customerRecord);
+		customerJpaRepository.save(customerRecord);
 	}
 
 	@Override
 	public Customer find(CustomerIdentity id) {
-		// TODO Auto-generated method stub
-		return null;
+		var customerRecordId = id.getValue();
+		var customerRecord = customerJpaRepository.findById(customerRecordId);
+		
+		if(customerRecord.isEmpty()) {
+			return null;
+		}
+		
+		return getCustomer(customerRecord.get());
 	}
 
 	@Override
@@ -38,23 +45,33 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
 	@Override
 	public void update(Customer customer) {
-		// TODO Auto-generated method stub
+		var customerRecordId = customer.getId().getValue();
+		var customerRecord = customerJpaRepository.findById(customerRecordId).get();
 		
+		customerRecord.setFirstName(customer.getFirstName());
+		customerRecord.setLastName(customer.getLastName());
+		
+		customerJpaRepository.save(customerRecord);
+	}
+
+	@Override
+	public boolean exists(CustomerIdentity id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	private CustomerRecord getCustomerRecord(Customer customer) {
-		
 		var id = customer.getId().getValue();
 		var firstName = customer.getFirstName();
 		var lastName = customer.getLastName();
 		
 		return new CustomerRecord(id, firstName, lastName);
 	}
-
-	@Override
-	public List<Customer> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	private Customer getCustomer(CustomerRecord customerRecord) {
+		var id = new CustomerIdentity(customerRecord.getId());
+		var firstName = customerRecord.getFirstName();
+		var lastName = customerRecord.getLastName();
+		return new Customer(id, firstName, lastName);
 	}
-
 }

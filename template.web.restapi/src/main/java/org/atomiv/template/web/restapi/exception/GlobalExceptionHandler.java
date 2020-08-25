@@ -2,6 +2,7 @@ package org.atomiv.template.web.restapi.exception;
 
 import java.util.Date;
 
+import org.atomiv.framework.core.application.ExistenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,8 +14,8 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	
-	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<?> resourceNotFoundHandling(ResourceNotFoundException exception, WebRequest request ) {
+	@ExceptionHandler(ExistenceException.class)
+	public ResponseEntity<?> resourceNotFoundHandling(ExistenceException exception, WebRequest request ) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(),exception.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
 
