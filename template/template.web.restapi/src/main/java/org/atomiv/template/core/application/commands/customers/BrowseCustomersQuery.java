@@ -1,6 +1,4 @@
-package org.atomiv.template.core.application.queries.customers;
-
-import org.atomiv.template.core.application.commands.products.CreateProductCommandResponse;
+package org.atomiv.template.core.application.commands.customers;
 
 import an.awesome.pipelinr.Command;
 import lombok.Getter;

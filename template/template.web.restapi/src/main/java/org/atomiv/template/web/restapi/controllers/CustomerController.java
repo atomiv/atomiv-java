@@ -5,15 +5,15 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.atomiv.template.core.application.commands.customers.BrowseCustomersQuery;
+import org.atomiv.template.core.application.commands.customers.BrowseCustomersQueryResponse;
+import org.atomiv.template.core.application.commands.customers.BrowseCustomersQueryResponseRecord;
 import org.atomiv.template.core.application.commands.customers.CreateCustomerCommand;
 import org.atomiv.template.core.application.commands.customers.CreateCustomerCommandResponse;
 import org.atomiv.template.core.application.commands.customers.DeleteCustomerCommand;
 import org.atomiv.template.core.application.commands.customers.DeleteCustomerCommandResponse;
 import org.atomiv.template.core.application.commands.customers.EditCustomerCommand;
 import org.atomiv.template.core.application.commands.customers.EditCustomerCommandResponse;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQuery;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponse;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponseRecord;
 import org.atomiv.template.core.application.queries.customers.ViewCustomerQuery;
 import org.atomiv.template.core.application.queries.customers.ViewCustomerQueryResponse;
 import org.atomiv.template.core.domain.customers.Customer;
@@ -72,9 +72,12 @@ public class CustomerController {
 	
 	
 	// Queries
+	// public ResponseEntity<BrowseCustomersQueryResponse> browseCustomers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
 	
 	@GetMapping
-	public ResponseEntity<BrowseCustomersQueryResponse> browseCustomers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+	public ResponseEntity<BrowseCustomersQueryResponse> browseCustomers() {
+		var page = 0;
+		var size = 10;
 		var query = new BrowseCustomersQuery();
 		query.setPage(page);
 		query.setSize(size);

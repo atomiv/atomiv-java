@@ -1,7 +1,7 @@
 package org.atomiv.template.infrastructure.queries.handlers.products.jpa;
 
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQuery;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponse;
+import org.atomiv.template.core.application.commands.customers.BrowseCustomersQuery;
+import org.atomiv.template.core.application.commands.customers.BrowseCustomersQueryResponse;
 import org.atomiv.template.core.application.queries.products.BrowseProductsQuery;
 import org.atomiv.template.core.application.queries.products.BrowseProductsQueryResponse;
 

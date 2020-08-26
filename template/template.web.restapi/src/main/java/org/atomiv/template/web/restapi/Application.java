@@ -16,12 +16,19 @@ import an.awesome.pipelinr.Pipeline;
 import an.awesome.pipelinr.Pipelinr;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "org.atomiv.template")
-@ComponentScan(basePackages = "org.atomiv.template.core.application.commands.customers")
-@ComponentScan(basePackages = "org.atomiv.template.core.application.commands.handlers.customers")
-@ComponentScan(basePackages = "org.atomiv.template.infrastructure.persistence.jpa")
 @EnableJpaRepositories("org.atomiv.template.infrastructure.persistence.jpa.repos")
 @EntityScan("org.atomiv.template.infrastructure.persistence.jpa.records")
+@ComponentScan(basePackages = "org.atomiv.template")
+@ComponentScan(basePackages = "org.atomiv.template.core.application.commands.customers")
+@ComponentScan(basePackages = "org.atomiv.template.core.application.commands.products")
+@ComponentScan(basePackages = "org.atomiv.template.core.application.commands.handlers.customers")
+@ComponentScan(basePackages = "org.atomiv.template.core.application.commands.handlers.products")
+@ComponentScan(basePackages = "org.atomiv.template.core.application.queries.customers")
+@ComponentScan(basePackages = "org.atomiv.template.core.application.queries.products")
+@ComponentScan(basePackages = "org.atomiv.template.infrastructure.persistence.jpa")
+@ComponentScan(basePackages = "org.atomiv.template.infrastructure.persistence.jpa")
+@ComponentScan(basePackages = "org.atomiv.template.infrastructure.queries.handlers.customers.jpa")
+@ComponentScan(basePackages = "org.atomiv.template.infrastructure.queries.handlers.products.jpa")
 @Configuration
 public class Application {
 	public static void main(String[] args) {

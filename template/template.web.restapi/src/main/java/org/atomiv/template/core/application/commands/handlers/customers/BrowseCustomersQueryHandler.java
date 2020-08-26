@@ -1,20 +1,22 @@
-package org.atomiv.template.infrastructure.queries.handlers.customers.jpa;
+package org.atomiv.template.core.application.commands.handlers.customers;
 
 import java.util.stream.Collectors;
 
+import org.atomiv.template.core.application.commands.customers.BrowseCustomersQuery;
+import org.atomiv.template.core.application.commands.customers.BrowseCustomersQueryResponse;
+import org.atomiv.template.core.application.commands.customers.BrowseCustomersQueryResponseRecord;
 import org.atomiv.template.core.application.commands.products.CreateProductCommand;
 import org.atomiv.template.core.application.commands.products.CreateProductCommandResponse;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQuery;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponse;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponseRecord;
 import org.atomiv.template.core.application.queries.products.BrowseProductsQueryResponse;
 import org.atomiv.template.core.domain.customers.CustomerRepository;
 import org.atomiv.template.infrastructure.persistence.jpa.records.CustomerRecord;
 import org.atomiv.template.infrastructure.persistence.jpa.repos.CustomerJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import an.awesome.pipelinr.Command;
 
+@Component
 public class BrowseCustomersQueryHandler implements Command.Handler<BrowseCustomersQuery, BrowseCustomersQueryResponse> {
 
 	@Autowired

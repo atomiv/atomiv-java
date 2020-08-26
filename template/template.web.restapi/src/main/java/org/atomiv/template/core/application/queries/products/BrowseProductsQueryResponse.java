@@ -2,7 +2,7 @@ package org.atomiv.template.core.application.queries.products;
 
 import java.util.List;
 
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponseRecord;
+import org.atomiv.template.core.application.commands.customers.BrowseCustomersQueryResponseRecord;
 
 import lombok.Getter;
 import lombok.Setter;

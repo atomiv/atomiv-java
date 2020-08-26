@@ -2,7 +2,7 @@ package org.atomiv.template.core.application.queries.products;
 
 import java.util.UUID;
 
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponse;
+import org.atomiv.template.core.application.commands.customers.BrowseCustomersQueryResponse;
 
 import an.awesome.pipelinr.Command;
 import lombok.Getter;
