@@ -1,4 +1,4 @@
-package org.atomiv.template.core.application.commands.customers;
+package org.atomiv.template.core.application.queries.customers;
 
 import java.util.List;
 

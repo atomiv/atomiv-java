@@ -1,12 +1,12 @@
-package org.atomiv.template.core.application.commands.handlers.customers;
+package org.atomiv.template.infrastructure.queries.handlers.customers.jpa;
 
 import java.util.stream.Collectors;
 
-import org.atomiv.template.core.application.commands.customers.BrowseCustomersQuery;
-import org.atomiv.template.core.application.commands.customers.BrowseCustomersQueryResponse;
-import org.atomiv.template.core.application.commands.customers.BrowseCustomersQueryResponseRecord;
 import org.atomiv.template.core.application.commands.products.CreateProductCommand;
 import org.atomiv.template.core.application.commands.products.CreateProductCommandResponse;
+import org.atomiv.template.core.application.queries.customers.BrowseCustomersQuery;
+import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponse;
+import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponseRecord;
 import org.atomiv.template.core.application.queries.products.BrowseProductsQueryResponse;
 import org.atomiv.template.core.domain.customers.CustomerRepository;
 import org.atomiv.template.infrastructure.persistence.jpa.records.CustomerRecord;

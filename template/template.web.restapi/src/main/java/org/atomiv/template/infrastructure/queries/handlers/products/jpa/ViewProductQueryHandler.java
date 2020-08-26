@@ -4,9 +4,11 @@ import org.atomiv.template.core.application.queries.products.BrowseProductsQuery
 import org.atomiv.template.core.application.queries.products.BrowseProductsQueryResponse;
 import org.atomiv.template.core.application.queries.products.ViewProductQuery;
 import org.atomiv.template.core.application.queries.products.ViewProductQueryResponse;
+import org.springframework.stereotype.Component;
 
 import an.awesome.pipelinr.Command;
 
+@Component
 public class ViewProductQueryHandler implements Command.Handler<ViewProductQuery, ViewProductQueryResponse> {
 
 	@Override
@@ -26,5 +28,4 @@ public class ViewProductQueryHandler implements Command.Handler<ViewProductQuery
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
