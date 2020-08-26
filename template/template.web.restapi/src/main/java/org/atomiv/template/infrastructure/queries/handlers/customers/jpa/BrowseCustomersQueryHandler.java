@@ -25,7 +25,6 @@ public class BrowseCustomersQueryHandler implements Command.Handler<BrowseCustom
 	@Override
 	public BrowseCustomersQueryResponse handle(BrowseCustomersQuery command) {
 		var customerRecords = customerJpaRepository.findAll();
-		
 		var responseRecords = customerRecords
 				.stream()
 				.map(e -> getResponseRecord(e))
