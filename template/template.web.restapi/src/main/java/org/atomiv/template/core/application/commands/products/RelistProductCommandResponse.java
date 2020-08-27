@@ -6,5 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class RelistProductCommandResponse {
-	@Getter @Setter private UUID id;
+	@Getter
+	@Setter
+	private UUID id;
 }

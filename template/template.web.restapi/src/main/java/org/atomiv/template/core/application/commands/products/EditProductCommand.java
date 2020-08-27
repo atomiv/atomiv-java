@@ -7,7 +7,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class EditProductCommand implements Command<EditProductCommandResponse> {
-	@Getter @Setter private UUID id;
-	@Getter @Setter private String description;
-	@Getter @Setter private double unitPrice;
+	@Getter
+	@Setter
+	private UUID id;
+	@Getter
+	@Setter
+	private String description;
+	@Getter
+	@Setter
+	private double unitPrice;
 }

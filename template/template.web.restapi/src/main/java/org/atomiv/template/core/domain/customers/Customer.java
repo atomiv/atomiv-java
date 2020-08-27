@@ -3,10 +3,10 @@ package org.atomiv.template.core.domain.customers;
 import org.atomiv.framework.core.domain.Entity;
 
 public class Customer extends Entity<CustomerIdentity> {
-	
+
 	private String firstName;
 	private String lastName;
-	
+
 	public Customer(CustomerIdentity id, String firstName, String lastName) {
 		super(id);
 		this.firstName = firstName;

@@ -7,5 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class UnlistProductCommand implements Command<UnlistProductCommandResponse> {
-	@Getter @Setter private UUID id;
+	@Getter
+	@Setter
+	private UUID id;
 }

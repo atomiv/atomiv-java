@@ -1,8 +1,6 @@
 package org.atomiv.template.infrastructure.queries.handlers.customers.jpa;
 
 import org.atomiv.framework.core.application.ExistenceException;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQuery;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponse;
 import org.atomiv.template.core.application.queries.customers.ViewCustomerQuery;
 import org.atomiv.template.core.application.queries.customers.ViewCustomerQueryResponse;
 import org.atomiv.template.infrastructure.persistence.jpa.records.CustomerRecord;
@@ -17,19 +15,19 @@ public class ViewCustomerQueryHandler implements Command.Handler<ViewCustomerQue
 
 	@Autowired
 	private CustomerJpaRepository customerJpaRepository;
-	
+
 	@Override
 	public ViewCustomerQueryResponse handle(ViewCustomerQuery command) {
 		var customerRecordId = command.getId();
 		var customerRecord = customerJpaRepository.findById(customerRecordId);
-		
-		if(customerRecord == null) {
+
+		if (customerRecord == null) {
 			throw new ExistenceException(" Customer not found for this id: " + customerRecordId);
 		}
-		
+
 		return getResponseRecord(customerRecord.get());
 	}
-	
+
 	private ViewCustomerQueryResponse getResponseRecord(CustomerRecord customerRecord) {
 		var responseRecord = new ViewCustomerQueryResponse();
 		responseRecord.setId(customerRecord.getId());

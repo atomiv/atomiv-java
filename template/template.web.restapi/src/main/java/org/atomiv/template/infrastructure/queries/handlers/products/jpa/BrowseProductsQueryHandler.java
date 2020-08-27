@@ -2,15 +2,10 @@ package org.atomiv.template.infrastructure.queries.handlers.products.jpa;
 
 import java.util.stream.Collectors;
 
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQuery;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponse;
-import org.atomiv.template.core.application.queries.customers.BrowseCustomersQueryResponseRecord;
 import org.atomiv.template.core.application.queries.products.BrowseProductsQuery;
 import org.atomiv.template.core.application.queries.products.BrowseProductsQueryResponse;
 import org.atomiv.template.core.application.queries.products.BrowseProductsQueryResponseRecord;
-import org.atomiv.template.infrastructure.persistence.jpa.records.CustomerRecord;
 import org.atomiv.template.infrastructure.persistence.jpa.records.ProductRecord;
-import org.atomiv.template.infrastructure.persistence.jpa.repos.CustomerJpaRepository;
 import org.atomiv.template.infrastructure.persistence.jpa.repos.ProductJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,15 +17,12 @@ public class BrowseProductsQueryHandler implements Command.Handler<BrowseProduct
 
 	@Autowired
 	private ProductJpaRepository productJpaRepository;
-	
+
 	@Override
 	public BrowseProductsQueryResponse handle(BrowseProductsQuery command) {
 		var customerRecords = productJpaRepository.findAll();
-		var responseRecords = customerRecords
-				.stream()
-				.map(e -> getResponseRecord(e))
-				.collect(Collectors.toList());
-		
+		var responseRecords = customerRecords.stream().map(e -> getResponseRecord(e)).collect(Collectors.toList());
+
 		var response = new BrowseProductsQueryResponse();
 		response.setTotalRecords(responseRecords.size());
 		response.setRecords(responseRecords);

@@ -1,6 +1,5 @@
 package org.atomiv.template.infrastructure.persistence.jpa.repos;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

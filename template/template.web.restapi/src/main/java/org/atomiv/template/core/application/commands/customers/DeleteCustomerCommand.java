@@ -7,5 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class DeleteCustomerCommand implements Command<DeleteCustomerCommandResponse> {
-	@Getter @Setter private UUID id;
+	@Getter
+	@Setter
+	private UUID id;
 }

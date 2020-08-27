@@ -6,6 +6,8 @@ import an.awesome.pipelinr.Command;
 import lombok.Getter;
 import lombok.Setter;
 
-public class RelistProductCommand implements Command<RelistProductCommandResponse>{
-	@Getter @Setter private UUID id;
+public class RelistProductCommand implements Command<RelistProductCommandResponse> {
+	@Getter
+	@Setter
+	private UUID id;
 }

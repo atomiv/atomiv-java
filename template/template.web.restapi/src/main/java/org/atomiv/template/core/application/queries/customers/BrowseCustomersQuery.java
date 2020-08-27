@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class BrowseCustomersQuery implements Command<BrowseCustomersQueryResponse> {
-	@Getter @Setter private int page;
-	@Getter @Setter private int size;
+	@Getter
+	@Setter
+	private int page;
+	@Getter
+	@Setter
+	private int size;
 }

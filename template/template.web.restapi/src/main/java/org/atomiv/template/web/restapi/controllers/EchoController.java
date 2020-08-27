@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class EchoController {
-	
+
 	@GetMapping("/echo")
 	public ResponseEntity<?> echo() {
 		return ResponseEntity.ok().build();

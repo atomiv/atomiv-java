@@ -34,17 +34,16 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-	
+
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-	
+
 	@Bean
-	Pipeline pipeline(ObjectProvider<Command.Handler> commandHandlers, ObjectProvider<Notification.Handler> notificationHandlers, ObjectProvider<Command.Middleware> middlewares) {
-        return new Pipelinr()
-	        .with(commandHandlers::stream)
-	        .with(notificationHandlers::stream)
-	        .with(middlewares::orderedStream);
+	Pipeline pipeline(ObjectProvider<Command.Handler> commandHandlers,
+			ObjectProvider<Notification.Handler> notificationHandlers, ObjectProvider<Command.Middleware> middlewares) {
+		return new Pipelinr().with(commandHandlers::stream).with(notificationHandlers::stream)
+				.with(middlewares::orderedStream);
 	}
 }
