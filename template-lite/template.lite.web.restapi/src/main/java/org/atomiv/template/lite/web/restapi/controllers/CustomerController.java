@@ -1,13 +1,18 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.atomiv.template.lite.web.restapi.exception.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.Customer;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +22,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 @RestController
 @RequestMapping("/api")
@@ -45,6 +53,34 @@ public class CustomerController {
 		return ResponseEntity.ok().body(customer);
 
 	}
+
+//	@GetMapping("/customers/exportcsv")
+//	public void exportToCsv(HttpServletResponse response) throws Exception {
+//		response.setContentType("text/csv");
+//		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+//		String currentDateTime = dateFormatter.format(new Date());
+//		String fileName = "customer" + currentDateTime + ".csv";
+//		String headerKey = "Content-Disposition";
+//		String headervalue = "attachment; fileNmae=" + fileName;
+//
+//		response.setHeader(headerKey, headervalue);
+//
+//		List<Customer> listCustomers = customerRepository.findAll();
+//
+//		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
+//
+//		String[] csvHeader = { "Customer ID", "First Name", "Last Name" };
+//		String[] nameMapping = { "id", "firstName", "lastName" };
+//
+//		csvWriter.writeHeader(csvHeader);
+//
+//		for (Customer customer : listCustomers) {
+//			csvWriter.write(customer, nameMapping);
+//
+//		}
+//		csvWriter.close();
+//
+//	}
 
 	@PutMapping("/customers/{id}")
 	public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") long customerId,

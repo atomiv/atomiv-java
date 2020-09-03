@@ -4,10 +4,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.atomiv.template.lite.web.restapi.exception.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.Product;
 import org.atomiv.template.lite.web.restapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
