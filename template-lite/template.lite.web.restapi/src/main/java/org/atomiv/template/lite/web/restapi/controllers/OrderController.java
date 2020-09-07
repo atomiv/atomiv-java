@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-
 import javax.validation.Valid;
 
 import org.atomiv.template.lite.web.restapi.exception.ResourceNotFoundException;
@@ -41,8 +40,9 @@ public class OrderController {
 	}
 
 	@PostMapping("/orders")
-	public Order createOrder(@Valid Order order) {
-		return orderRepository.save(order);
+	public ResponseEntity<Order> createOrder(@Valid Order order) {
+		orderRepository.save(order);
+		return ResponseEntity.ok().body(order);
 
 	}
 
@@ -61,7 +61,7 @@ public class OrderController {
 		return orderItems.get(id);
 	}
 
-	@PutMapping("/orders/{id}")
+	@PutMapping("/orders/{id}/existing")
 	public ResponseEntity<Order> updateExistingOrder(@PathVariable(value = "id") long orderId,
 			@RequestBody Order orderDetails) throws ResourceNotFoundException {
 		Order order = orderRepository.findById(orderId)

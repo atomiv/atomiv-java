@@ -16,11 +16,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.atomiv.template.lite.web.restapi.enums.OrderStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 
 @Entity
 @Table(name = "orders")
@@ -29,21 +30,18 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@NotNull(message = "CustomerId cannot be null")	
+	@NotNull(message = "CustomerId cannot be null")
 	private long customerId;
 	private Date orderDate;
 	@Enumerated(EnumType.STRING)
-	private OrderStatus status;
-
+	private OrderStatus orderStatus;
 	@OneToMany(targetEntity = OrderItem.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "oi_fk", referencedColumnName = "id")
 	private List<OrderItem> orderItems;
-	
+
 	public Order() {
-		
+
 	}
-	
-	
 
 	public Order(long id, long customerId, Date orderDate, List<OrderItem> orderItems) {
 		super();
@@ -52,8 +50,6 @@ public class Order {
 		this.orderDate = orderDate;
 		this.orderItems = orderItems;
 	}
-
-
 
 	public long getId() {
 		return id;
@@ -86,7 +82,5 @@ public class Order {
 	public void setOrderItem(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
 	}
-	
-	
 
 }

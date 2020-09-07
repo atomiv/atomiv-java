@@ -36,7 +36,7 @@ public class ProductController {
 		productRepository.save(product);
 		return ResponseEntity.ok().body(product);
 	}
-	
+
 	@PostMapping("/products/{id}/unlist")
 	public ResponseEntity<Product> unlistProduct(@PathVariable(value = "id") long productId)
 			throws ResourceNotFoundException {

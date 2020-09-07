@@ -1,5 +1,9 @@
 package org.atomiv.template.lite.web.restapi.service;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 import org.atomiv.template.lite.web.restapi.models.Customer;
@@ -13,6 +17,27 @@ public class CustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+
+	String line = "";
+
+	public void saveCustomerData() throws FileNotFoundException {
+
+		try {
+
+			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Customer.csv"));
+			while ((line = br.readLine()) != null) {
+				String[] data = line.split(",");
+				Customer c = new Customer();
+				c.setFirstName(data[0]);
+				c.setLastName(data[1]);
+				customerRepository.save(c);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
+
+	}
 
 	public Customer addOrupDate(Customer customer) {
 		return customerRepository.save(customer);
