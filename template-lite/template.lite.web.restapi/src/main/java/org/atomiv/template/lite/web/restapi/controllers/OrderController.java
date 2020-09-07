@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentMap;
 import javax.validation.Valid;
 
 import org.atomiv.template.lite.web.restapi.exception.ResourceNotFoundException;
-
 import org.atomiv.template.lite.web.restapi.models.Order;
 import org.atomiv.template.lite.web.restapi.models.OrderItem;
 import org.atomiv.template.lite.web.restapi.repositories.OrderRepository;
@@ -40,7 +39,7 @@ public class OrderController {
 	}
 
 	@PostMapping("/orders")
-	public ResponseEntity<Order> createOrder(@Valid Order order) {
+	public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order) {
 		orderRepository.save(order);
 		return ResponseEntity.ok().body(order);
 
