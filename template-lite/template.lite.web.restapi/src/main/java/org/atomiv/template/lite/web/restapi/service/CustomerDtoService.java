@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.atomiv.template.lite.web.restapi.dto.CustomerDto;
 import org.atomiv.template.lite.web.restapi.models.Customer;
 
+// TODO: CustomerService
+
 public interface CustomerDtoService {
 
 	List<CustomerDto> getAllCustomers();

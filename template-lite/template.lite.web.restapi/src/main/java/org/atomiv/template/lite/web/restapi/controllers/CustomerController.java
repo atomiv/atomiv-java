@@ -25,14 +25,14 @@ import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 @RestController
-@RequestMapping("/api/customersDto")
+@RequestMapping("/api/customers")
 public class CustomerController {
 
 	@Autowired
 	private CustomerRepository customerRepository;
 
 	@GetMapping
-	public  List<Customer> getAllCustomers() {
+	public List<Customer> getAllCustomers() {
 		return customerRepository.findAll();
 
 	}
@@ -57,14 +57,13 @@ public class CustomerController {
 	 * Ova metoda uzima podatke iz baze u csv formatu kada se pokrene iz Postman -a
 	 */
 	@GetMapping("/exportcsv")
-	public void  exportToCsv(HttpServletResponse response) throws Exception {
+	public void exportToCsv(HttpServletResponse response) throws Exception {
 		response.setContentType("text/csv");
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 		String currentDateTime = dateFormatter.format(new java.util.Date());
 		String fileName = "customer" + currentDateTime + ".csv";
 		String headerKey = "Content-Disposition";
 		String headervalue = "attachment; fileNmae=" + fileName;
-		
 
 		response.setHeader(headerKey, headervalue);
 
@@ -76,7 +75,6 @@ public class CustomerController {
 		String[] nameMapping = { "id", "firstName", "lastName" };
 
 		csvWriter.writeHeader(csvHeader);
-	
 
 		for (Customer customer : listCustomers) {
 			csvWriter.write(customer, nameMapping);
