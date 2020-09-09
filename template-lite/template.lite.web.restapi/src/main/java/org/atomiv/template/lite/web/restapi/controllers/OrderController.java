@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/orders")
 public class OrderController {
 
 	ConcurrentMap<String, OrderItem> orderItems = new ConcurrentHashMap<>();
@@ -32,20 +32,20 @@ public class OrderController {
 	@Autowired
 	private OrderRepository orderRepository;
 
-	@GetMapping("/orders")
+	@GetMapping
 	public List<Order> getAllOrders() {
 		return orderRepository.findAll();
 
 	}
 
-	@PostMapping("/orders")
+	@PostMapping
 	public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order) {
 		orderRepository.save(order);
 		return ResponseEntity.ok().body(order);
 
 	}
 
-	@GetMapping("/orders/{id}/existing")
+	@GetMapping("/{id}/existing")
 	public ResponseEntity<Order> getExistingOrderById(@PathVariable(value = "id") long orderId)
 			throws ResourceNotFoundException {
 		Order order = orderRepository.findById(orderId)
@@ -53,14 +53,14 @@ public class OrderController {
 		return ResponseEntity.ok().body(order);
 	}
 
-	@GetMapping("/orders{id}/docs")
+	@GetMapping("/{id}/docs")
 	@ApiOperation(value = "Find OrderItem by id", notes = "Provide an id to look specific OrderItem form the Order", response = OrderItem.class)
 	public OrderItem getOrderItem(
 			@ApiParam(value = "ID value for the OrderItem you need to retrieve, required = true") @PathVariable long id) {
 		return orderItems.get(id);
 	}
 
-	@PutMapping("/orders/{id}/existing")
+	@PutMapping("/{id}/existing")
 	public ResponseEntity<Order> updateExistingOrder(@PathVariable(value = "id") long orderId,
 			@RequestBody Order orderDetails) throws ResourceNotFoundException {
 		Order order = orderRepository.findById(orderId)
