@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import org.atomiv.template.lite.web.restapi.dto.CustomerDto;
 import org.atomiv.template.lite.web.restapi.models.Customer;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -25,7 +25,7 @@ import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api/customersDto")
 public class CustomerController {
 
 	@Autowired
@@ -45,7 +45,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Customer> getCustomerById(@Valid @PathVariable(value = "id") long customerId)
+	public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") long customerId)
 			throws ResourceNotFoundException {
 		Customer customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
@@ -87,7 +87,7 @@ public class CustomerController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Customer> updateCustomer(@Valid @PathVariable(value = "id") long customerId,
+	public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") long customerId,
 			@RequestBody Customer customerDetails) throws ResourceNotFoundException {
 		Customer customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
@@ -99,7 +99,7 @@ public class CustomerController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteCustomer(@Valid @PathVariable(value = "id") long customerId)
+	public ResponseEntity<?> deleteCustomer(@PathVariable(value = "id") long customerId)
 			throws ResourceNotFoundException {
 		customerRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));

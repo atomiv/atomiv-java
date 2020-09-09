@@ -5,13 +5,9 @@ import java.io.Serializable;
 public class CustomerDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private long id;
-	private String firstName;
-	private String lastName;
-
-	public CustomerDto() {
-
-	}
+	private final long id;
+	private final String firstName;
+	private final String lastName;
 
 	public CustomerDto(long id, String firstName, String lastName) {
 		super();
@@ -24,24 +20,12 @@ public class CustomerDto implements Serializable {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
 	public String getLastName() {
 		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 
 }

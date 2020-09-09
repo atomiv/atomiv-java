@@ -46,7 +46,7 @@ public class OrderController {
 	}
 
 	@GetMapping("/{id}/existing")
-	public ResponseEntity<Order> getExistingOrderById(@Valid @PathVariable(value = "id") long orderId)
+	public ResponseEntity<Order> getExistingOrderById(@PathVariable(value = "id") long orderId)
 			throws ResourceNotFoundException {
 		Order order = orderRepository.findById(orderId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Order not found for this id: " + orderId));
@@ -61,7 +61,7 @@ public class OrderController {
 	}
 
 	@PutMapping("/{id}/existing")
-	public ResponseEntity<Order> updateExistingOrder(@Valid @PathVariable(value = "id") long orderId,
+	public ResponseEntity<Order> updateExistingOrder(@PathVariable(value = "id") long orderId,
 			@RequestBody Order orderDetails) throws ResourceNotFoundException {
 		Order order = orderRepository.findById(orderId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Order not found for this id: " + orderId));
