@@ -47,4 +47,46 @@ public class OrderItem {
 		this.quantity = quantity;
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(long productId) {
+		this.productId = productId;
+	}
+
+	public double getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(double unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public OrderItemStatus getOrderItemStatus() {
+		return orderItemStatus;
+	}
+
+	public void setOrderItemStatus(OrderItemStatus orderItemStatus) {
+		this.orderItemStatus = orderItemStatus;
+	}
+	
+	
+
 }

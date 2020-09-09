@@ -26,7 +26,7 @@ public class ProductController {
 	private ProductRepository productRepository;
 
 	@GetMapping
-	public List<Product> getAllProducts() {
+	public  List<Product> getAllProducts() {
 		return productRepository.findAll();
 	}
 
@@ -38,7 +38,7 @@ public class ProductController {
 	}
 
 	@PostMapping("/{id}/unlist")
-	public ResponseEntity<Product> unlistProduct(@PathVariable(value = "id") long productId)
+	public ResponseEntity<Product> unlistProduct(@Valid @PathVariable(value = "id") long productId)
 			throws ResourceNotFoundException {
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Product not found for this id: " + productId));
@@ -49,7 +49,7 @@ public class ProductController {
 	}
 
 	@PostMapping("/{id}/relist")
-	public ResponseEntity<Product> relistProduct(@PathVariable(value = "id") long productId)
+	public ResponseEntity<Product> relistProduct(@Valid @PathVariable(value = "id") long productId)
 			throws ResourceNotFoundException {
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Product not found for this id: " + productId));
@@ -60,7 +60,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Product> getProductById(@PathVariable(value = "id") long productId)
+	public ResponseEntity<Product> getProductById(@Valid @PathVariable(value = "id") long productId)
 			throws ResourceNotFoundException {
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Product not found for this id: " + productId));
@@ -68,7 +68,7 @@ public class ProductController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") long productId,
+	public ResponseEntity<Product> updateProduct(@Valid @PathVariable(value = "id") long productId,
 			@RequestBody Product productDetails) throws ResourceNotFoundException {
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Product not found for this id: " + productId));
@@ -82,7 +82,7 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteProduct(@PathVariable(value = "id") long productId)
+	public ResponseEntity<?> deleteProduct(@Valid @PathVariable(value = "id") long productId)
 			throws ResourceNotFoundException {
 		productRepository.findById(productId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Product not found for this id: " + productId));

@@ -32,19 +32,20 @@ public class CustomerController {
 	private CustomerRepository customerRepository;
 
 	@GetMapping
-	public List<Customer> getAllCustomers() {
+	public  List<Customer> getAllCustomers() {
 		return customerRepository.findAll();
 
 	}
 
 	@PostMapping
-	public Customer createCustomer(@Valid @RequestBody Customer customer) {
-		return customerRepository.save(customer);
+	public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer) {
+		customerRepository.save(customer);
+		return ResponseEntity.ok().body(customer);
 
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") long customerId)
+	public ResponseEntity<Customer> getCustomerById(@Valid @PathVariable(value = "id") long customerId)
 			throws ResourceNotFoundException {
 		Customer customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
@@ -56,13 +57,14 @@ public class CustomerController {
 	 * Ova metoda uzima podatke iz baze u csv formatu kada se pokrene iz Postman -a
 	 */
 	@GetMapping("/exportcsv")
-	public void exportToCsv(HttpServletResponse response) throws Exception {
+	public void  exportToCsv(HttpServletResponse response) throws Exception {
 		response.setContentType("text/csv");
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 		String currentDateTime = dateFormatter.format(new java.util.Date());
 		String fileName = "customer" + currentDateTime + ".csv";
 		String headerKey = "Content-Disposition";
 		String headervalue = "attachment; fileNmae=" + fileName;
+		
 
 		response.setHeader(headerKey, headervalue);
 
@@ -74,6 +76,7 @@ public class CustomerController {
 		String[] nameMapping = { "id", "firstName", "lastName" };
 
 		csvWriter.writeHeader(csvHeader);
+	
 
 		for (Customer customer : listCustomers) {
 			csvWriter.write(customer, nameMapping);
@@ -84,7 +87,7 @@ public class CustomerController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") long customerId,
+	public ResponseEntity<Customer> updateCustomer(@Valid @PathVariable(value = "id") long customerId,
 			@RequestBody Customer customerDetails) throws ResourceNotFoundException {
 		Customer customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
@@ -96,7 +99,7 @@ public class CustomerController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteCustomer(@PathVariable(value = "id") long customerId)
+	public ResponseEntity<?> deleteCustomer(@Valid @PathVariable(value = "id") long customerId)
 			throws ResourceNotFoundException {
 		customerRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Customer not found for this id: " + customerId));
