@@ -1,11 +1,10 @@
 package org.atomiv.template.lite.web.restapi.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.atomiv.template.lite.web.restapi.dto.CustomerDto;
 import org.atomiv.template.lite.web.restapi.models.Customer;
-
-import com.google.common.base.Optional;
 
 public interface CustomerDtoService {
 
