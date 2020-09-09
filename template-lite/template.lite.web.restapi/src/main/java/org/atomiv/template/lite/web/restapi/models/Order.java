@@ -43,11 +43,12 @@ public class Order {
 
 	}
 
-	public Order(long id, long customerId, Date orderDate, List<OrderItem> orderItems) {
+	public Order(long id, long customerId, Date orderDate, OrderStatus orderStatus, List<OrderItem> orderItems) {
 		super();
 		this.id = id;
 		this.customerId = customerId;
 		this.orderDate = orderDate;
+		this.orderStatus = orderStatus;
 		this.orderItems = orderItems;
 	}
 
@@ -73,6 +74,14 @@ public class Order {
 
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 	public List<OrderItem> getOrderItem() {
