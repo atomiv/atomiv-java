@@ -1,5 +1,6 @@
 package org.atomiv.template.lite.web.restapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,7 +23,7 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    // @Column(name = "customer_id")
+    @Column(name = "customer_id")
     private Long id;
 
 //    @Size(min=5, message="Name should have atleast 5 characters")
@@ -32,6 +33,10 @@ public class Customer {
 
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
+
+    @ManyToMany(mappedBy = "customers")
+    @JsonIgnore
+    private List<Address> addresses;
 
     // update Getter and Setter if adding properties
 //    @Column(name = "email_address", nullable = false)
@@ -54,12 +59,27 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Long id, String firstName, String lastName) {
-        // TODO - why super()
-        super();
+    public Customer(Long id, String firstName, String lastName, List<Address> addresses) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.addresses = addresses;
+    }
+
+    //    public Customer(Long id, String firstName, String lastName) {
+//        // TODO - why super()
+//        super();
+//        this.id = id;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 
     public Long getId() {

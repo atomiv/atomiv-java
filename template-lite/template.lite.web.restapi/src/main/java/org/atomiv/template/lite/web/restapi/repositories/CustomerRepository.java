@@ -12,7 +12,7 @@ import java.util.List;
  */
 // JPA Data Repository Layer
 // TODO should it be annotated with @Repository extends JpaRepository
-
+// is @Repository needed
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
     // List<Customer_Orders> findAllByFirstName(String customer_first_name);
