@@ -1,5 +1,7 @@
 package org.atomiv.template.lite.web.restapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,12 +14,8 @@ public class Address {
 
     private String city;
 
-    @ManyToMany
-    @JoinTable(
-            name = "address_customers",
-            joinColumns = @JoinColumn(name = "address_id"),
-            inverseJoinColumns = @JoinColumn(name = "customer_id")
-    )
+    @ManyToMany(mappedBy = "addresses")
+    @JsonIgnore
     private List<Customer> customers;
 
 

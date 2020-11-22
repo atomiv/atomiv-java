@@ -34,9 +34,17 @@ public class Customer {
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
-    @ManyToMany(mappedBy = "customers")
-    @JsonIgnore
+
+    @ManyToMany
+    @JoinTable(
+            name = "customer_addresses",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id")
+    )
     private List<Address> addresses;
+
+
+
 
     // update Getter and Setter if adding properties
 //    @Column(name = "email_address", nullable = false)
@@ -59,12 +67,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Long id, String firstName, String lastName, List<Address> addresses) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.addresses = addresses;
-    }
+
 
     //    public Customer(Long id, String firstName, String lastName) {
 //        // TODO - why super()
@@ -74,13 +77,14 @@ public class Customer {
 //        this.lastName = lastName;
 //    }
 
-    public List<Address> getAddresses() {
-        return addresses;
-    }
 
-    public void setAddresses(List<Address> addresses) {
+    public Customer(Long id, String firstName, String lastName, List<Address> addresses) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.addresses = addresses;
     }
+
 
     public Long getId() {
         return id;
@@ -104,6 +108,14 @@ public class Customer {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 
     // I suggest you make use of your IDE's features to generate the toString method. Don't hand-code it
