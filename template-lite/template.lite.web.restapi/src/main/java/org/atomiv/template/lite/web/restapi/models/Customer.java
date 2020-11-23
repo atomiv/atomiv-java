@@ -2,6 +2,7 @@ package org.atomiv.template.lite.web.restapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -12,12 +13,8 @@ import java.util.List;
 /**
  * The type Customer
  */
-// @ApiModel(description="All details about the user")
-// Create Entity Class
 @Entity
 @Table(name = "customers")
-// @EntityListeners(AuditingEntityListener.class)
-
 // prevent serialization error when GET sessions/2 in postman
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Customer {
@@ -26,8 +23,6 @@ public class Customer {
     @Column(name = "customer_id")
     private Long id;
 
-//    @Size(min=5, message="Name should have atleast 5 characters")
-//    @ApiModelProperty(notes="name should have atleast 5 characters")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
@@ -43,10 +38,31 @@ public class Customer {
     )
     private List<Address> addresses;
 
+    //@ManyToMany
+    //@JoinTable(name="BookAuthor",
+    //			joinColumns={@JoinColumn(name="bookId", referencedColumnName="id")},
+    //			inverseJoinColumns={@JoinColumn(name="authorId", referencedColumnName="id")})
+    //@OrderBy(value = "lastName ASC")
+    //private Set<Author> authors = new HashSet<Author>();
+
+
+    // Relationships -----------------------------------------
+
+//    @OneToOne
+//    @JoinColumn(name = "user_id", referencedColumnName = "id") // Join without Customer in User class
+//    private User user;
+
+    // have this for orders. cascade = CascadeType.ALL
+    // have it as NONE
+    // TODO JC
+//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private List<Order> orderList;
 
 
 
-    // update Getter and Setter if adding properties
+
+
 //    @Column(name = "email_address", nullable = false)
 //    private String email;
 //
@@ -59,11 +75,11 @@ public class Customer {
 //    private String createdBy;
 
 
+// LAZY - don't do it
 //    @OneToMany(fetch=FetchType.LAZY)
 //    private List<Customer_Orders> customerOrders;
 
 
-    // protected Customer() {
     public Customer() {
     }
 

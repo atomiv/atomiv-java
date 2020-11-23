@@ -11,37 +11,31 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-// CustomerService implements ICustomerService
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
+    // TODO Logging
+    // private Logger logger= LoggerFactory.getLogger(this.getClass());
 
     // save a couple of customers
 //    repository.save(new Customer("Alice", "Smith"));
 //    repository.save(new Customer("Bob", "Smith"));
 
+
     @Autowired
-//    public void setCustomerRepository(CustomerRepository customerRepository) {
-//        System.out.println("setter injection");
-//        this.customerRepository = customerRepository;
-//    }
     private CustomerRepository customerRepository;
 
 
-    // TODO is this good?
-//    @Autowired
-//    public CustomerServiceImpl(CustomerRepository customerRepository) {
-//        super();
-//        this.customerRepository = customerRepository;
-//    }
 //    public List<Customer_Orders> findAllFirstName(String customer_first_name) {
 //        return customerRepository.findAllByFirstName(customer_first_name);
 //    }
 
 
-
+    // https://www.baeldung.com/java-iterable-to-collection
+    // Using Guava ... ImmutableList.copyOf():
     @Override
     public List<Customer> getAllCustomers() {
-//        List<Customer> customerList = customerRepository.findAll();
+        // logger.debug("findAll");
 //        return customerList;
         return (List<Customer>) customerRepository.findAll();
         // return customerRepository.findAll();
@@ -50,34 +44,111 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Customer> findByFirstName(String firstName) {
         return customerRepository.findByFirstName(firstName);
+        // return customerRepository.findAllByFirstNameContainingOrLastNameContaining(name, name);
     }
 
 
+    //@GetMapping("/customers/{id}")
+    //    Customer one(@PathVariable Long id) {
+    //        return customerRepository.findById(id)
+    //                .orElseThrow(() -> new NotFoundException(id));
+    //    }
     @Override
+    // Long or long
     public Customer getCustomerById(long id) {
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
 
         if(optionalCustomer.isPresent())
             return optionalCustomer.get();
         else
-            throw new CustomerNotFoundException("Customer Not Found");
+//            throw new CustomerNotFoundException("Customer Not Found");
+            throw new ResourceNotFoundException(new CustomerNotFoundException("Customer Not Found"));
     }
+    // try {
+    //            Long customerIdLong = Long.valueOf(customerId);
+    //            Customer customer = customerService.getCustomerById(customerIdLong)
+    //                    .orElseThrow(()->new RuntimeException("Unable to fetch customer record with id = " + customerId));
+    //            return ResponseEntity.ok(customer);
+    //        }catch(Exception ex) {
+    //            return handleException(ex);
+    //        }
+    // -----------------
+    // return customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer [customerId=" + customerId + "] can't be found"));
 
+    // TODO
+    //@Override
+    //    public Customer save(Customer customer) {
     //
+    //        return customerRepository.save(customer);
+    //    }
+
+
     @Override
     public Customer createCustomer(Customer customer) {
+        //logger.debug("save->customer:"+customer);
         return customerRepository.save(customer);
     }
 
-    // guess
-    // newCustomer or customer
+
     @Override
     public Customer updateCustomer(Customer customer) {
-        // return customer; // ---- change
 
-        customer.setFirstName(customer.getFirstName());
-        customer.setLastName(customer.getLastName());
-        return customerRepository.save(customer);
+        Optional<Customer> existingCustomer =
+                customerRepository.findById(customer.getId());
+        if(existingCustomer.isEmpty()) {
+            throw new RuntimeException("Cannot find the customer with id " + customer.getId());
+        }
+        existingCustomer.get().setAddresses(customer.getAddresses());
+        existingCustomer.get().setFirstName(customer.getFirstName());
+        existingCustomer.get().setLastName(customer.getLastName());
+        return customerRepository.save(existingCustomer.get());
+
+//        Customer newCustomer = existingCustomer.get();
+//        newCustomer.setAddresses(customer.getAddresses());
+//        newCustomer.setFirstName(customer.getFirstName());
+//        newCustomer.setLastName(customer.getLastName());
+//        return customerRepository.save(newCustomer);
+
+        // ---------------------------------------------
+        // FROM BEFORE
+//        customer.setFirstName(customer.getFirstName());
+//        customer.setLastName(customer.getLastName());
+//        return customerRepository.save(customer);
+
+// ----------------------------------------------------
+        // return customerRepository.findById(customerId).map(customer -> {
+        //            customer.setCustomerName(newCustomer.getCustomerName());
+        //            customer.setDateofBirth(newCustomer.getDateofBirth());
+        //            customer.setPhoneNumber(newCustomer.getPhoneNumber());
+        //            customerRepository.save(customer);
+        //            return ResponseEntity.ok(customer);
+        //        }).orElseThrow(() -> new RuntimeException("Customer [customerId=" + customerId + "] can't be found"));
+// -------------------------------------
+        //try {
+        //            customer.setId(Long.valueOf(customerId));
+        //            Customer updatedCustomer = customerService.update(customer);
+        //            return ResponseEntity.ok(updatedCustomer);
+        //        }catch(Exception ex) {
+        //            return handleException(ex);
+        //        }
+        // ------------------------------------------
+        //@PutMapping("/customers/{id}")
+        // CHECK
+        //    Customer replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id){
+        //        return customerRepository.findById(id)
+        //                .map(customer -> {
+        //                    customer.setUser(newCustomer.getUser());
+        //                    customer.setWallet(newCustomer.getWallet());
+        //                    customer.setOrderList(newCustomer.getOrderList());
+        //                    return customerRepository.save(customer);
+        //                })
+        //                .orElseGet(() -> {
+        //                    newCustomer.setId(id);
+        //                    return customerRepository.save(newCustomer);
+        //                });
+        //    }
+
+
 
 //        @PutMapping(value = "/{customerId}")
 //        public ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId, @RequestBody Customer newCustomer) {
@@ -117,7 +188,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
-    // guessing
+
+
     @Override
     public void deleteCustomerById(long id) {
 //        Optional<Customer> optionalCustomer = customerRepository.deleteById(id);
@@ -130,7 +202,20 @@ public class CustomerServiceImpl implements CustomerService {
 
 //        Customer deleteCustomer = customerRepository.findById(id);
 //        customerRepository.delete(deleteCustomer);
+        // --------------------------
+        // return customerRepository.findById(customerId).map(customer -> {
+        //                    customerRepository.delete(customer);
+        //                    return ResponseEntity.ok().build();
+        //                }
+        //        ).orElseThrow(() -> new RuntimeException("Customer [customerId=" + customerId + "] can't be found"));
     }
+
+
+    // public void deleteAll() {
+    //        logger.debug("deleteAll");
+    //        customerRepository.deleteAll();
+    //    }
+
 
     @Override
     public void deleteAllCustomers() {
@@ -138,7 +223,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 }
-
 
 
 
@@ -152,3 +236,19 @@ public class CustomerServiceImpl implements CustomerService {
 //        ).orElseThrow(() -> new RuntimeException("Customer [customerId=" + customerId + "] can't be found"));
 //
 //    }
+
+// --------------------------------------------
+//private ResponseEntity<ErrorMessage> handleException(Exception ex) {
+//        ex.printStackTrace();
+//        ErrorMessage error = new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+//        return ResponseEntity.badRequest().body(error);
+//    }
+//-------------
+//For handling errors, you will need to create a custom Error class, that is returned if any exception occurs. The class definition is as follows
+//
+//@Data
+//@AllArgsConstructor
+//public class ErrorMessage {
+//    private int statusCode;
+//    private String errorMessage;
+//}

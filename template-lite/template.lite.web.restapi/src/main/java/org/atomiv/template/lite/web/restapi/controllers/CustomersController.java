@@ -20,20 +20,15 @@ import java.util.List;
  */
 // Create Rest Controllers and Map API Requests
 @RestController
-@RequestMapping("/api/v1/customers")
+@RequestMapping("api/customers")
 public class CustomersController {
+
+    // private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private CustomerService customerService;
 
-// @Autowired
-// private IProductService productService;
 
-//    private CustomerService customerService;
-//
-//    public void setCustomerService(CustomerService customerService) {
-//        this.customerService = customerService;
-//    }
 // -------------------------------------
 //    List products = Arrays.asList(
 //            new Product("1","G Tech", "G Tech Hard drive", 230.45, 25),
@@ -56,7 +51,15 @@ public class CustomersController {
 //        almond.setName("Almond");
 //        productRepo.put(almond.getId(), almond);
 //    }
-
+//--------------------------------------
+    //@RequestMapping(value ="/book3", produces =MediaType.APPLICATION_JSON_VALUE )
+    //public ResponseEntity<Book> bookInfo3() {
+    //    Book book = new Book();
+    //    book.setBookName("Ramayan");
+    //    book.setWriter("Valmiki");
+    //    return ResponseEntity.accepted().body(book);
+    //}
+//    ---------------------------------
 
 
 
@@ -70,23 +73,13 @@ public class CustomersController {
      * Get all customers list
      * @return the list
      */
-    // (value = "/products", produces =
-    // note: path = "/" causes 404 not found
-    @GetMapping(path = "", produces = "application/json")
-    // public ResponseEntity<Object> getProduct() {
+    @GetMapping(path = "")
     public ResponseEntity<List<Customer>> getAllCustomers()
     {
-        // 'list' or 'customers'
-        List<Customer> list = customerService.getAllCustomers();
-        return new ResponseEntity<List<Customer>>(list,HttpStatus.OK);
-        // return new ResponseEntity<>(productRepo.values(), HttpStatus.OK);
+        var customers = customerService.getAllCustomers();
+        return new ResponseEntity<List<Customer>>(customers,HttpStatus.OK);
     }
 
-//    @GetMapping(path ="/customers")
-//    public Iterable<Customer> findAll() {
-//        Iterable<Customer> customers = customerService.findAll();
-//        return customers;
-//    }
 
 
 //     * @throws ResourceNotFoundException the resource not found exception
@@ -96,15 +89,18 @@ public class CustomersController {
      * @param id the customer id
      * @return the customer by id
      */
-    // , produces = MediaType.APPLICATION_JSON_VALUE
-    @GetMapping("/{id}")
+    //
+    @GetMapping("{id}")
     // public Resource<User> ... Resource or ResponseEntity
     // public Company getCompanyById(
     // Long or long
+    // no try catch within controller
+    // GLOBAL HANDLER
     public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Long id)
     {
         try {
-            return new ResponseEntity<Customer>(customerService.getCustomerById(id), HttpStatus.OK);
+            var customer = customerService.getCustomerById(id);
+            return new ResponseEntity<Customer>(customer, HttpStatus.OK);
         } catch (CustomerNotFoundException exception) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Customer Not Found");
@@ -112,6 +108,8 @@ public class CustomersController {
         //System.out.println(customer);
     }
 
+
+    // not via path variables but query
     @GetMapping("/search/firstname/{firstname}")
     public List<Customer> searchByFirstName(@PathVariable String firstName){
         return customerService.findByFirstName(firstName);
@@ -126,17 +124,11 @@ public class CustomersController {
      * @param customer the customer
      * @return the customer
      */
-    // path = ""
-    // GUESSING
-    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
-    // or just - public Customer createCustomer(...
+    @PostMapping(path = "")
     public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer)
     {
-        //Customer savedCustomer = customerService.save(customer);
-        return new ResponseEntity<Customer>(customerService.createCustomer(customer), HttpStatus.OK);
-
-//        customerRepository.save(customer);
-//        return ResponseEntity.ok().body(customer);
+        var newCustomer= customerService.createCustomer(customer);
+        return new ResponseEntity<Customer>(newCustomer, HttpStatus.OK);
     }
 
 
@@ -148,12 +140,12 @@ public class CustomersController {
      * @return the response entity
      * @throws ResourceNotFoundException the resource not found exception
      */
-    @PutMapping("/{id}")
-    // @RequestBody Customer customerDetails ... {
-    //                Customer customer
+    @PutMapping("{id}")
+    // public ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId, @RequestBody Customer newCustomer) {
     public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") Long id, @Valid @RequestBody Customer customer)
             {
-                return new ResponseEntity<Customer>(customerService.updateCustomer(customer), HttpStatus.OK);
+                var updatedCustomer = customerService.updateCustomer(customer);
+                return new ResponseEntity<Customer>(updatedCustomer, HttpStatus.OK);
             }
 
 
@@ -164,25 +156,23 @@ public class CustomersController {
      * @return the map
      * @throws ResourceNotFoundException the resource not found
      */
-    @DeleteMapping("/{id}")
-    // customerId or id ??
-    // public Map<String, Boolean> deleteCustomer
-    // public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
-    public void deleteCustomer(@PathVariable Long id) {
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomerById(id);
-        //Customer customer = customerService.deleteCustomerById(id);
-//        return "Delete Success";
+
+        // TODO Java Rest API return No Content
+        return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 //        if(customer==null)
 //            throw new CustomerNotFoundException("id: " + id);
     }
+
+
+
 
     @DeleteMapping("")
     public void deleteAllCustomers() {
         customerService.deleteAllCustomers();
     }
-
-
-
 //        throws ResourceNotFoundException {
 //            Customer customer =
 //                customerRepository
@@ -222,3 +212,76 @@ public class CustomersController {
 //    public ResponseEntity < ? > updateResource(@RequestParam("email") String email, @PathVariable("id") String id) {
 //        Customer newCustomer = customerService.updateCustomer(email, id);
 //        return new ResponseEntity < > (newCustomer, HttpStatus.OK);
+
+
+// ---------------------------------
+
+//@GetMapping("getAllCustomer")
+//    public ResultInfo getAllCustomer() {
+//        logger.info("getAllCustomer");
+//        ResultInfo<Customer> resultInfo= new ResultInfo<>();
+//        List<Customer> lCustomer=customerService.findAll();
+//        resultInfo.setLData(lCustomer);
+//        if(lCustomer.size()==0){
+//            resultInfo.setErrCode("0001");
+//            resultInfo.setErrmsg("查无数据");
+//        }else{
+//
+//            resultInfo.setErrCode("0000");
+//            resultInfo.setErrmsg("查询成功");
+//        }
+//        return resultInfo;
+//    }
+//
+//@GetMapping("getCustomer")
+//    public ResultInfo getCustomer(String CustomerId) {
+//        logger.info("getCustomer请求参数:" + CustomerId);
+//        ResultInfo<Customer> resultInfo= new ResultInfo<>();
+//
+//        if(CustomerId==null || "".equals(CustomerId.trim())){
+//            resultInfo.setErrCode("1001");
+//            resultInfo.setErrmsg("查询Id为空");
+//            return resultInfo;
+//        }
+//
+//        List<Customer> customer=customerService.findCustomerById(Integer.parseInt(CustomerId));
+////        Long lCnt=customerService.count();
+//        resultInfo.setLData(customer);
+////        logger.info("lCnt="+lCnt);
+//        if(customer.size()==0)
+//        {
+//            resultInfo.setErrCode("0001");
+//            resultInfo.setErrmsg("查无数据");
+//
+//        }else{
+//            resultInfo.setErrCode("0000");
+//            resultInfo.setErrmsg("查询成功");
+//        }
+//        return resultInfo;
+//    }
+//
+//
+//
+//    @PostMapping("saveCustomer")
+//    public ResultInfo<Customer> saveCustomer(Customer customer) {
+//        logger.info("saveCustomer请求参数:" + customer.toString());
+//        ResultInfo resultInfo = new ResultInfo();
+//        List<Customer> lCustomer = new ArrayList();
+//        Customer newCustomer = customerService.save(customer);
+//        lCustomer.add(newCustomer);
+//        resultInfo.setLData(lCustomer);
+//        resultInfo.setErrmsg("数据保存成功");
+//        resultInfo.setErrCode("0000");
+//        return resultInfo;
+//    }
+//    @DeleteMapping("deleteCustomer")
+//    public void deleteCustomer(String id){
+//        logger.info("deleteCustomer");
+//        customerService.deleteById(id);
+//    }
+//    @DeleteMapping("deleteAllCustomer")
+//    public void deleteAllCustomer(){
+//        logger.info("deleteAllCustomer");
+//        customerService.deleteAll();
+//    }
+//

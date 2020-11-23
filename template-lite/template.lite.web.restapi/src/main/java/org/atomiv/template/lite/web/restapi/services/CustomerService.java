@@ -6,25 +6,24 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-// CustomerService or ICustomerService
 public interface CustomerService {
 
-    // getCustomers listCustomers getAllCustomers
+    // GET
     List<Customer> getAllCustomers();
 
-    // findCustomer getCustomer getCustomerById
+    // GET id
     Customer getCustomerById(long id);
 
+    //
     List<Customer> findByFirstName(String firstName);
 
-    // guess - POST
+    // POST
     Customer createCustomer(Customer customer);
 
-    // guess - UPDATE
+    // UPDATE
     Customer updateCustomer(Customer customer);
 
-    // void deleteById(String id);
-    // guess - DELETE
+    // DELETE
     void deleteCustomerById(long id);
 
     void deleteAllCustomers();
