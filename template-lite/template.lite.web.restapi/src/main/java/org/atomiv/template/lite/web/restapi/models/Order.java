@@ -1,6 +1,7 @@
 package org.atomiv.template.lite.web.restapi.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -12,10 +13,12 @@ import java.util.Set;
 //@Data
 @Entity
 @Table(name = "orders")
+// TODO : needed everywhere?
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 
@@ -47,13 +50,23 @@ public class Order {
 //    @ManyToOne
 //    private Customer customer;
     // ----------------------------------------------
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+
+
+    // TODO i had this originally
+    @OneToMany(mappedBy = "order")
+//    // @OrderBy("id ASC")
+    private List<OrderItem> orderItems = new ArrayList<>();
+//    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
+
+
 
     // @OneToMany(cascade=CascadeType.ALL, mappedBy="customOrder")
     // @OneToMany(mappedBy = "order")
     // @OneToMany(cascade = CascadeType.ALL)
-    @OneToMany(mappedBy = "order")
-    // @OrderBy("id ASC")
-    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
     //private List<OrderItem> orderItems = new ArrayList<OrderItem>();
     // private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -76,15 +89,14 @@ public class Order {
 
 
     public Order() {
-//        super();
     }
 
-    public Order(Long id, String orderAddress, List<OrderItem> orderItems) {
-//        super();
+    public Order(Long id, String orderAddress, Customer customer) {
         this.id = id;
         this.orderAddress = orderAddress;
-        this.orderItems = orderItems;
+        this.customer = customer;
     }
+
 
     public Long getId() {
         return id;
@@ -102,6 +114,14 @@ public class Order {
         this.orderAddress = orderAddress;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
@@ -110,10 +130,12 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    @Override
-    public String toString() {
-        return "Order [orderId=" + id + ", orderAddress=" + orderAddress  + "]";
-    }
+
+
+//    @Override
+//    public String toString() {
+//        return "Order [orderId=" + id + ", orderAddress=" + orderAddress  + "]";
+//    }
 }
 
 

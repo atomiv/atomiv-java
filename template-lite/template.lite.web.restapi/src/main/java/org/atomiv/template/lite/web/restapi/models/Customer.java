@@ -16,10 +16,10 @@ import java.util.List;
 @Entity
 @Table(name = "customers")
 // prevent serialization error when GET sessions/2 in postman
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     private Long id;
 
@@ -38,19 +38,8 @@ public class Customer {
     )
     private List<Address> addresses;
 
-    //@ManyToMany
-    //@JoinTable(name="BookAuthor",
-    //			joinColumns={@JoinColumn(name="bookId", referencedColumnName="id")},
-    //			inverseJoinColumns={@JoinColumn(name="authorId", referencedColumnName="id")})
-    //@OrderBy(value = "lastName ASC")
-    //private Set<Author> authors = new HashSet<Author>();
-
 
     // Relationships -----------------------------------------
-
-//    @OneToOne
-//    @JoinColumn(name = "user_id", referencedColumnName = "id") // Join without Customer in User class
-//    private User user;
 
     // have this for orders. cascade = CascadeType.ALL
     // have it as NONE
@@ -58,8 +47,6 @@ public class Customer {
 //    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 //    @JsonManagedReference
 //    private List<Order> orderList;
-
-
 
 
 
@@ -73,11 +60,6 @@ public class Customer {
 //    @Column(name = "created_by", nullable = false)
 //    @CreatedBy // @LastModifiedDate updatedAt, @LastModifiedBy updatedBy
 //    private String createdBy;
-
-
-// LAZY - don't do it
-//    @OneToMany(fetch=FetchType.LAZY)
-//    private List<Customer_Orders> customerOrders;
 
 
     public Customer() {

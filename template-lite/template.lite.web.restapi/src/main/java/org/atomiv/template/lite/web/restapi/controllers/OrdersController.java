@@ -19,8 +19,28 @@ import java.util.List;
 @RequestMapping("api/orders")
 public class OrdersController {
 
-    @Autowired
     private OrderService orderService;
+
+    private CustomerService customerService;
+
+
+//    @Autowired
+//    private OrderItemService orderItemService;
+
+    @Autowired
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
+
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+
+
+
 
 
     @GetMapping(path = "")

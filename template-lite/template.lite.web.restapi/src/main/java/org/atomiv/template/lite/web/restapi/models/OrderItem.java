@@ -1,13 +1,17 @@
 package org.atomiv.template.lite.web.restapi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "order_items")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class OrderItem {
     @Id
     // necessary? line below
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "order_item_id")
     private Long id;
 
@@ -15,6 +19,7 @@ public class OrderItem {
 
     //@ManyToOne(cascade = CascadeType.ALL)
     //private CustomOrder customOrder;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "order_id") // is @JoinColumn needed? ... name = "order_id" ... name="id"
     private Order order;
@@ -22,9 +27,11 @@ public class OrderItem {
 
 
     public OrderItem() {
+        super();
     }
 
     public OrderItem(Long id, Integer quantity, Order order) {
+        super();
         this.id = id;
         this.quantity = quantity;
         this.order = order;

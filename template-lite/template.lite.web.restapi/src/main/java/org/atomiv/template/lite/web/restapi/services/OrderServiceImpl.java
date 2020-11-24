@@ -5,6 +5,7 @@ import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException
 import org.atomiv.template.lite.web.restapi.models.Customer;
 import org.atomiv.template.lite.web.restapi.models.Order;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
+import org.atomiv.template.lite.web.restapi.repositories.OrderItemRepository;
 import org.atomiv.template.lite.web.restapi.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
 
 
     @Override
@@ -51,6 +56,8 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException("Cannot find the customer with id " + order.getId());
         }
         existingOrder.get().setOrderAddress(order.getOrderAddress());
+        // TODO I had ths originally
+        existingOrder.get().setOrderItems(order.getOrderItems());
         return orderRepository.save(existingOrder.get());
     }
 
