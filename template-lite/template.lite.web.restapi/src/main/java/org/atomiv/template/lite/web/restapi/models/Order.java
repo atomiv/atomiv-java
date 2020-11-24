@@ -1,6 +1,7 @@
 package org.atomiv.template.lite.web.restapi.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -50,18 +51,38 @@ public class Order {
 //    @ManyToOne
 //    private Customer customer;
     // ----------------------------------------------
-    @ManyToOne
+
+
+    // Many Orders have One Customer ... i.e. ONE customer has MANY orders
+    // @JsonManagedReference // nothing happens
+    // @JsonBackReference // Customer not shown in Order
+    @ManyToOne()
+    @JsonIgnore // Customer not shown in Order
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
 
 
+    // ONE order has Many orderItems
     // TODO i had this originally
+    // why doesn't mappedBy "orders" work???
     @OneToMany(mappedBy = "order")
 //    // @OrderBy("id ASC")
     private List<OrderItem> orderItems = new ArrayList<>();
 //    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 
+
+    // TODO JC - does this stop the loop??
+//    @ManyToMany(mappedBy = "orders")
+//    @JsonIgnore
+//    private Customer customer;
+
+
+
+    // TODO will this work?
+//    @ManyToMany(mappedBy = "addresses")
+//    @JsonIgnore
+//    private List<Customer> customers;
 
 
     // @OneToMany(cascade=CascadeType.ALL, mappedBy="customOrder")
@@ -91,12 +112,19 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, String orderAddress, Customer customer) {
+//    public Order(Long id, String orderAddress, Customer customer) {
+//        this.id = id;
+//        this.orderAddress = orderAddress;
+//        this.customer = customer;
+//    }
+
+
+    public Order(Long id, String orderAddress, Customer customer, List<OrderItem> orderItems) {
         this.id = id;
         this.orderAddress = orderAddress;
         this.customer = customer;
+        this.orderItems = orderItems;
     }
-
 
     public Long getId() {
         return id;
@@ -130,9 +158,7 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-
-
-//    @Override
+    //    @Override
 //    public String toString() {
 //        return "Order [orderId=" + id + ", orderAddress=" + orderAddress  + "]";
 //    }

@@ -1,12 +1,15 @@
 package org.atomiv.template.lite.web.restapi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class Customer {
     @Column(name = "customer_id")
     private Long id;
 
+    @NotEmpty(message = "Please fill in the customer name.")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
@@ -39,6 +43,7 @@ public class Customer {
     private List<Address> addresses;
 
 
+
     // Relationships -----------------------------------------
 
     // have this for orders. cascade = CascadeType.ALL
@@ -47,6 +52,22 @@ public class Customer {
 //    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 //    @JsonManagedReference
 //    private List<Order> orderList;
+
+    // TODO why is this not working?
+    //@JsonBackReference
+    // @JsonIgnore // orders not shown for customer
+    @ManyToMany
+    @JoinTable(
+            name = "customer_orders",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
+    private List<Order> orders;
+
+    // java-demo
+//    @ManyToMany (mappedBy = "customers")
+//    @JsonIgnore
+//    private List<Order> orders;
 
 
 
@@ -76,13 +97,13 @@ public class Customer {
 //    }
 
 
-    public Customer(Long id, String firstName, String lastName, List<Address> addresses) {
+    public Customer(Long id, String firstName, String lastName, List<Address> addresses, List<Order> orders) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.addresses = addresses;
+        this.orders = orders;
     }
-
 
     public Long getId() {
         return id;
@@ -114,6 +135,14 @@ public class Customer {
 
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     // I suggest you make use of your IDE's features to generate the toString method. Don't hand-code it
