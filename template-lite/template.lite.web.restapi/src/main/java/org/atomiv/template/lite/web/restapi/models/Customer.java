@@ -43,14 +43,22 @@ public class Customer {
     // TODO why is this not working?
     //@JsonBackReference
     // @JsonIgnore // orders not shown for customer
-    // @ManyToMany
-    @ManyToMany
-    @JoinTable(
-            name = "customer_orders",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id")
-    )
+
+
+    @OneToMany(mappedBy = "customer")
     private List<Order> orders;
+
+    // TODO works jelena
+//    @OneToMany
+//    @JoinTable(
+//            name = "customer_orders",
+//            joinColumns = @JoinColumn(name = "customer_id"),
+//            inverseJoinColumns = @JoinColumn(name = "order_id")
+//    )
+//    private List<Order> orders;
+
+
+
 
     // java-demo
 //    @ManyToMany (mappedBy = "customers")

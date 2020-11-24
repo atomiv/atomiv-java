@@ -54,9 +54,10 @@ public class Order {
     // ----------------------------------------------
 
 
+    // @JoinColumn(name="cart_id", nullable=false)
     // Many Orders have One Customer ... i.e. ONE customer has MANY orders
     // @JsonManagedReference // nothing happens
-    // @JsonBackReference // Customer not shown in Order
+    //@JsonBackReference // Customer not shown in Order
     @ManyToOne()
     @JsonIgnore // Customer not shown in Order
     @JoinColumn(name = "customer_id")
