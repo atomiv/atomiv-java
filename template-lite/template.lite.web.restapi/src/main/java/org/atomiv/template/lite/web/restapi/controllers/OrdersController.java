@@ -1,8 +1,6 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
-import org.atomiv.template.lite.web.restapi.models.Address;
-import org.atomiv.template.lite.web.restapi.models.Customer;
 import org.atomiv.template.lite.web.restapi.models.Order;
 import org.atomiv.template.lite.web.restapi.services.CustomerService;
 import org.atomiv.template.lite.web.restapi.services.OrderService;

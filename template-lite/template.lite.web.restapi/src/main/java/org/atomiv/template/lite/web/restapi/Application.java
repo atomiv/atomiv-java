@@ -13,7 +13,7 @@ public class Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
-		System.out.println("customer");
+		System.out.println("success");
 //		String customer = "hello";
 //		System.out.println(customer);
 //      System.out.println("" + customers.toString());

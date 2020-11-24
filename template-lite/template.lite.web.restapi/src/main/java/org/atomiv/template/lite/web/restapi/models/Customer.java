@@ -1,16 +1,9 @@
 package org.atomiv.template.lite.web.restapi.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.aspectj.weaver.ast.Or;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,13 +27,7 @@ public class Customer {
     private String lastName;
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "customer_addresses",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "address_id")
-    )
-    private List<Address> addresses;
+
 
 
 
@@ -56,6 +43,7 @@ public class Customer {
     // TODO why is this not working?
     //@JsonBackReference
     // @JsonIgnore // orders not shown for customer
+    // @ManyToMany
     @ManyToMany
     @JoinTable(
             name = "customer_orders",
@@ -97,13 +85,13 @@ public class Customer {
 //    }
 
 
-    public Customer(Long id, String firstName, String lastName, List<Address> addresses, List<Order> orders) {
+    public Customer(Long id, @NotEmpty(message = "Please fill in the customer name.") String firstName, String lastName, List<Order> orders) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.addresses = addresses;
         this.orders = orders;
     }
+
 
     public Long getId() {
         return id;
@@ -127,14 +115,6 @@ public class Customer {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public List<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
     }
 
     public List<Order> getOrders() {

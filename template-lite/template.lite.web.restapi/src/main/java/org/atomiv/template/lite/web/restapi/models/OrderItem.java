@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "order_items")
@@ -26,15 +27,40 @@ public class OrderItem {
 
 
 
+//    @ManyToOne
+////    @JoinColumn(name = "product_id")
+//    @JoinTable(
+//            name = "order_item_products",
+//            joinColumns = @JoinColumn(name = "order_item_id"),
+//            inverseJoinColumns = @JoinColumn(name = "product_id")
+//    )
+////    private List<Product> products;
+//    private Product product;
+
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+
+
     public OrderItem() {
+
         super();
     }
 
-    public OrderItem(Long id, Integer quantity, Order order) {
-        super();
+    public OrderItem(Long id, Integer quantity, Order order, Product product) {
         this.id = id;
         this.quantity = quantity;
         this.order = order;
+        this.product = product;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Long getId() {
@@ -60,6 +86,14 @@ public class OrderItem {
     public void setOrder(Order order) {
         this.order = order;
     }
+
+//    public Product getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(Product product) {
+//        this.product = product;
+//    }
 
     //@Override
     //	public String toString() {

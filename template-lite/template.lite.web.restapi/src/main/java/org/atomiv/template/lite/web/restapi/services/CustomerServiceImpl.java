@@ -98,7 +98,6 @@ public class CustomerServiceImpl implements CustomerService {
         if(existingCustomer.isEmpty()) {
             throw new RuntimeException("Cannot find the customer with id " + customer.getId());
         }
-        existingCustomer.get().setAddresses(customer.getAddresses());
         existingCustomer.get().setFirstName(customer.getFirstName());
         existingCustomer.get().setLastName(customer.getLastName());
         return customerRepository.save(existingCustomer.get());

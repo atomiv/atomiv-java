@@ -26,6 +26,7 @@ public class Order {
     @Column(name = "order_address")
     private String orderAddress;
 
+
 //    @Column(name = "date_order")
 //    private Date dateOrder;
 //
@@ -77,9 +78,6 @@ public class Order {
 //    @JsonIgnore
 //    private Customer customer;
 
-
-
-    // TODO will this work?
 //    @ManyToMany(mappedBy = "addresses")
 //    @JsonIgnore
 //    private List<Customer> customers;
@@ -117,7 +115,6 @@ public class Order {
 //        this.orderAddress = orderAddress;
 //        this.customer = customer;
 //    }
-
 
     public Order(Long id, String orderAddress, Customer customer, List<OrderItem> orderItems) {
         this.id = id;
@@ -157,6 +154,7 @@ public class Order {
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
+
 
     //    @Override
 //    public String toString() {

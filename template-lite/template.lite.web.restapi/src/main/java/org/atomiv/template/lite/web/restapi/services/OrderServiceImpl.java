@@ -58,13 +58,18 @@ public class OrderServiceImpl implements OrderService {
         existingOrder.get().setOrderAddress(order.getOrderAddress());
         // TODO I had ths originally
         existingOrder.get().setOrderItems(order.getOrderItems());
+        // products
+        // existingCustomer.get().setAddresses(customer.getAddresses());
+        // TODO ???? JCC where does this go? it should be in updateOrderItem
+//        existingOrder.get().setProducts(order.getProducts());
         return orderRepository.save(existingOrder.get());
     }
 
 
 
 
-    @Override
+
+        @Override
     public void deleteOrderById(long id) {
         orderRepository.deleteById(id);
     }
