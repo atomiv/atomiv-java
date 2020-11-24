@@ -20,10 +20,15 @@ public class OrderItem {
 
     //@ManyToOne(cascade = CascadeType.ALL)
     //private CustomOrder customOrder;
-    @JsonBackReference
+    @JsonBackReference // needed otherwise there's an error
     @ManyToOne
+    // is the line below even necessary?? yes, or order items don't show
     @JoinColumn(name = "order_id") // is @JoinColumn needed? ... name = "order_id" ... name="id"
     private Order order;
+
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //    @JoinColumn(name = "fk_order")
+    //    private PurchaseOrder order;
 
 
 

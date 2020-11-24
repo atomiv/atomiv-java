@@ -58,7 +58,8 @@ public class Order {
     // Many Orders have One Customer ... i.e. ONE customer has MANY orders
     // @JsonManagedReference // nothing happens
     //@JsonBackReference // Customer not shown in Order
-    @ManyToOne()
+    // @ManyToOne()
+    @OneToOne()
     @JsonIgnore // Customer not shown in Order
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -68,10 +69,26 @@ public class Order {
     // ONE order has Many orderItems
     // TODO i had this originally
     // why doesn't mappedBy "orders" work???
+    // cascade = CascadeType.ALL,
     @OneToMany(mappedBy = "order")
 //    // @OrderBy("id ASC")
     private List<OrderItem> orderItems = new ArrayList<>();
 //    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
+
+
+//    option1:
+//    @OneToMany(mappedBy = "order")
+//    private List<OrderItem> orderItems = new ArrayList<>();
+//    option 2:
+//    @OneToMany()
+//    @JoinColumn(name = "order_id")
+//    private List<OrderItem> orderItems = new ArrayList<>();
+
+
+    //@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "roles")
+    //public Set<User> getUsers() {
+    //    return users;
+    //}
 
 
     // TODO JC - does this stop the loop??
