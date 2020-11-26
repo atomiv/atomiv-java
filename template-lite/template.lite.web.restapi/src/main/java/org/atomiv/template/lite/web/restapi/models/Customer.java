@@ -17,7 +17,8 @@ import java.util.Set;
 @Table(name = "customers")
 // prevent serialization error when GET sessions/2 in postman
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Customer implements Serializable {
+///implements Serializable
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
@@ -31,10 +32,8 @@ public class Customer implements Serializable {
     private String lastName;
 
 
-
-    //@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     //private final Set<Address> addresses = new HashSet<Address>();
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)//(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL, orphanRemoval = true)
     //@JoinColumn(name = "address_id")
 //    @PrimaryKeyJoinColumn //?
     private List<Address> addresses;
@@ -49,8 +48,6 @@ public class Customer implements Serializable {
 
 
 
-
-    // maybe shippingAddress. User + Address
 //    @ManyToOne(fetch=FetchType.EAGER, optional=true, cascade=CascadeType.ALL)
 //    @JoinColumn(name = "home_address_id")//fk_home_address
 //    @ManyToOne(cascade=CascadeType.ALL)
@@ -64,16 +61,7 @@ public class Customer implements Serializable {
     // have this for orders. cascade = CascadeType.ALL
     // have it as NONE
     // TODO JC
-//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private List<Order> orderList;
-
-    // TODO why is this not working?
-    //@JsonBackReference
     // @JsonIgnore // orders not shown for customer
-
-
-    //@OneToMany(mappedBy = "customer")
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
@@ -85,7 +73,6 @@ public class Customer implements Serializable {
 //            inverseJoinColumns = @JoinColumn(name = "order_id")
 //    )
 //    private List<Order> orders;
-
 
 
 
@@ -110,16 +97,6 @@ public class Customer implements Serializable {
 
     public Customer() {
     }
-
-
-
-    //    public Customer(Long id, String firstName, String lastName) {
-//        // TODO - why super()
-//        super();
-//        this.id = id;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//    }
 
 
 
@@ -218,31 +195,6 @@ public class Customer implements Serializable {
 //    }
 
     // ----------------------------------------------
-
-//    @Override
-//    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-//
-//        String requestUrl = request.getRequestURI();
-//        String name = requestUrl.substring("/people/".length());
-//
-//        Person person = DataStore.getInstance().getPerson(name);
-//
-//        if(person != null){
-//            String json = "{\n";
-//            json += "\"name\": " + JSONObject.quote(person.getName()) + ",\n";
-//            json += "\"about\": " + JSONObject.quote(person.getAbout()) + ",\n";
-//            json += "\"birthYear\": " + person.getBirthYear() + "\n";
-//            json += "}";
-//            response.getOutputStream().println(json);
-//        }
-//        else{
-//            //That person wasn't found, so return an empty JSON object. We could also return an error.
-//            response.getOutputStream().println("{}");
-//        }
-//    }
-
-//    --------------------------------------------------------
-
 //    @Override
 //    public String toString() {
 //        return new GsonBuilder().setPrettyPrinting().create().toJson(this);
@@ -272,18 +224,4 @@ public class Customer implements Serializable {
 //    }
 
 
-
-
-//    The above code outputs the following:
-//
-//    First name : Testing
-//    Last name : Tester
-//    Email : testing@tester.com
-//
-//    If we didn’t override the toString() method, the output would have been
-//
-//    io.devqa.tutorials.ToStringExample@60e53b93
-
-//
-// -----------------------------------------------------
 }

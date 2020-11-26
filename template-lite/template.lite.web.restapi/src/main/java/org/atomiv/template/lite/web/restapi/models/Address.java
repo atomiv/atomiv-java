@@ -8,8 +8,8 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "addresses")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Address implements Serializable {
+///implements Serializable
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class Address implements Serializable {
 
 //    @JsonBackReference // doesn't show customer: null field, but it's still empty
 //    @ManyToOne(cascade = CascadeType.ALL)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     // i think it only started doing the id properly and showing up in pgAdmin after @MapsId
     // but orderItems use @JoinColumn...
 //    @MapsId("customer_id")
