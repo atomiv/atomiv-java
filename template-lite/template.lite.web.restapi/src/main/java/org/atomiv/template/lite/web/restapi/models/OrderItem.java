@@ -43,7 +43,7 @@ public class OrderItem implements Serializable {
 ////    private List<Product> products;
 //    private Product product;
 
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "product_id")
     private Product product;
 

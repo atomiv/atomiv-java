@@ -60,7 +60,10 @@ public class Order implements Serializable {
     // @JsonManagedReference // nothing happens
     //@JsonBackReference // Customer not shown in Order
     // @ManyToOne()
-    @OneToOne()
+    //@OnDelete(action = OnDeleteAction.CASCADE)
+    //@JoinColumn(name = "user_id", nullable = false)
+    // TODO: is ist meant to be Many??
+    @ManyToOne()
     @JsonIgnore // Customer not shown in Order
     @JoinColumn(name = "customer_id")
     private Customer customer;
