@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "order_items")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class OrderItem {
+public class OrderItem implements Serializable {
     @Id
     // necessary? line below
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -20,8 +21,8 @@ public class OrderItem {
 
     //@ManyToOne(cascade = CascadeType.ALL)
     //private CustomOrder customOrder;
-    @JsonBackReference // needed otherwise there's an error
-    @ManyToOne
+    //@JsonBackReference // needed otherwise there's an error. NOT ANYMORE??
+    @ManyToOne(cascade = CascadeType.ALL)
     // is the line below even necessary?? yes, or order items don't show
     @JoinColumn(name = "order_id")
     private Order order;
@@ -42,7 +43,7 @@ public class OrderItem {
 ////    private List<Product> products;
 //    private Product product;
 
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "product_id")
     private Product product;
 

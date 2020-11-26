@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.Set;
 @Table(name = "orders")
 // TODO : needed everywhere?
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Order {
+public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,16 +67,11 @@ public class Order {
 
 
 
-    // ONE order has Many orderItems
-    // TODO i had this originally
-    // why doesn't mappedBy "orders" work???
-    // cascade = CascadeType.ALL,
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 //    // @OrderBy("id ASC")
     // WORKS BELOW
 //     private List<OrderItem> orderItems = new ArrayList<OrderItem>();
     // private Set<OrderLineItem> orderLineItems = new HashSet<>();
-//    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
     //private List<OrderItem> orderItems = new ArrayList<>();
     private List<OrderItem> orderItems;
 
