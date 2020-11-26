@@ -24,7 +24,7 @@ public class Address implements Serializable {
 
 //    @JsonBackReference // doesn't show customer: null field, but it's still empty
 //    @ManyToOne(cascade = CascadeType.ALL)
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     // i think it only started doing the id properly and showing up in pgAdmin after @MapsId
     // but orderItems use @JoinColumn...
 //    @MapsId("customer_id")

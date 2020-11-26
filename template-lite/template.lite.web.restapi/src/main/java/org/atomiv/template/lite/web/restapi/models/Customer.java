@@ -73,7 +73,8 @@ public class Customer implements Serializable {
     // @JsonIgnore // orders not shown for customer
 
 
-    @OneToMany(mappedBy = "customer")
+    //@OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
     // TODO works jelena
@@ -127,6 +128,13 @@ public class Customer implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.orders = orders;
+    }
+
+
+    //And always call addEmailAddress() to add an email for a customer. You can apply the same idea for updating an email address for a customer.
+    private void addAddress(Address address) {
+        this.addresses.add(address);
+        address.setCustomer(this);
     }
 
 //    public HomeAddress getHomeAddress() {
