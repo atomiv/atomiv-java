@@ -2,6 +2,7 @@ package org.atomiv.template.lite.web.restapi.services;
 
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
+import org.atomiv.template.lite.web.restapi.models.Address;
 import org.atomiv.template.lite.web.restapi.models.Customer;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer createCustomer(Customer customer) {
         //logger.debug("save->customer:"+customer);
+        //customer.getAddresses();
+        //order.getOrderItems().add(orderItem);
         return customerRepository.save(customer);
     }
 
@@ -250,4 +253,20 @@ public class CustomerServiceImpl implements CustomerService {
 //public class ErrorMessage {
 //    private int statusCode;
 //    private String errorMessage;
+//}
+
+//--------------------------
+//@PutMapping("/students/{id}")
+//public ResponseEntity<Object> updateStudent(@RequestBody Student student, @PathVariable long id) {
+//
+//	Optional<Student> studentOptional = studentRepository.findById(id);
+//
+//	if (!studentOptional.isPresent())
+//		return ResponseEntity.notFound().build();
+//
+//	student.setId(id);
+//
+//	studentRepository.save(student);
+//
+//	return ResponseEntity.noContent().build();
 //}

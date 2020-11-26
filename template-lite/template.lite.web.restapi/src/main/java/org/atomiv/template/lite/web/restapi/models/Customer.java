@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The type Customer
@@ -27,6 +30,22 @@ public class Customer {
     private String lastName;
 
 
+
+    //@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    //private final Set<Address> addresses = new HashSet<Address>();
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)//(mappedBy = "customer")
+    //@JoinColumn(name = "address_id")
+    private List<Address> addresses;
+
+
+
+
+
+    // maybe shippingAddress. User + Address
+//    @ManyToOne(fetch=FetchType.EAGER, optional=true, cascade=CascadeType.ALL)
+//    @JoinColumn(name = "home_address_id")//fk_home_address
+//    @ManyToOne(cascade=CascadeType.ALL)
+//    private HomeAddress homeAddress;
 
 
 
@@ -93,12 +112,39 @@ public class Customer {
 //    }
 
 
-    public Customer(Long id, @NotEmpty(message = "Please fill in the customer name.") String firstName, String lastName, List<Order> orders) {
+
+    public Customer(Long id, @NotEmpty(message = "Please fill in the customer name.") String firstName, String lastName, List<Address> addresses, List<Order> orders) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.orders = orders;
     }
+
+//    public HomeAddress getHomeAddress() {
+//        return homeAddress;
+//    }
+//
+//    public void setHomeAddress(HomeAddress homeAddress) {
+//        this.homeAddress = homeAddress;
+//    }
+
+    public Customer(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    //    public void addAddress(Address address) {
+//        address.setCustomer(this);
+//        this.addresses.add(address);
+//    }
+
 
 
     public Long getId() {

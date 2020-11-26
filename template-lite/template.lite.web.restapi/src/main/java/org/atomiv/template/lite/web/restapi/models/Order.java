@@ -72,8 +72,12 @@ public class Order {
     // cascade = CascadeType.ALL,
     @OneToMany(mappedBy = "order")
 //    // @OrderBy("id ASC")
-    private List<OrderItem> orderItems = new ArrayList<>();
+    // WORKS BELOW
+//     private List<OrderItem> orderItems = new ArrayList<OrderItem>();
+    // private Set<OrderLineItem> orderLineItems = new HashSet<>();
 //    private List<OrderItem> orderItems = new ArrayList<OrderItem>();
+    //private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItem> orderItems;
 
 
 //    option1:
@@ -134,6 +138,8 @@ public class Order {
 //        this.customer = customer;
 //    }
 
+
+
     public Order(Long id, String orderAddress, Customer customer, List<OrderItem> orderItems) {
         this.id = id;
         this.orderAddress = orderAddress;
@@ -172,6 +178,20 @@ public class Order {
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
+
+
+    // scaffolding code
+//    public void addOrderItem(OrderItem orderItem) {
+//        this.orderItems.add(orderItem);
+//        orderItem.setOrder(this);
+//    }
+
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+    }
+
+
+
 
 
     //    @Override

@@ -19,11 +19,9 @@ public class OrdersController {
 
     private OrderService orderService;
 
+    // TODO remove
     private CustomerService customerService;
 
-
-//    @Autowired
-//    private OrderItemService orderItemService;
 
     @Autowired
     public void setCustomerService(CustomerService customerService) {
@@ -35,9 +33,6 @@ public class OrdersController {
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
     }
-
-
-
 
 
 
@@ -65,18 +60,19 @@ public class OrdersController {
     @PostMapping(path = "")
     public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order)
     {
-        return new ResponseEntity<Order>(orderService.createOrder(order), HttpStatus.OK);
+        var newOrder = orderService.createOrder(order);
+        return new ResponseEntity<Order>(newOrder, HttpStatus.OK);
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable(value = "id") Long id, @Valid @RequestBody Order order)
     {
         return new ResponseEntity<Order>(orderService.updateOrder(order), HttpStatus.OK);
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public void deleteOrder(@PathVariable Long id) {
         orderService.deleteOrderById(id);
     }

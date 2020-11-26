@@ -17,6 +17,9 @@ public interface CustomerService {
     //
     List<Customer> findByFirstName(String firstName);
 
+    //
+    // Long count();
+
     // POST
     Customer createCustomer(Customer customer);
 

@@ -4,6 +4,7 @@ import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException
 import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.Customer;
 import org.atomiv.template.lite.web.restapi.models.Order;
+import org.atomiv.template.lite.web.restapi.models.OrderItem;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.atomiv.template.lite.web.restapi.repositories.OrderItemRepository;
 import org.atomiv.template.lite.web.restapi.repositories.OrderRepository;
@@ -19,6 +20,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+
+    // below not needed i think
     @Autowired
     private OrderItemRepository orderItemRepository;
 
@@ -26,6 +29,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAllOrders() {
+//data-examples-master
+
+        //sorting-master --> tutorials
+        // List<Tutorial> tutorials = tutorialRepository.findAll(Sort.by(orders));
         return (List<Order>) orderRepository.findAll();
     }
 
@@ -43,7 +50,77 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order createOrder(Order order) {
-        return orderRepository.save(order);
+    //        for (OrderItem orderItem : order.getOrderItems()) {
+        //            orderItem.setOrder(order);
+        //        }
+        //-------------------------------
+//        for (OrderItem orderItem : order.getOrderItems()) {
+////            orderItem.setOrder(order);
+//
+//            order.getOrderItems().add(orderItem);
+//        }
+        //orderItems.add(orderItem);
+        //order.addOrderItem(orderItem);
+          return orderRepository.save(order);
+
+//        for(OrderItem orderItem : order.getOrderItems()) {
+////            orderItem.setQuantity(orderItem.getQuantity());
+////            orderItem.setId(orderItem.getId());
+////            orderItem.setProduct(orderItem.getProduct());
+////            orderItem.setOrder(orderItem.getOrder());
+//
+////            orderItem.setOrder(order);
+////            orderItem.setOrder(order);
+////            orderRepository.save(order);
+//
+//            orderItemRepository.save(orderItem);
+//        }
+//
+//        return orderRepository.save(order);
+//---------------------------
+        //OrderItem orderItem = new OrderItem();
+        //orderItem.setQuantity(orderItem.getQuantity());
+
+//-------------------------
+//        List<OrderItem> orderItems = order.getOrderItems();
+//
+//        for (OrderItem orderItem : orderItems) {
+//            orderItem.setOrder(orderItem.setQuantity());
+//        }
+//---------------------------
+//        for (OrderItem orderItem : order.getOrderItems()) {
+//            orderItem.setOrder(order);
+//            //orderRepository.save(orderItem);
+//            order.getOrderItems().add(orderItem);
+//        }
+//        return orderRepository.save(order);
+//---------------------------------
+
+
+//        Order savedOrder = orderRepository.save(order);
+//        return savedOrder;
+//
+// -----------------------------------
+
+//        Order newOrder = new Order();
+//        newOrder.setOrderAddress(new String());
+//
+//        order.getOrderItems()
+//                .forEach(orderItem -> {
+//                    OrderItem orderItem1 = new OrderItem();
+//                    orderItem1.setId(orderItem.getId());
+//
+//                    orderItem1.setOrder(newOrder);
+//                    orderItem1.setQuantity(orderItem.getQuantity());
+//
+//                    newOrder.getOrderItems().add(orderItem);
+//                });
+//
+//
+//        return orderRepository.save(newOrder);
+
+
+
     }
 
 
@@ -56,11 +133,9 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException("Cannot find the customer with id " + order.getId());
         }
         existingOrder.get().setOrderAddress(order.getOrderAddress());
-        // TODO I had ths originally
         existingOrder.get().setOrderItems(order.getOrderItems());
         // products
         // existingCustomer.get().setAddresses(customer.getAddresses());
-        // TODO ???? JCC where does this go? it should be in updateOrderItem
 //        existingOrder.get().setProducts(order.getProducts());
         return orderRepository.save(existingOrder.get());
     }
