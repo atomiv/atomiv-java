@@ -1,10 +1,15 @@
 package org.atomiv.template.lite.web.restapi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "addresses")
-public class Address {
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +22,14 @@ public class Address {
 
 
 
-
+//    @JsonBackReference // doesn't show customer: null field, but it's still empty
+//    @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne()
     // i think it only started doing the id properly and showing up in pgAdmin after @MapsId
-    @MapsId("customer_id")
-//    @JoinColumn("customer_id")
+    // but orderItems use @JoinColumn...
+//    @MapsId("customer_id")
+//    @MapsId //?
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
 

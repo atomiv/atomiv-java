@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,8 +16,8 @@ import java.util.Set;
 @Entity
 @Table(name = "customers")
 // prevent serialization error when GET sessions/2 in postman
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Customer {
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
@@ -35,7 +36,15 @@ public class Customer {
     //private final Set<Address> addresses = new HashSet<Address>();
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)//(mappedBy = "customer")
     //@JoinColumn(name = "address_id")
+//    @PrimaryKeyJoinColumn //?
     private List<Address> addresses;
+
+//    @OneToMany
+//    @JoinTable(name = "cust_address",
+//    joinColumns = {@JoinColumn(name = "customer_id")},
+//    inverseJoinColumns = {@JoinColumn(name = "address_id")})
+//
+//    private List<Address> addresses;
 
 
 

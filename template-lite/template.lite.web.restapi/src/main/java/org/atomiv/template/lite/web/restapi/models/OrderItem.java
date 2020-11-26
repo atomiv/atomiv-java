@@ -23,7 +23,7 @@ public class OrderItem {
     @JsonBackReference // needed otherwise there's an error
     @ManyToOne
     // is the line below even necessary?? yes, or order items don't show
-    @JoinColumn(name = "order_id") // is @JoinColumn needed? ... name = "order_id" ... name="id"
+    @JoinColumn(name = "order_id")
     private Order order;
 
     //@ManyToOne(fetch = FetchType.LAZY)

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * The interface Customer Repository
  */
-// JPA Data Repository Layer
+// JPA Data Repository Layer or CRUD
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
     public List<Customer> findByFirstName(String firstName);
