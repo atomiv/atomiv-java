@@ -46,11 +46,14 @@ public class Customer {
 //    private List<Address> addresses;
 
 
-
-
 //    @ManyToOne(fetch=FetchType.EAGER, optional=true, cascade=CascadeType.ALL)
 //    @JoinColumn(name = "home_address_id")//fk_home_address
 //    @ManyToOne(cascade=CascadeType.ALL)
+//    private HomeAddress homeAddress;
+
+    //JC
+//    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+//    @JoinColumn//(name = "home_address_id")
 //    private HomeAddress homeAddress;
 
 

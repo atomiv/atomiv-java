@@ -13,19 +13,26 @@ public class HomeAddress {
 //    @ManyToOne
 //    private Customer customer;
 
+    //JC - only one references
+//    @OneToOne
+//    @JoinColumn(name = "customer_id")
+//    private Customer customer;
+
+
+
     public HomeAddress() {
     }
 
-    public HomeAddress(Long id, String city) {
+    public HomeAddress(Long id, String city, Customer customer) {
         this.id = id;
         this.city = city;
+//        this.customer = customer;
     }
 
-
 //    public Customer getCustomer() {
-//        return customer;
+////        return customer;
 //    }
-//
+
 //    public void setCustomer(Customer customer) {
 //        this.customer = customer;
 //    }

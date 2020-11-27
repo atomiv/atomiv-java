@@ -50,9 +50,6 @@ public class Order implements Serializable {
 //    @JsonManagedReference(value = "order") // stop serialization
 //    private List<OrderItem> orderItems;
     //----------------------------------------------------------
-//    @ManyToOne
-//    private Customer customer;
-    // ----------------------------------------------
 
 
     // @JoinColumn(name="cart_id", nullable=false)

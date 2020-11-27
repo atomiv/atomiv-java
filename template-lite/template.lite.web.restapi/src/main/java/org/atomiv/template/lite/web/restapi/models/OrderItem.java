@@ -22,7 +22,7 @@ public class OrderItem implements Serializable {
     //@ManyToOne(cascade = CascadeType.ALL)
     //private CustomOrder customOrder;
     //@JsonBackReference // needed otherwise there's an error. NOT ANYMORE??
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     // is the line below even necessary?? yes, or order items don't show
     @JoinColumn(name = "order_id")
     private Order order;
