@@ -21,7 +21,6 @@ public class Address {
 
 
 
-    //@JsonBackReference // doesn't show customer: null field, but it's still empty
 //    @ManyToOne(cascade = CascadeType.ALL) - Cascade not needed
     @JsonBackReference
     @ManyToOne(optional = false)

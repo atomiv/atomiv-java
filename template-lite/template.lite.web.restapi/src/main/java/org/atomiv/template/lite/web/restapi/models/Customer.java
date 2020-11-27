@@ -101,18 +101,38 @@ public class Customer {
 //    private String createdBy;
 
 
+
+
+//TODO
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@JoinColumn(name = "up_id", nullable = false)
+//    private UserProfile userProfile;
+
+
+    //@JoinColumn(
+    //        name="CUSTREC_ID", unique=true, nullable=false, updatable=false)
+//    @OneToOne(optional=false)
+//    @JoinColumn(name = "home_address_id")
+//    private HomeAddress homeAddress;
+
+    // cascade = CascadeType.ALL
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    private HomeAddress homeAddress;
+
+
+
     public Customer() {
     }
 
 
-
-    public Customer(Long id, @NotEmpty(message = "Please fill in the customer name.") String firstName, String lastName, List<Address> addresses, List<Order> orders) {
+    public Customer(Long id, @NotEmpty(message = "Please fill in the customer name.") String firstName, String lastName, List<Address> addresses, List<Order> orders, HomeAddress homeAddress) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.addresses = addresses;
         this.orders = orders;
+        this.homeAddress = homeAddress;
     }
-
 
     //And always call addEmailAddress() to add an email for a customer. You can apply the same idea for updating an email address for a customer.
     private void addAddress(Address address) {
@@ -127,6 +147,15 @@ public class Customer {
 //    public void setHomeAddress(HomeAddress homeAddress) {
 //        this.homeAddress = homeAddress;
 //    }
+
+
+    public HomeAddress getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(HomeAddress homeAddress) {
+        this.homeAddress = homeAddress;
+    }
 
     public Customer(List<Order> orders) {
         this.orders = orders;
