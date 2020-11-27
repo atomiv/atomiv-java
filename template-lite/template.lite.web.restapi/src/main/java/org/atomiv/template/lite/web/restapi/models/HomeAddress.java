@@ -2,20 +2,26 @@ package org.atomiv.template.lite.web.restapi.models;
 
 import javax.persistence.*;
 
-@Entity
+@Entity//(name = "HomeAddress")
+@Table(name = "home_address")
+
 public class HomeAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "home_address_id")
     private Long id;
+
     private String city;
 
-//    @ManyToOne
-//    private Customer customer;
 
-    //JC - only one references
-//    @OneToOne
+    //Most often, this relationship is mapped as follows:
+//    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "customer_id")
+//    private Customer customer;
+    //The best way to map a @OneToOne relationship is to use @MapsId. This way, you don’t even need a bidirectional association since you can always fetch the PostDetails entity by using the Post entity identifier.
+
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @MapsId
 //    private Customer customer;
 
 
@@ -29,9 +35,9 @@ public class HomeAddress {
     }
 
 //    public Customer getCustomer() {
-////        return customer;
+//        return customer;
 //    }
-
+//
 //    public void setCustomer(Customer customer) {
 //        this.customer = customer;
 //    }

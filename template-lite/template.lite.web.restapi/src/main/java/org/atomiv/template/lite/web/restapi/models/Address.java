@@ -21,16 +21,17 @@ public class Address {
 
 
 
-//    @JsonBackReference // doesn't show customer: null field, but it's still empty
-//    @ManyToOne(cascade = CascadeType.ALL)
-    @ManyToOne()
+    //@JsonBackReference // doesn't show customer: null field, but it's still empty
+//    @ManyToOne(cascade = CascadeType.ALL) - Cascade not needed
+    @JsonBackReference
+    @ManyToOne(optional = false)
 //    @MapsId("customer_id") //generated id... @MapsId //
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
 
-
-
+    public Address() {
+    }
 
     public Address(Long id, String city, Customer customer) {
         this.id = id;

@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * The type Customer
  */
-@Entity
+@Entity//(name = "Customers")
 @Table(name = "customers")
 // prevent serialization error when GET sessions/2 in postman
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -51,8 +51,9 @@ public class Customer {
 //    @ManyToOne(cascade=CascadeType.ALL)
 //    private HomeAddress homeAddress;
 
-    //JC
-//    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    //However, this mapping is not the most efficient, as further demonstrated.
+    //he post_details Primary Key is also a Foreign Key, and the two tables are sharing their PKs as well
+//    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn//(name = "home_address_id")
 //    private HomeAddress homeAddress;
 
@@ -67,6 +68,8 @@ public class Customer {
     // @JsonIgnore // orders not shown for customer
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
+
+
 
     // TODO works jelena
 //    @OneToMany
