@@ -12,7 +12,6 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class OrderItem implements Serializable {
     @Id
-    // necessary? line below
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "order_item_id")
     private Long id;
@@ -20,16 +19,13 @@ public class OrderItem implements Serializable {
     private Integer quantity;
 
     //@ManyToOne(cascade = CascadeType.ALL)
-    //private CustomOrder customOrder;
-    //@JsonBackReference // needed otherwise there's an error. NOT ANYMORE??
+    //@ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference // needed otherwise there's an error.
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     // is the line below even necessary?? yes, or order items don't show
     @JoinColumn(name = "order_id")
+    // @JoinColumn(name = "fk_order")
     private Order order;
-
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //    @JoinColumn(name = "fk_order")
-    //    private PurchaseOrder order;
 
 
 
@@ -42,6 +38,7 @@ public class OrderItem implements Serializable {
 //    )
 ////    private List<Product> products;
 //    private Product product;
+
 
     @ManyToOne()
     @JoinColumn(name = "product_id")

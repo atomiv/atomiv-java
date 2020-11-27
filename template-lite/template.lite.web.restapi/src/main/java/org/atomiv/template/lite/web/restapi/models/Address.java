@@ -16,7 +16,6 @@ public class Address {
     @Column(name = "address_id")
     private Long id;
 
-
     //private String street;
     private String city;
 
@@ -25,10 +24,7 @@ public class Address {
 //    @JsonBackReference // doesn't show customer: null field, but it's still empty
 //    @ManyToOne(cascade = CascadeType.ALL)
     @ManyToOne()
-    // i think it only started doing the id properly and showing up in pgAdmin after @MapsId
-    // but orderItems use @JoinColumn...
-//    @MapsId("customer_id")
-//    @MapsId //?
+//    @MapsId("customer_id") //generated id... @MapsId //
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

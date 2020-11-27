@@ -53,13 +53,10 @@ public class Order implements Serializable {
 
 
     // @JoinColumn(name="cart_id", nullable=false)
-    // Many Orders have One Customer ... i.e. ONE customer has MANY orders
     // @JsonManagedReference // nothing happens
     //@JsonBackReference // Customer not shown in Order
-    // @ManyToOne()
     //@OnDelete(action = OnDeleteAction.CASCADE)
     //@JoinColumn(name = "user_id", nullable = false)
-    // TODO: is ist meant to be Many??
     @ManyToOne()
     @JsonIgnore // Customer not shown in Order
     @JoinColumn(name = "customer_id")
@@ -69,7 +66,6 @@ public class Order implements Serializable {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 //    // @OrderBy("id ASC")
-    // WORKS BELOW
 //     private List<OrderItem> orderItems = new ArrayList<OrderItem>();
     // private Set<OrderLineItem> orderLineItems = new HashSet<>();
     //private List<OrderItem> orderItems = new ArrayList<>();
