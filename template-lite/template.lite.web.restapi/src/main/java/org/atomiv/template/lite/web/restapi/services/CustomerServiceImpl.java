@@ -98,40 +98,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 
         // SET IHE VARIABLE
-        // save the customer? address?
-        //Basically you are calling a persist on this entity which have the variable description1 configured as nullable=false thus if you don't set this variable then JPA/hibernate will not let you save it to the database.
-
-
-
 
         HomeAddress homeAddress = customer.getHomeAddress();
         homeAddress.setCustomer(customer);
-
-
-//        customer.setHomeAddress(customer.getHomeAddress());
-
-
-//        customer.getHomeAddress(); // NOT NEEDED
-
-
-//        // foreach not applicable to type
-//        for (HomeAddress homeAddress : customer.getHomeAddress()) {
-//            homeAddress.setCustomer(customer);
-//        }
-
-//        customer.setHomeAddress(customer.getHomeAddress());
-
-//----------------
-//        HomeAddress homeAddress = new HomeAddress();
-//        homeAddress.setCustomer(customer);
-
-
-
-//        HomeAddress homeAddress = new HomeAddress();
-//        homeAddress.setCustomer(customer);
-//
-//        customer.setHomeAddress(homeAddress);
-
 
 
         return customerRepository.save(customer);

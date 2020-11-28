@@ -21,6 +21,18 @@ public class Product implements Serializable {
 //    //private List<Order> orders;
 //    private OrderItem orderItem;
 
+//    //TODO delete block of code above
+//    // TODO products table shouldn't have "order_item_id" column
+//    //@JsonBackReference
+//    @OneToOne(optional = false, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "order_item_id")
+//    private OrderItem orderItem;
+
+
+
+
+
+
 
     public Product() {
     }
@@ -29,14 +41,6 @@ public class Product implements Serializable {
         this.id = id;
         this.name = name;
     }
-
-//    public OrderItem getOrderItem() {
-//        return orderItem;
-//    }
-//
-//    public void setOrderItem(OrderItem orderItem) {
-//        this.orderItem = orderItem;
-//    }
 
     public Long getId() {
         return id;
@@ -53,5 +57,4 @@ public class Product implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
 }

@@ -40,15 +40,21 @@ public class OrderItem implements Serializable {
 //    private Product product;
 
 
-    @ManyToOne()
-    @JoinColumn(name = "product_id")
+//    @ManyToOne()
+//    @JoinColumn(name = "product_id")
+//    private Product product;
+
+//    //TODO JC delete block of code above
+//    @OneToOne(mappedBy = "orderItem", cascade = CascadeType.ALL)
+//    private Product product;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id")//--> replace @JoinColumn with @MapsId
     private Product product;
 
 
 
     public OrderItem() {
-
-        super();
     }
 
     public OrderItem(Long id, Integer quantity, Order order, Product product) {
@@ -90,13 +96,6 @@ public class OrderItem implements Serializable {
         this.product = product;
     }
 
-    //    public Product getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(Product product) {
-//        this.product = product;
-//    }
 
     //@Override
     //	public String toString() {
