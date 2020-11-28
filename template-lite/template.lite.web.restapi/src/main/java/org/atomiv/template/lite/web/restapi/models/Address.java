@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "addresses")
-///implements Serializable
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Address {
 
     @Id

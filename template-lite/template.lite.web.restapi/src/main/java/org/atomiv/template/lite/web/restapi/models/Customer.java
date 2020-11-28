@@ -1,5 +1,6 @@
 package org.atomiv.template.lite.web.restapi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -16,8 +17,7 @@ import java.util.Set;
 @Entity//(name = "Customers")
 @Table(name = "customers")
 // prevent serialization error when GET sessions/2 in postman
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-///implements Serializable
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,57 +34,15 @@ public class Customer {
 
     //private final Set<Address> addresses = new HashSet<Address>();
     @OneToMany(mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JoinColumn(name = "address_id")
-//    @PrimaryKeyJoinColumn //?
     private List<Address> addresses;
-
-//    @OneToMany
-//    @JoinTable(name = "cust_address",
-//    joinColumns = {@JoinColumn(name = "customer_id")},
-//    inverseJoinColumns = {@JoinColumn(name = "address_id")})
-//
-//    private List<Address> addresses;
-
-
-//    @ManyToOne(fetch=FetchType.EAGER, optional=true, cascade=CascadeType.ALL)
-//    @JoinColumn(name = "home_address_id")//fk_home_address
-//    @ManyToOne(cascade=CascadeType.ALL)
-//    private HomeAddress homeAddress;
-
-    //However, this mapping is not the most efficient, as further demonstrated.
-    //he post_details Primary Key is also a Foreign Key, and the two tables are sharing their PKs as well
-//    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn//(name = "home_address_id")
-//    private HomeAddress homeAddress;
-
 
 
 
     // Relationships -----------------------------------------
 
-    // have this for orders. cascade = CascadeType.ALL
-    // have it as NONE
-    // TODO JC
-    // @JsonIgnore // orders not shown for customer
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders;
-
-
-
-    // TODO works jelena
-//    @OneToMany
-//    @JoinTable(
-//            name = "customer_orders",
-//            joinColumns = @JoinColumn(name = "customer_id"),
-//            inverseJoinColumns = @JoinColumn(name = "order_id")
-//    )
-//    private List<Order> orders;
-
-
-
-    // java-demo
-//    @ManyToMany (mappedBy = "customers")
-//    @JsonIgnore
+    // TODO: show customer in order
+//    @JsonBackReference // not show orders in Customer, but show customer in orders
+//    @OneToMany(mappedBy = "customer", targetEntity = Order.class, cascade = CascadeType.ALL)
 //    private List<Order> orders;
 
 
@@ -103,17 +61,6 @@ public class Customer {
 
 
 
-//TODO
-//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@JoinColumn(name = "up_id", nullable = false)
-//    private UserProfile userProfile;
-
-
-    //@JoinColumn(
-    //        name="CUSTREC_ID", unique=true, nullable=false, updatable=false)
-//    @OneToOne(optional=false)
-//    @JoinColumn(name = "home_address_id")
-//    private HomeAddress homeAddress;
 
     // cascade = CascadeType.ALL
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
@@ -124,57 +71,14 @@ public class Customer {
     public Customer() {
     }
 
-
     public Customer(Long id, @NotEmpty(message = "Please fill in the customer name.") String firstName, String lastName, List<Address> addresses, List<Order> orders, HomeAddress homeAddress) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.addresses = addresses;
-        this.orders = orders;
+//        this.orders = orders;
         this.homeAddress = homeAddress;
     }
-
-    //And always call addEmailAddress() to add an email for a customer. You can apply the same idea for updating an email address for a customer.
-    private void addAddress(Address address) {
-        this.addresses.add(address);
-        address.setCustomer(this);
-    }
-
-//    public HomeAddress getHomeAddress() {
-//        return homeAddress;
-//    }
-//
-//    public void setHomeAddress(HomeAddress homeAddress) {
-//        this.homeAddress = homeAddress;
-//    }
-
-
-    public HomeAddress getHomeAddress() {
-        return homeAddress;
-    }
-
-    public void setHomeAddress(HomeAddress homeAddress) {
-        this.homeAddress = homeAddress;
-    }
-
-    public Customer(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public List<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
-    }
-
-    //    public void addAddress(Address address) {
-//        address.setCustomer(this);
-//        this.addresses.add(address);
-//    }
-
-
 
     public Long getId() {
         return id;
@@ -200,13 +104,44 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
+
+//    public List<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(List<Order> orders) {
+//        this.orders = orders;
+//    }
+
+    public HomeAddress getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(HomeAddress homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    //    //And always call addEmailAddress() to add an email for a customer. You can apply the same idea for updating an email address for a customer.
+//    private void addAddress(Address address) {
+//        this.addresses.add(address);
+//        address.setCustomer(this);
+//    }
+
+
+    //    public void addAddress(Address address) {
+//        address.setCustomer(this);
+//        this.addresses.add(address);
+//    }
+
+
+
 
     // I suggest you make use of your IDE's features to generate the toString method. Don't hand-code it
     // This is not good practice ,as you are using string concatenation

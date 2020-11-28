@@ -15,9 +15,8 @@ import java.util.Set;
 //@Data
 @Entity
 @Table(name = "orders")
-// TODO : needed everywhere?
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Order implements Serializable {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,34 +40,21 @@ public class Order implements Serializable {
 //    @JsonBackReference(value = "customer") // stop serialization
 //    private Customer customer;
 //
-//    // List of orderItems
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "order_item",
-//            joinColumns = @JoinColumn(name = "order_item_id"),
-//            inverseJoinColumns = @JoinColumn(name = "order_id"))
-//    @JsonManagedReference(value = "order") // stop serialization
-//    private List<OrderItem> orderItems;
     //----------------------------------------------------------
 
 
-    // @JoinColumn(name="cart_id", nullable=false)
-    // @JsonManagedReference // nothing happens
-    //@JsonBackReference // Customer not shown in Order
     //@OnDelete(action = OnDeleteAction.CASCADE)
     //@JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne()
-    @JsonIgnore // Customer not shown in Order
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    //@JsonBackReference // Customer not shown in Order
+//    TODO: show customer in order
+//    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+//    @JoinColumn(name = "customer_id")
+//    private Customer customer;
 
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 //    // @OrderBy("id ASC")
-//     private List<OrderItem> orderItems = new ArrayList<OrderItem>();
-    // private Set<OrderLineItem> orderLineItems = new HashSet<>();
-    //private List<OrderItem> orderItems = new ArrayList<>();
     private List<OrderItem> orderItems;
 
 
@@ -81,61 +67,14 @@ public class Order implements Serializable {
 //    private List<OrderItem> orderItems = new ArrayList<>();
 
 
-    //@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "roles")
-    //public Set<User> getUsers() {
-    //    return users;
-    //}
-
-
-    // TODO JC - does this stop the loop??
-//    @ManyToMany(mappedBy = "orders")
-//    @JsonIgnore
-//    private Customer customer;
-
-//    @ManyToMany(mappedBy = "addresses")
-//    @JsonIgnore
-//    private List<Customer> customers;
-
-
-    // @OneToMany(cascade=CascadeType.ALL, mappedBy="customOrder")
-    // @OneToMany(mappedBy = "order")
-    // @OneToMany(cascade = CascadeType.ALL)
-    //private List<OrderItem> orderItems = new ArrayList<OrderItem>();
-    // private List<OrderItem> orderItems = new ArrayList<>();
-
-    // private List<OrderItem> orderItems;
-    // List OR Set
-    //private Set<OrderItem> orderItems;
-    // private Set<Item> items = new HashSet<Item>();
-
-    // ------------------------------------
-    // TODO
-//    @ManyToOne
-//    @JoinColumn
-//    private Customer customer;
-
-    // -----------------------------------------------------------
-    //Повар
-//    @ManyToOne(fetch= FetchType.LAZY, cascade= CascadeType.ALL)
-//    @JsonBackReference(value = "cook") // Таким образом я предотвратил рекурсию
-//    private Cook cook;
-
 
     public Order() {
     }
 
-//    public Order(Long id, String orderAddress, Customer customer) {
-//        this.id = id;
-//        this.orderAddress = orderAddress;
-//        this.customer = customer;
-//    }
-
-
-
     public Order(Long id, String orderAddress, Customer customer, List<OrderItem> orderItems) {
         this.id = id;
         this.orderAddress = orderAddress;
-        this.customer = customer;
+//        this.customer = customer;
         this.orderItems = orderItems;
     }
 
@@ -155,13 +94,13 @@ public class Order implements Serializable {
         this.orderAddress = orderAddress;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
+//    public Customer getCustomer() {
+//        return customer;
+//    }
+//
+//    public void setCustomer(Customer customer) {
+//        this.customer = customer;
+//    }
 
     public List<OrderItem> getOrderItems() {
         return orderItems;
@@ -171,16 +110,15 @@ public class Order implements Serializable {
         this.orderItems = orderItems;
     }
 
-
     // scaffolding code
 //    public void addOrderItem(OrderItem orderItem) {
 //        this.orderItems.add(orderItem);
 //        orderItem.setOrder(this);
 //    }
 
-    public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
-    }
+//    public void addOrderItem(OrderItem orderItem) {
+//        orderItems.add(orderItem);
+//    }
 
 
 

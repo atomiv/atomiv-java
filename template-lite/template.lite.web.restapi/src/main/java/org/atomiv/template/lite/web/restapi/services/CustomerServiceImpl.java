@@ -2,10 +2,7 @@ package org.atomiv.template.lite.web.restapi.services;
 
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
-import org.atomiv.template.lite.web.restapi.models.Address;
-import org.atomiv.template.lite.web.restapi.models.Customer;
-import org.atomiv.template.lite.web.restapi.models.HomeAddress;
-import org.atomiv.template.lite.web.restapi.models.OrderItem;
+import org.atomiv.template.lite.web.restapi.models.*;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -78,12 +75,6 @@ public class CustomerServiceImpl implements CustomerService {
     // -----------------
     // return customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer [customerId=" + customerId + "] can't be found"));
 
-    // TODO
-    //@Override
-    //    public Customer save(Customer customer) {
-    //
-    //   h     return customerRepository.save(customer);
-    //    }
 
 
     @Override
@@ -101,6 +92,13 @@ public class CustomerServiceImpl implements CustomerService {
 
         HomeAddress homeAddress = customer.getHomeAddress();
         homeAddress.setCustomer(customer);
+
+
+        // TODO show customer in order
+//        for (Order order : customer.getOrders()) {
+//            order.setCustomer(customer);
+//        }
+
 
 
         return customerRepository.save(customer);
