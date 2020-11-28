@@ -20,7 +20,7 @@ public class ProductsController {
     ProductService productService;
 
 
-    @GetMapping(path = "", produces = "application/json")
+    @GetMapping(path = "")
     public ResponseEntity<List<Product>> getAllProducts()
     {
         List<Product> list = productService.getAllProducts();
@@ -28,7 +28,7 @@ public class ProductsController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id)
     {
         try {
@@ -40,21 +40,21 @@ public class ProductsController {
     }
 
 
-    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "")
     public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product)
     {
         return new ResponseEntity<Product>(productService.createProduct(product), HttpStatus.OK);
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") Long id, @Valid @RequestBody Product product)
     {
         return new ResponseEntity<Product>(productService.updateProduct(product), HttpStatus.OK);
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProductById(id);
     }

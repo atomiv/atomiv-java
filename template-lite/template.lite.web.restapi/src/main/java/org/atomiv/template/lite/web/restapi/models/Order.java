@@ -15,7 +15,7 @@ import java.util.Set;
 //@Data
 @Entity
 @Table(name = "orders")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Order {
 
     @Id
@@ -52,7 +52,7 @@ public class Order {
 //    private Customer customer;
 
 
-
+// Order + OrderItem
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 //    // @OrderBy("id ASC")
     private List<OrderItem> orderItems;

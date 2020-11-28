@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "order_items")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class OrderItem {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -18,6 +18,7 @@ public class OrderItem {
 
     private Integer quantity;
 
+    // Order + OrderItem -----------------
     //@ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference // needed otherwise there's an error.
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
@@ -26,12 +27,13 @@ public class OrderItem {
 
 
 
-//    @OneToOne(mappedBy = "orderItem", cascade = CascadeType.ALL)
-//    private Product product;
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    //    TODO: if it's unidirectional @OneToMany ???
+    @ManyToOne(optional = false)//optional is not necessary. doesn't work if cascade.. cascade = CascadeType.ALL
     @JoinColumn(name = "product_id")//--> replace @JoinColumn with @MapsId
     private Product product;
+
+
+
 
 
 

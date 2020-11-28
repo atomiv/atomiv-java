@@ -77,6 +77,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 
+
+    //public void addPhone(Phone phone) {
+    //        this.phones.add( phone );
+    //        phone.setOwner( this );
+    //    }
+
     @Override
     public Customer createCustomer(Customer customer) {
         //logger.debug("save->customer:"+customer);

@@ -1,13 +1,15 @@
 package org.atomiv.template.lite.web.restapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,13 +19,30 @@ public class Product {
     private String name;
 
 
+
+    // TODO: if it's unidirectional @OneToMany ???
+    // Product + OrderItem
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    private List<OrderItem> orderItems;
+
+
+
     public Product() {
     }
 
-    public Product(Long id, String name) {
+    public Product(Long id, String name, List<OrderItem> orderItems) {
         this.id = id;
         this.name = name;
+//        this.orderItems = orderItems;
     }
+
+//    public List<OrderItem> getOrderItems() {
+//        return orderItems;
+//    }
+//
+//    public void setOrderItems(List<OrderItem> orderItems) {
+//        this.orderItems = orderItems;
+//    }
 
     public Long getId() {
         return id;

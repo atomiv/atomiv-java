@@ -1,6 +1,7 @@
 package org.atomiv.template.lite.web.restapi.services;
 
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
+import org.atomiv.template.lite.web.restapi.models.OrderItem;
 import org.atomiv.template.lite.web.restapi.models.Product;
 import org.atomiv.template.lite.web.restapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
+
         return productRepository.save(product);
     }
 
