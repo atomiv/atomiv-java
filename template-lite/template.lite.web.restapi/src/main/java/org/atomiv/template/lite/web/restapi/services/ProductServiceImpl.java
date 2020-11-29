@@ -7,8 +7,11 @@ import org.atomiv.template.lite.web.restapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.Query;
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -43,11 +46,40 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
-
     @Override
     public void deleteProductById(long id) {
         productRepository.deleteById(id);
     }
+
+
+
+//-------------------------------------------------
+    //@Override
+    //public DepartmentEntity getDepartmentById(Integer id) {
+    //    return manager.find(DepartmentEntity.class, id);
+    //}
+
+    // Using EntityManager em;
+    //public User getUserById(Long id) {
+    //        return em.getReference(User.class, id);
+    //    }
+
+
+//    @Override
+//    public Product findByOrderItemProductId(Long id) {
+//        //Product product = productRepository.findByOrderItemProductId(orderItem);
+//
+//        // added dependency: <artifactId>hibernate-entitymanager</artifactId>
+//        //return manager.find(DepartmentEntity.class, id);
+//
+//        //Query query = session.createQuery("from User u where u.email = :email ");
+//        //query.setParameter("email", email);
+//        //List list = query.list();
+//
+//
+//        return null;
+//        //
+//        //use the inherited findOne(..) method to get the existing persistent instance.
+//    }
 
 }

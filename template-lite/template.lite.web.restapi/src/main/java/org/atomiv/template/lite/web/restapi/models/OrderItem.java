@@ -29,7 +29,8 @@ public class OrderItem {
 
     //    TODO: if it's unidirectional @OneToMany ???
     @ManyToOne(optional = false)//optional is not necessary. doesn't work if cascade.. cascade = CascadeType.ALL
-    @JoinColumn(name = "product_id")//--> replace @JoinColumn with @MapsId
+    //referenced column = id
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id")//--> replace @JoinColumn with @MapsId
     private Product product;
 
 
