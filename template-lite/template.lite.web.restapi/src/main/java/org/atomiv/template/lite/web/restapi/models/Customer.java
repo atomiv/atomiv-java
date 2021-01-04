@@ -34,8 +34,21 @@ public class Customer {
 
 
     //private final Set<Address> addresses = new HashSet<Address>();
-    @OneToMany(mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OneToMany(mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    //Unidirectional association with one-to-many
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id") // removed this, added mappedBy above for bidirectional. Added referencedColumnName so  customer_customer_d isn't created on top of customer_id in teh Addresses table
     private List<Address> addresses;
+
+
+
+    // Implementing with a Shared Primary Key in JPA
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)// added fetch and lazy
+//    @JoinColumn(name = "home_address_id")
+    @PrimaryKeyJoinColumn
+    private HomeAddress homeAddress;
+
 
 
 
@@ -45,8 +58,6 @@ public class Customer {
     //@JsonBackReference // not show orders in Customer, but show customer in orders
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Order> orders;
-
-
 
 
 
@@ -61,15 +72,6 @@ public class Customer {
 //    @Column(name = "created_by", nullable = false)
 //    @CreatedBy // @LastModifiedDate updatedAt, @LastModifiedBy updatedBy
 //    private String createdBy;
-
-
-
-// Implementing with a Shared Primary Key in JPA
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)// added fetch and lazy
-//    @JoinColumn(name = "home_address_id")
-    @PrimaryKeyJoinColumn
-    private HomeAddress homeAddress;
 
 
 

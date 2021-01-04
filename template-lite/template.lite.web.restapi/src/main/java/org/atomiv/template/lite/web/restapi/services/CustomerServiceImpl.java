@@ -139,6 +139,7 @@ public class CustomerServiceImpl implements CustomerService {
         existingCustomer.get().setFirstName(customer.getFirstName());
         existingCustomer.get().setLastName(customer.getLastName());
         existingCustomer.get().setHomeAddress(customer.getHomeAddress());
+        existingCustomer.get().setAddresses(customer.getAddresses());
         return customerRepository.save(existingCustomer.get());
 
 //        Customer newCustomer = existingCustomer.get();
