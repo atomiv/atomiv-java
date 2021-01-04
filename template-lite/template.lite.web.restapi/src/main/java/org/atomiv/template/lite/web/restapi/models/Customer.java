@@ -32,6 +32,7 @@ public class Customer {
     private String lastName;
 
 
+
     //private final Set<Address> addresses = new HashSet<Address>();
     @OneToMany(mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses;
@@ -41,9 +42,12 @@ public class Customer {
     // Relationships -----------------------------------------
 
     // TODO: show customer in order
-//    @JsonBackReference // not show orders in Customer, but show customer in orders
-//    @OneToMany(mappedBy = "customer", targetEntity = Order.class, cascade = CascadeType.ALL)
-//    private List<Order> orders;
+    //@JsonBackReference // not show orders in Customer, but show customer in orders
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Order> orders;
+
+
+
 
 
 
@@ -76,7 +80,7 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.addresses = addresses;
-//        this.orders = orders;
+        this.orders = orders;
         this.homeAddress = homeAddress;
     }
 
@@ -112,13 +116,13 @@ public class Customer {
         this.addresses = addresses;
     }
 
-//    public List<Order> getOrders() {
-//        return orders;
-//    }
-//
-//    public void setOrders(List<Order> orders) {
-//        this.orders = orders;
-//    }
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 
     public HomeAddress getHomeAddress() {
         return homeAddress;

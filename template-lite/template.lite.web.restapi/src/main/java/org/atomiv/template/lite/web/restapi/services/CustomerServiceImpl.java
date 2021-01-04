@@ -101,13 +101,30 @@ public class CustomerServiceImpl implements CustomerService {
 
 
         // TODO show customer in order
-//        for (Order order : customer.getOrders()) {
-//            order.setCustomer(customer);
+        // ERROR in POST customer if code below is used
+        // maybe cos orders are not shown for the customer
+        // in OrderServiceImpl?? NO.
+        // maybe if order !=null
+
+        String str;
+
+//        if(str == null) {
+//        if(5 < 10) {
+//            for (Order order : customer.getOrders()) {
+//                order.setCustomer(customer);
+//            }
 //        }
 
 
 
         return customerRepository.save(customer);
+
+        //String result = doSomethingElse();
+        //	    if (result != null && result.equalsIgnoreCase("Success")) {
+        //	        // success
+        //	    }
+        //	    else
+        //	        // failure
     }
 
 
@@ -121,6 +138,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
         existingCustomer.get().setFirstName(customer.getFirstName());
         existingCustomer.get().setLastName(customer.getLastName());
+        existingCustomer.get().setHomeAddress(customer.getHomeAddress());
         return customerRepository.save(existingCustomer.get());
 
 //        Customer newCustomer = existingCustomer.get();

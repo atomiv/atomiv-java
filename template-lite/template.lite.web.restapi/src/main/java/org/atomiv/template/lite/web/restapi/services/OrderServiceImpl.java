@@ -2,9 +2,8 @@ package org.atomiv.template.lite.web.restapi.services;
 
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
-import org.atomiv.template.lite.web.restapi.models.Order;
-import org.atomiv.template.lite.web.restapi.models.OrderItem;
-import org.atomiv.template.lite.web.restapi.models.Product;
+import org.atomiv.template.lite.web.restapi.models.*;
+import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.atomiv.template.lite.web.restapi.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
 
     @Override
@@ -57,6 +59,20 @@ public class OrderServiceImpl implements OrderService {
         for (OrderItem orderItem : order.getOrderItems()) {
             orderItem.setOrder(order);
         }
+
+
+        // SET THE VARIABLE
+        // set the customer
+
+
+//        for (Order order : customer.getOrders()) {
+//            order.setCustomer(customer);
+//        }
+
+//        Customer customer = order.getCustomer();
+//        customer.setOrders(orders); // WRONG
+
+
 
 
 

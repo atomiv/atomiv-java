@@ -43,19 +43,51 @@ public class Order {
     //----------------------------------------------------------
 
 
+
     //@OnDelete(action = OnDeleteAction.CASCADE)
     //@JoinColumn(name = "user_id", nullable = false)
-    //@JsonBackReference // Customer not shown in Order
-//    TODO: show customer in order
-//    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+
+
+
+//    @JsonBackReference // Customer not shown in Order
+////    TODO: show customer in order
+    //TODO: testing, removed below... CascadeType.ALL, optional = false
+    @ManyToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "customer_id")
-//    private Customer customer;
+
+//    @JoinColumn(name = "order_id", referencedColumnName = "customer_id", insertable=false, updatable=false)
+//
+// Key (order_id)=(3) is not present in table "customers". //for order=1, puts in customer=1, ord=2 puts in automatically ord=2... if customer=3 doesn't exist can't create ord=3
+    @JoinColumn(name = "customer_id")
+
+    // IMPL??? done in CustomerServiceImpl
+    private Customer customer;
 
 
-// Order + OrderItem
+
+
+
+
+
+    // TODO: Simple
+    //@JsonBackReference // needed otherwise there's an error.
+    //cascade = CascadeType.ALL, optional = false
+    //@ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
+    @JoinColumn(name = "simple_id")
+    private Simple simple;
+
+
+
+
+
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 //    // @OrderBy("id ASC")
     private List<OrderItem> orderItems;
+
+
+
 
 
 //    option1:
@@ -71,11 +103,20 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, String orderAddress, Customer customer, List<OrderItem> orderItems) {
+    public Order(Long id, String orderAddress, Customer customer, Simple simple, List<OrderItem> orderItems) {
         this.id = id;
         this.orderAddress = orderAddress;
-//        this.customer = customer;
+        this.customer = customer;
+        this.simple = simple;
         this.orderItems = orderItems;
+    }
+
+    public Simple getSimple() {
+        return simple;
+    }
+
+    public void setSimple(Simple simple) {
+        this.simple = simple;
     }
 
     public Long getId() {
@@ -94,13 +135,13 @@ public class Order {
         this.orderAddress = orderAddress;
     }
 
-//    public Customer getCustomer() {
-//        return customer;
-//    }
-//
-//    public void setCustomer(Customer customer) {
-//        this.customer = customer;
-//    }
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     public List<OrderItem> getOrderItems() {
         return orderItems;
