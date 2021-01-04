@@ -1,5 +1,7 @@
 package org.atomiv.template.lite.web.restapi.services;
 
+import org.atomiv.template.lite.web.restapi.dtos.CreateProductRequest;
+import org.atomiv.template.lite.web.restapi.dtos.CreateProductResponse;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.OrderItem;
 import org.atomiv.template.lite.web.restapi.models.Product;
@@ -14,6 +16,7 @@ import java.util.Optional;
 
 
 @Service
+//public class ProductServiceImpl implements ProductService {
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
@@ -34,9 +37,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(Product product) {
+//    public Product createProduct(Product product) {
+    public CreateProductResponse createProduct(CreateProductRequest request) {
 
-        return productRepository.save(product);
+        var product = new Product();
+        product.setName(request.getName());
+        productRepository.save(product);
+//        return productRepository.save(product);
+        var response = new CreateProductResponse();
+        response.setId(product.getId());
+        response.setName(product.getName());
+        return response;
     }
 
     @Override

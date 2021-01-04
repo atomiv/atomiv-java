@@ -1,5 +1,7 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
+import org.atomiv.template.lite.web.restapi.dtos.CreateProductRequest;
+import org.atomiv.template.lite.web.restapi.dtos.CreateProductResponse;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.Product;
 import org.atomiv.template.lite.web.restapi.services.ProductService;
@@ -41,10 +43,13 @@ public class ProductsController {
 
 
     @PostMapping(path = "")
-    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product)
+//    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product)
+    public ResponseEntity<CreateProductResponse> createProduct(@Valid @RequestBody CreateProductRequest request)
     {
-        var newProduct = productService.createProduct(product);
-        return new ResponseEntity<Product>(productService.createProduct(product), HttpStatus.OK);
+        var response = productService.createProduct(request);
+        return new ResponseEntity<CreateProductResponse>(response, HttpStatus.OK);
+//                var newProduct = productService.createProduct(product);
+//        return new ResponseEntity<Product>(productService.createProduct(product), HttpStatus.OK);
     }
 
 
