@@ -64,10 +64,11 @@ public class Customer {
 
 
 
-
-
-    // cascade = CascadeType.ALL
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+// Implementing with a Shared Primary Key in JPA
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)// added fetch and lazy
+//    @JoinColumn(name = "home_address_id")
+    @PrimaryKeyJoinColumn
     private HomeAddress homeAddress;
 
 

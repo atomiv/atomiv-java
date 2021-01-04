@@ -43,8 +43,10 @@ public class HomeAddress {
     //@OneToOne(cascade = CascadeType.ALL)
     //@JoinColumn(name = "idStock", nullable = false)
     //private Stock stock;
+
     @JsonBackReference
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)// added fetch
+    @MapsId
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
