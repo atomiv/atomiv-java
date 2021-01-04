@@ -1,16 +1,13 @@
 package org.atomiv.template.lite.web.restapi.services;
 
-import org.atomiv.template.lite.web.restapi.dtos.CreateProductRequest;
-import org.atomiv.template.lite.web.restapi.dtos.CreateProductResponse;
+import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductRequest;
+import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
-import org.atomiv.template.lite.web.restapi.models.OrderItem;
 import org.atomiv.template.lite.web.restapi.models.Product;
 import org.atomiv.template.lite.web.restapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.Query;
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 

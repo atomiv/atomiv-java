@@ -1,7 +1,7 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
-import org.atomiv.template.lite.web.restapi.dtos.CreateProductRequest;
-import org.atomiv.template.lite.web.restapi.dtos.CreateProductResponse;
+import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductRequest;
+import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.Product;
 import org.atomiv.template.lite.web.restapi.services.ProductService;

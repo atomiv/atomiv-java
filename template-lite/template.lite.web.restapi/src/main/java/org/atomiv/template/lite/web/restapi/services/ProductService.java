@@ -1,8 +1,7 @@
 package org.atomiv.template.lite.web.restapi.services;
 
-import org.atomiv.template.lite.web.restapi.dtos.CreateProductRequest;
-import org.atomiv.template.lite.web.restapi.dtos.CreateProductResponse;
-import org.atomiv.template.lite.web.restapi.models.OrderItem;
+import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductRequest;
+import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
 import org.atomiv.template.lite.web.restapi.models.Product;
 
 import java.util.List;
