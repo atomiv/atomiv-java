@@ -1,7 +1,6 @@
 package org.atomiv.template.lite.web.restapi.services;
 
-import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductRequest;
-import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
+import org.atomiv.template.lite.web.restapi.dtos.product.*;
 import org.atomiv.template.lite.web.restapi.models.Product;
 
 import java.util.List;
@@ -18,13 +17,13 @@ public interface ProductService {
 //    void deleteProductById(long id);
 
 
-    List<Product> getAllProducts();
+    GetAllProductsResponse getAllProducts();
 
-    Product getProductById(long id);
+    GetProductResponse getProductById(long id);
 
     CreateProductResponse createProduct(CreateProductRequest request);
 
-    Product updateProduct(Product product);
+    UpdateProductResponse updateProduct(UpdateProductRequest request);
 
     void deleteProductById(long id);
 

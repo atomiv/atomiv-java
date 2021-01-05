@@ -1,7 +1,6 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
-import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductRequest;
-import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
+import org.atomiv.template.lite.web.restapi.dtos.product.*;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.Product;
 import org.atomiv.template.lite.web.restapi.services.ProductService;
@@ -23,18 +22,19 @@ public class ProductsController {
 
 
     @GetMapping(path = "")
-    public ResponseEntity<List<Product>> getAllProducts()
+    public ResponseEntity<GetAllProductsResponse> getAllProducts()
     {
-        List<Product> list = productService.getAllProducts();
-        return new ResponseEntity<List<Product>>(list, HttpStatus.OK);
+        var response = productService.getAllProducts();
+        return new ResponseEntity<GetAllProductsResponse>(response, HttpStatus.OK);
     }
 
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id)
+    public ResponseEntity<GetProductResponse> getProductById(@PathVariable("id") Long id)
     {
         try {
-            return new ResponseEntity<Product>(productService.getProductById(id), HttpStatus.OK);
+            var response = productService.getProductById(id);
+            return new ResponseEntity<GetProductResponse>(response, HttpStatus.OK);
         } catch (CustomerNotFoundException exception) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Customer Not Found");
@@ -54,9 +54,10 @@ public class ProductsController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") Long id, @Valid @RequestBody Product product)
+    public ResponseEntity<UpdateProductResponse> updateProduct(@PathVariable(value = "id") Long id, @Valid @RequestBody UpdateProductRequest request)
     {
-        return new ResponseEntity<Product>(productService.updateProduct(product), HttpStatus.OK);
+        var response = productService.updateProduct(request);
+        return new ResponseEntity<UpdateProductResponse>(response, HttpStatus.OK);
     }
 
 
