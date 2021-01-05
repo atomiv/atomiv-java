@@ -1,25 +1,12 @@
 package org.atomiv.template.lite.web.restapi.dtos.product;
 
+import lombok.Data;
+
+@Data
 public class CreateProductResponse {
 
     private Long id;
 
     private String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
 }
