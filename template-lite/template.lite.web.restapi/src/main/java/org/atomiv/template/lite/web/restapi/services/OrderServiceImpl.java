@@ -1,5 +1,7 @@
 package org.atomiv.template.lite.web.restapi.services;
 
+import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderRequest;
+import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderResponse;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.*;
@@ -43,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public Order createOrder(Order order) {
+    public CreateOrderResponse createOrder(CreateOrderRequest request) {
     //        for (OrderItem orderItem : order.getOrderItems()) {
         //            orderItem.setOrder(order);
         //        }
@@ -56,9 +58,10 @@ public class OrderServiceImpl implements OrderService {
         //orderItems.add(orderItem);
         //order.addOrderItem(orderItem);
 
-        for (OrderItem orderItem : order.getOrderItems()) {
-            orderItem.setOrder(order);
-        }
+        // TODO JC ADD ======================================================
+//        for (OrderItem orderItem : order.getOrderItems()) {
+//            orderItem.setOrder(order);
+//        }
 
 
         // SET THE VARIABLE
@@ -73,10 +76,15 @@ public class OrderServiceImpl implements OrderService {
 //        customer.setOrders(orders); // WRONG
 
 
+        var order = new Order();
+        order.setOrderAddress(request.getOrderAddress());
+        orderRepository.save(order);
 
+        var response = new CreateOrderResponse();
+        response.setId(order.getId());
+        response.setOrderAddress(order.getOrderAddress());
+        return response;
 
-
-          return orderRepository.save(order);
 
 //        for(OrderItem orderItem : order.getOrderItems()) {
 ////            orderItem.setQuantity(orderItem.getQuantity());

@@ -1,5 +1,7 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
+import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderRequest;
+import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderResponse;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.Order;
 import org.atomiv.template.lite.web.restapi.services.CustomerService;
@@ -58,10 +60,10 @@ public class OrdersController {
 
 
     @PostMapping(path = "")
-    public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order)
+    public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest request)
     {
-        var newOrder = orderService.createOrder(order);
-        return new ResponseEntity<Order>(newOrder, HttpStatus.OK);
+        var response = orderService.createOrder(request);
+        return new ResponseEntity<CreateOrderResponse>(response, HttpStatus.OK);
     }
 
 
