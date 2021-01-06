@@ -69,17 +69,6 @@ public class Order {
 
 
 
-    // TODO: Simple
-    //@JsonBackReference // needed otherwise there's an error.
-    //cascade = CascadeType.ALL, optional = false
-    //@ManyToOne(cascade = CascadeType.ALL)
-    @ManyToOne()
-    @JoinColumn(name = "simple_id")
-    private Simple simple;
-
-
-
-
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
@@ -103,20 +92,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, String orderAddress, Customer customer, Simple simple, List<OrderItem> orderItems) {
+    public Order(Long id, String orderAddress, Customer customer, List<OrderItem> orderItems) {
         this.id = id;
         this.orderAddress = orderAddress;
         this.customer = customer;
-        this.simple = simple;
         this.orderItems = orderItems;
-    }
-
-    public Simple getSimple() {
-        return simple;
-    }
-
-    public void setSimple(Simple simple) {
-        this.simple = simple;
     }
 
     public Long getId() {

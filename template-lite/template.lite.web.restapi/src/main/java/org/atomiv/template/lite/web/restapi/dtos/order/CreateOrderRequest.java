@@ -9,7 +9,6 @@ import java.util.List;
 public class CreateOrderRequest {
     private String orderAddress;
     private Long customerId;
-//    private Simple simple;
     private List<CreateOrderItemRequest> orderItems;
 //    private List<OrderItem> orderItems;
 }

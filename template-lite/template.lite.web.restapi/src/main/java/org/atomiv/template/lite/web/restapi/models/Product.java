@@ -1,18 +1,15 @@
 package org.atomiv.template.lite.web.restapi.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")
 @Data
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
@@ -20,31 +17,14 @@ public class Product {
 
     private String name;
 
+    LocalDateTime lastModified;// = LocalDateTime.now();
+    //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    //System.out.println(dtf.format(now));
 
-
-    // TODO: if it's unidirectional @OneToMany ???
-    // Product + OrderItem
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//    private List<OrderItem> orderItems;
-
-
+//    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//    Date date = new Date();
+//    System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 
     public Product() {
     }
-
-    public Product(Long id, String name, List<OrderItem> orderItems) {
-        this.id = id;
-        this.name = name;
-//        this.orderItems = orderItems;
-    }
-
-//    public List<OrderItem> getOrderItems() {
-//        return orderItems;
-//    }
-//
-//    public void setOrderItems(List<OrderItem> orderItems) {
-//        this.orderItems = orderItems;
-//    }
-
-
 }
