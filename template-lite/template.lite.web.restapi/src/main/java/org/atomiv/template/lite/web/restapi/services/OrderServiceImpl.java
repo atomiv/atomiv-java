@@ -1,15 +1,19 @@
 package org.atomiv.template.lite.web.restapi.services;
 
+import org.atomiv.template.lite.web.restapi.dtos.order_item.CreateOrderItemRequest;
 import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderRequest;
 import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderResponse;
+import org.atomiv.template.lite.web.restapi.dtos.order_item.CreateOrderItemResponse;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.*;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.atomiv.template.lite.web.restapi.repositories.OrderRepository;
+import org.atomiv.template.lite.web.restapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +25,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
 
     @Override
@@ -81,9 +88,25 @@ public class OrderServiceImpl implements OrderService {
         var customer = customerRepository.findById(request.getCustomerId()).get();
 
 
+
+
+
         var order = new Order();
         order.setOrderAddress(request.getOrderAddress());
         order.setCustomer(customer);
+
+        var orderItems = new ArrayList<OrderItem>();
+
+        for (CreateOrderItemRequest orderItemRequest : request.getOrderItems()) {
+            var product = productRepository.findById(orderItemRequest.getProductId()).get();
+            var orderItem = new OrderItem();
+            orderItem.setQuantity(orderItemRequest.getQuantity());
+            orderItem.setProduct(product);
+            orderItem.setOrder(order);
+            orderItems.add(orderItem);
+        }
+
+        order.setOrderItems(orderItems);
         orderRepository.save(order);
 
         var response = new CreateOrderResponse();
@@ -91,6 +114,23 @@ public class OrderServiceImpl implements OrderService {
         response.setOrderAddress(order.getOrderAddress());
         response.setCustomerId(order.getCustomer().getId());
         response.setCustomerFirstName(order.getCustomer().getFirstName());
+
+        var orderItemResponses = new ArrayList<CreateOrderItemResponse>();
+        // CHECK
+        for (OrderItem orderItem : order.getOrderItems()) {
+            var product = orderItem.getProduct();
+
+            var orderItemResponse = new CreateOrderItemResponse();
+            orderItemResponse.setId(orderItem.getId());
+            orderItemResponse.setQuantity(orderItem.getQuantity());
+            orderItemResponse.setProductId(product.getId());
+            orderItemResponse.setProductName(product.getName());
+
+            orderItemResponses.add(orderItemResponse);
+        }
+
+        response.setOrderItems(orderItemResponses);
+
         return response;
 
 

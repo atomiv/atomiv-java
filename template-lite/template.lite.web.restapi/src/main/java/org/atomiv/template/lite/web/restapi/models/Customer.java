@@ -42,6 +42,8 @@ public class Customer {
 
 
 
+
+
     // Implementing with a Shared Primary Key in JPA
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)// added fetch and lazy
