@@ -75,14 +75,22 @@ public class OrderServiceImpl implements OrderService {
 //        Customer customer = order.getCustomer();
 //        customer.setOrders(orders); // WRONG
 
+        // var customer = new Customer();
+        // customer.setId(request.getCustomerId());
+
+        var customer = customerRepository.findById(request.getCustomerId()).get();
+
 
         var order = new Order();
         order.setOrderAddress(request.getOrderAddress());
+        order.setCustomer(customer);
         orderRepository.save(order);
 
         var response = new CreateOrderResponse();
         response.setId(order.getId());
         response.setOrderAddress(order.getOrderAddress());
+        response.setCustomerId(order.getCustomer().getId());
+        response.setCustomerFirstName(order.getCustomer().getFirstName());
         return response;
 
 

@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CreateOrderRequest {
     private String orderAddress;
-//    private Customer customer;
+    private Long customerId;
 //    private Simple simple;
 //    private List<OrderItem> orderItems;
 }
