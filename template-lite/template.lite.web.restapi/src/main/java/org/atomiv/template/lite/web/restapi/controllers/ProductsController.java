@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
@@ -37,6 +38,7 @@ public class ProductsController {
             throw new ProductNotFoundException("Product Not Found");
             // throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product Not Found");
             // System.out.println("Product doesn't exist " + product.getId());
+            // System.out.println(product);
         }
 
         return new ResponseEntity<GetProductResponse>(response, HttpStatus.OK);

@@ -2,13 +2,14 @@ package org.atomiv.template.lite.web.restapi.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "addresses")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Data
 public class Address {
 
     @Id

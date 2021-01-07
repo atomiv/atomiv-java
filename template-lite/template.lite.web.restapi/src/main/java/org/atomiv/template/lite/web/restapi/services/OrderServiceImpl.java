@@ -71,23 +71,15 @@ public class OrderServiceImpl implements OrderService {
 //        }
 
 
-        // SET THE VARIABLE
-        // set the customer
-
-
 //        for (Order order : customer.getOrders()) {
 //            order.setCustomer(customer);
 //        }
 
-//        Customer customer = order.getCustomer();
-//        customer.setOrders(orders); // WRONG
 
         // var customer = new Customer();
         // customer.setId(request.getCustomerId());
 
         var customer = customerRepository.findById(request.getCustomerId()).get();
-
-
 
 
 

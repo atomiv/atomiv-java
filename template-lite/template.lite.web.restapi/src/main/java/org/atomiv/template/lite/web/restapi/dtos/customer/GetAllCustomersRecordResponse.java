@@ -3,7 +3,7 @@ package org.atomiv.template.lite.web.restapi.dtos.customer;
 import lombok.Data;
 
 @Data
-public class GetCustomerResponse {
+public class GetAllCustomersRecordResponse {
 
     private Long id;
 

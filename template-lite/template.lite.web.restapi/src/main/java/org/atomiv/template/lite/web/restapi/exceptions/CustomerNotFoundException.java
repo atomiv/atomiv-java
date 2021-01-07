@@ -3,6 +3,7 @@ package org.atomiv.template.lite.web.restapi.exceptions;
 //@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Customer Not Found")
 public class CustomerNotFoundException extends RuntimeException {
     public CustomerNotFoundException(String exception) {
+
         super(exception);
     }
 }

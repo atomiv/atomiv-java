@@ -21,7 +21,6 @@ public class OrdersController {
 
     private OrderService orderService;
 
-    // TODO remove
     private CustomerService customerService;
 
 

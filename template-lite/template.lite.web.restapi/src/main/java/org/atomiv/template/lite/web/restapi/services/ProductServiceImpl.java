@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
 
         var records = new ArrayList<GetAllProductsRecordResponse>();
 
-        for(Product product: products) {
+        for(Product product : products) {
             var record = new GetAllProductsRecordResponse();
             record.setId(product.getId());
             record.setName(product.getName());
@@ -93,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductNotFoundException("Product Not Found");
         }
 
-        var product = optionalProduct.get();
+        var product = optionalProduct.get(); // Product product = optionalProduct.get() ??
         product.setName(request.getName());
         product.setLastModified(LocalDateTime.now());
 

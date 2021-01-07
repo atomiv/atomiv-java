@@ -2,22 +2,18 @@ package org.atomiv.template.lite.web.restapi.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * The type Customer
  */
 @Entity//(name = "Customers")
 @Table(name = "customers")
-// prevent serialization error when GET sessions/2 in postman
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Data
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,14 +29,11 @@ public class Customer {
 
 
 
-    //private final Set<Address> addresses = new HashSet<Address>();
 //    @OneToMany(mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL, orphanRemoval = true)
     //Unidirectional association with one-to-many
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id") // removed this, added mappedBy above for bidirectional. Added referencedColumnName so  customer_customer_d isn't created on top of customer_id in teh Addresses table
     private List<Address> addresses;
-
-
 
 
 
@@ -54,9 +47,6 @@ public class Customer {
 
 
 
-    // Relationships -----------------------------------------
-
-    // TODO: show customer in order
     //@JsonBackReference // not show orders in Customer, but show customer in orders
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Order> orders;
@@ -80,62 +70,6 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Long id, @NotEmpty(message = "Please fill in the customer name.") String firstName, String lastName, List<Address> addresses, List<Order> orders, HomeAddress homeAddress) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.addresses = addresses;
-        this.orders = orders;
-        this.homeAddress = homeAddress;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public List<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public HomeAddress getHomeAddress() {
-        return homeAddress;
-    }
-
-    public void setHomeAddress(HomeAddress homeAddress) {
-        this.homeAddress = homeAddress;
-    }
 
     //    //And always call addEmailAddress() to add an email for a customer. You can apply the same idea for updating an email address for a customer.
 //    private void addAddress(Address address) {

@@ -1,5 +1,7 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
+import org.atomiv.template.lite.web.restapi.dtos.customer.*;
+import org.atomiv.template.lite.web.restapi.dtos.product.GetProductResponse;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.Customer;
@@ -74,10 +76,10 @@ public class CustomersController {
      * @return the list
      */
     @GetMapping(path = "")
-    public ResponseEntity<List<Customer>> getAllCustomers()
+    public ResponseEntity<GetAllCustomersResponse> getAllCustomers()
     {
-        var customers = customerService.getAllCustomers();
-        return new ResponseEntity<List<Customer>>(customers,HttpStatus.OK);
+        var response = customerService.getAllCustomers();
+        return new ResponseEntity<GetAllCustomersResponse>(response,HttpStatus.OK);
     }
 
 
@@ -94,28 +96,26 @@ public class CustomersController {
     // public Resource<User> ... Resource or ResponseEntity
     // public Company getCompanyById(
     // Long or long
-    // no try catch within controller
     // GLOBAL HANDLER
-    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Long id)
+    public ResponseEntity<GetCustomerResponse> getCustomerById(@PathVariable("id") Long id)
     {
-        try {
-            var customer = customerService.getCustomerById(id);
-            return new ResponseEntity<Customer>(customer, HttpStatus.OK);
-        } catch (CustomerNotFoundException exception) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Customer Not Found");
+        var response = customerService.getCustomerById(id);
+
+        if(response == null) {
+            throw new CustomerNotFoundException("Customer not found");
         }
-        //System.out.println(customer);
+
+        return new ResponseEntity<GetCustomerResponse>(response, HttpStatus.OK);
     }
 
 
-    // not via path variables but query
-    @GetMapping("/search/firstname/{firstname}")
-    public List<Customer> searchByFirstName(@PathVariable String firstName){
-        return customerService.findByFirstName(firstName);
-//        Customer customer = customerRepository.findByCustomerName(customerName);
-//        return customer;
-    }
+//    // not via path variables but query
+//    @GetMapping("/search/firstname/{firstname}")
+//    public List<Customer> searchByFirstName(@PathVariable String firstName){
+//        return customerService.findByFirstName(firstName);
+////        Customer customer = customerRepository.findByCustomerName(customerName);
+////        return customer;
+//    }
 
 
     /**
@@ -125,10 +125,10 @@ public class CustomersController {
      * @return the customer
      */
     @PostMapping(path = "")
-    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer)
+    public ResponseEntity<CreateCustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request)
     {
-        var newCustomer= customerService.createCustomer(customer);
-        return new ResponseEntity<Customer>(newCustomer, HttpStatus.OK);
+        var response= customerService.createCustomer(request);
+        return new ResponseEntity<CreateCustomerResponse>(response, HttpStatus.OK);
     }
 
 
@@ -141,12 +141,11 @@ public class CustomersController {
      * @throws ResourceNotFoundException the resource not found exception
      */
     @PutMapping("{id}")
-    // public ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId, @RequestBody Customer newCustomer) {
-    public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") Long id, @Valid @RequestBody Customer customer)
-            {
-                var updatedCustomer = customerService.updateCustomer(customer);
-                return new ResponseEntity<Customer>(updatedCustomer, HttpStatus.OK);
-            }
+    public ResponseEntity<UpdateCustomerResponse> updateCustomer(@PathVariable(value = "id") Long id, @Valid @RequestBody UpdateCustomerRequest request)
+        {
+            var response = customerService.updateCustomer(request);
+            return new ResponseEntity<UpdateCustomerResponse>(response, HttpStatus.OK);
+        }
 
 
 
@@ -171,16 +170,10 @@ public class CustomersController {
 
     @DeleteMapping("")
     public void deleteAllCustomers() {
+
         customerService.deleteAllCustomers();
     }
-//        throws ResourceNotFoundException {
-//            Customer customer =
-//                customerRepository
-//                    .findById(customerId)
-//                    .orElseThrow(() -> new ResourceNotFoundException("Customer not found for id: " + customerId));
-//                customerRepository.deleteById(customerId);
-//                return ResponseEntity.ok().build();
-//    }
+
 
 }
 
@@ -274,14 +267,4 @@ public class CustomersController {
 //        resultInfo.setErrCode("0000");
 //        return resultInfo;
 //    }
-//    @DeleteMapping("deleteCustomer")
-//    public void deleteCustomer(String id){
-//        logger.info("deleteCustomer");
-//        customerService.deleteById(id);
-//    }
-//    @DeleteMapping("deleteAllCustomer")
-//    public void deleteAllCustomer(){
-//        logger.info("deleteAllCustomer");
-//        customerService.deleteAll();
-//    }
-//
+
