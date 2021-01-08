@@ -53,34 +53,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
-    //        for (OrderItem orderItem : order.getOrderItems()) {
-        //            orderItem.setOrder(order);
-        //        }
-        //-------------------------------
-//        for (OrderItem orderItem : order.getOrderItems()) {
-////            orderItem.setOrder(order);
-//
-//            order.getOrderItems().add(orderItem);
-//        }
-        //orderItems.add(orderItem);
-        //order.addOrderItem(orderItem);
-
-        // TODO JC ADD ======================================================
-//        for (OrderItem orderItem : order.getOrderItems()) {
-//            orderItem.setOrder(order);
-//        }
-
-
-//        for (Order order : customer.getOrders()) {
-//            order.setCustomer(customer);
-//        }
-
-
-        // var customer = new Customer();
-        // customer.setId(request.getCustomerId());
 
         var customer = customerRepository.findById(request.getCustomerId()).get();
-
 
 
         var order = new Order();

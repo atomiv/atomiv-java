@@ -2,9 +2,11 @@ package org.atomiv.template.lite.web.restapi.services;
 
 import org.atomiv.template.lite.web.restapi.dtos.address.CreateAddressRequest;
 import org.atomiv.template.lite.web.restapi.dtos.address.CreateAddressResponse;
+import org.atomiv.template.lite.web.restapi.dtos.address.GetAddressResponse;
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.CreateHomeAddressRequest;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.CreateHomeAddressResponse;
+import org.atomiv.template.lite.web.restapi.dtos.home_address.GetHomeAddressResponse;
 import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
 import org.atomiv.template.lite.web.restapi.dtos.product.GetAllProductsResponse;
 import org.atomiv.template.lite.web.restapi.dtos.product.UpdateProductResponse;
@@ -91,8 +93,29 @@ public class CustomerServiceImpl implements CustomerService {
         response.setId(customer.getId());
         response.setFirstName(customer.getFirstName());
         response.setLastName(customer.getLastName());
+
+
+
+//        for (Person p : list) {
+        var addresses = new ArrayList<Address>();
+        for (GetAddressResponse addressResponse : customer.getAddresses() ) {
+            var address = new Address();
+            address.setId(customer.getHomeAddress().getId());
+            address.setCity(customer.getHomeAddress().getCity());
+            addresses.add(address);
+        }
+        response.setAddresses(addresses);
+
+
+
+
+        var homeAddressResponse = new GetHomeAddressResponse();
+        homeAddressResponse.setId(customer.getHomeAddress().getId());
+        homeAddressResponse.setCity(customer.getHomeAddress().getCity());
+        response.setHomeAddress(homeAddressResponse);
+
 //        response.setAddresses(customer.getAddresses());
-//        response.setHomeAddress(customer.getHomeAddress());
+
 //        response.setOrders(customer.getOrders());
 
         return response;
@@ -100,43 +123,22 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 
-    //public void addPhone(Phone phone) {
-    //        this.phones.add( phone );
-    //        phone.setOwner( this );
-    //    }
-
     @Override
     public CreateCustomerResponse createCustomer(CreateCustomerRequest request) {
         //logger.debug("save->customer:"+customer);
 //        customer.getAddresses();
         //order.getOrderItems().add(orderItem);
 
-
-        // SET IHE VARIABLE
-// YES ----------------------
-//        for (Address address : customer.getAddresses()) {
-//            address.setCustomer(customer);
-//        }
-//
-//        HomeAddress homeAddress = customer.getHomeAddress();
-//        homeAddress.setCustomer(customer);
-
-// NO-------------------
-//        if(str == null) {
-//        if(5 < 10) {
-//            for (Order order : customer.getOrders()) {
-//                order.setCustomer(customer);
-//            }
-//        }
-
-
 //        var order = orderRepository.findById(request.getOrderId()).get();
-        var orders = orderRepository.findAll();
+        // required: List, provided: Iterable
+        // JELENA
+        var orders = (List<Order>) orderRepository.findAll();
 
         var customer = new Customer();
         customer.setFirstName(request.getFirstName());
         customer.setLastName(request.getLastName());
-//        customer.setOrders(request.getOrders());
+
+        customer.setOrders(orders);
 
         var addresses = new ArrayList<Address>();
 

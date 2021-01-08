@@ -1,13 +1,15 @@
 package org.atomiv.template.lite.web.restapi.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity//(name = "HomeAddress")
 @Table(name = "home_address")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Data
 public class HomeAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +23,6 @@ public class HomeAddress {
 
 //    @OneToOne(fetch = FetchType.LAZY)
 ////    @MapsId
-//    //If you want to customize the Primary Key column name when using @MapsId, you need to use the @JoinColumn annotation.
 //    //If you want to customize the Primary Key column name when using @MapsId, you need to use the @JoinColumn annotation.
 //    // @JoinColumn(name = "address_id", referencedColumnName = "id")
 //    @JoinColumn(name = "customer_id")
@@ -46,7 +47,8 @@ public class HomeAddress {
 
     @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)// added fetch
-    @MapsId
+//    @MapsId // don't know if this is stuffing up with the order being null when i GET,
+//    the column with the homeAddress id is not being created. yes, it was only creating the customerId column.
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
@@ -55,33 +57,4 @@ public class HomeAddress {
     public HomeAddress() {
     }
 
-    public HomeAddress(Long id, String city, Customer customer) {
-        this.id = id;
-        this.city = city;
-        this.customer = customer;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 }
