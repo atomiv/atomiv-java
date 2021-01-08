@@ -96,15 +96,15 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 
-//        for (Person p : list) {
-        var addresses = new ArrayList<Address>();
-        for (GetAddressResponse addressResponse : customer.getAddresses() ) {
-            var address = new Address();
-            address.setId(customer.getHomeAddress().getId());
-            address.setCity(customer.getHomeAddress().getCity());
-            addresses.add(address);
+//        for (Person p : list/persons) {
+        var addressResponses = new ArrayList<GetAddressResponse>();
+        for (Address address : customer.getAddresses() ) {
+            var addressResponse = new GetAddressResponse();
+            addressResponse.setId(address.getId());
+            addressResponse.setCity(address.getCity());
+            addressResponses.add(addressResponse);
         }
-        response.setAddresses(addresses);
+        response.setAddresses(addressResponses);
 
 
 
@@ -114,7 +114,18 @@ public class CustomerServiceImpl implements CustomerService {
         homeAddressResponse.setCity(customer.getHomeAddress().getCity());
         response.setHomeAddress(homeAddressResponse);
 
-//        response.setAddresses(customer.getAddresses());
+
+
+//        var addresses = new ArrayList<Address>();
+//        for (GetAddressResponse addressResponse : response.getAddresses() ) {
+//            var address = new Address();
+//            address.setId(customer.getHomeAddress().getId());
+//            address.setCity(customer.getHomeAddress().getCity());
+//            addresses.add(address);
+//        }
+//        customer.setAddresses(addresses);
+
+
 
 //        response.setOrders(customer.getOrders());
 
