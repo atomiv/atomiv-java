@@ -162,8 +162,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order updateOrder(Order order) {
 
-        Optional<Order> existingOrder =
-                orderRepository.findById(order.getId());
+        Optional<Order> existingOrder = orderRepository.findById(order.getId());
         if(existingOrder.isEmpty()) {
             throw new RuntimeException("Cannot find the customer with id " + order.getId());
         }

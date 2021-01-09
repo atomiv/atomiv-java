@@ -177,7 +177,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
 
         var response = new CreateCustomerResponse();
-        response.setId(customer.getId());
+        response.setId(customer.getId()); // TODO
         response.setFirstName(customer.getFirstName());
         response.setLastName(customer.getLastName());
 //        response.setOrders(customer.getOrders());
@@ -186,7 +186,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         for (Address address : customer.getAddresses()) {
             var addressResponse = new CreateAddressResponse();
-            addressResponse.setId(address.getId());
+            addressResponse.setId(address.getId()); // TODO
             addressResponse.setCity(address.getCity());
 
             addressResponses.add(addressResponse);
@@ -195,7 +195,7 @@ public class CustomerServiceImpl implements CustomerService {
         response.setAddresses(addressResponses);
 
         var homeAddressResponse = new CreateHomeAddressResponse();
-        homeAddressResponse.setId(homeAddress.getId());
+        homeAddressResponse.setId(customer.getHomeAddress().getId()); // TODO or homeAddress.getId
         homeAddressResponse.setCity(homeAddress.getCity());
 
         response.setHomeAddress(homeAddressResponse);
@@ -221,33 +221,47 @@ public class CustomerServiceImpl implements CustomerService {
         var customer = optionalCustomer.get();
         customer.setFirstName(request.getFirstName());
         customer.setLastName(request.getLastName());
-//        customer.setAddresses(request.getAddresses());
 //        customer.setOrders(request.getOrders());
         customer.setOrders(orders); // ???
 
 
 
+// TODO how is request.getId handled for addresses. is it necessary to mention anywhere
+
         var addresses = new ArrayList<Address>();
         for (UpdateAddressRequest addressRequest : request.getAddresses()) {
             var address = new Address();
-            address.setId(addressRequest.getId());
+//            address.setId(customer.); // TODO
+//            address.setId(addressRequest.getId()); // ??? NO
+//            address.setId(address.getId()); // TODO
+            // TODO - issue - id is not being set when updating, it's creating a new id
+            // TODO when it's updated, says id: null, so it creates a new one
+            address.setId(address.getId());
             address.setCity(addressRequest.getCity());
+            address.setCustomer(customer);
             addresses.add(address);
         }
         customer.setAddresses(addresses);
 
 
-
-//        var homeAddress = optionalCustomer.get().getHomeAddress();
+        //        ------------------
         var homeAddress = new HomeAddress();
         UpdateHomeAddressRequest homeAddressRequest = request.getHomeAddress();
-        homeAddress.setId(homeAddressRequest.getId());
+        homeAddress.setId(customer.getHomeAddress().getId()); // TODO
         homeAddress.setCity(homeAddressRequest.getCity());
+        homeAddress.setCustomer(customer); // TODO cust=null for the address without this
         customer.setHomeAddress(homeAddress);
+//        ---------------------------
+
+
+//        var homeAddress = optionalCustomer.get().getHomeAddress();
 
 
 
+        // cust becomes null at this step...
         customerRepository.save(customer);
+
+
 
         var response = new UpdateCustomerResponse();
         response.setId(customer.getId());
@@ -259,17 +273,25 @@ public class CustomerServiceImpl implements CustomerService {
         var addressResponses = new ArrayList<UpdateAddressResponse>();
         for (Address address : customer.getAddresses()) {
             var addressResponse = new UpdateAddressResponse();
-            addressResponse.setId(address.getId());
+//            addressResponse.setId(customer.getAddresses().getId()); // TODO ??? yes
             addressResponse.setCity(address.getCity());
             addressResponses.add(addressResponse);
         }
         response.setAddresses(addressResponses);
 
-
+//------------------------------
         var homeAddressResponse = new UpdateHomeAddressResponse();
-        homeAddressResponse.setId(homeAddress.getId());
-        homeAddressResponse.setCity(homeAddress.getCity());
+        HomeAddress homeAddress1 = customer.getHomeAddress();
+
+        homeAddressResponse.setId(customer.getHomeAddress().getId()); // TODO ?? when it is updated a new id+1 is created like Create
+        homeAddressResponse.setCity(homeAddress1.getCity());
+
         response.setHomeAddress(homeAddressResponse);
+//        --------------------------------
+//        var homeAddressResponse = new UpdateHomeAddressResponse();
+//        homeAddressResponse.setId(homeAddress.getId());
+//        homeAddressResponse.setCity(homeAddress.getCity());
+//        response.setHomeAddress(homeAddressResponse);
 
 
         return response;
