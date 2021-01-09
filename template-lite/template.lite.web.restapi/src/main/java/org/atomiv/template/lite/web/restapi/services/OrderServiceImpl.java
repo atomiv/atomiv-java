@@ -32,9 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAllOrders() {
-//data-examples-master
 
-        //sorting-master --> tutorials
         // List<Tutorial> tutorials = tutorialRepository.findAll(Sort.by(orders));
         return (List<Order>) orderRepository.findAll();
     }

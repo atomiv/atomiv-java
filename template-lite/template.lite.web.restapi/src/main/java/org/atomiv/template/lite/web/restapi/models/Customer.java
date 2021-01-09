@@ -71,12 +71,6 @@ public class Customer {
     }
 
 
-    //    //And always call addEmailAddress() to add an email for a customer. You can apply the same idea for updating an email address for a customer.
-//    private void addAddress(Address address) {
-//        this.addresses.add(address);
-//        address.setCustomer(this);
-//    }
-
 
     //    public void addAddress(Address address) {
 //        address.setCustomer(this);

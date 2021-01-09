@@ -4,9 +4,7 @@ import org.atomiv.template.lite.web.restapi.dtos.address.CreateAddressRequest;
 import org.atomiv.template.lite.web.restapi.dtos.address.CreateAddressResponse;
 import org.atomiv.template.lite.web.restapi.dtos.address.GetAddressResponse;
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
-import org.atomiv.template.lite.web.restapi.dtos.home_address.CreateHomeAddressRequest;
-import org.atomiv.template.lite.web.restapi.dtos.home_address.CreateHomeAddressResponse;
-import org.atomiv.template.lite.web.restapi.dtos.home_address.GetHomeAddressResponse;
+import org.atomiv.template.lite.web.restapi.dtos.home_address.*;
 import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
 import org.atomiv.template.lite.web.restapi.dtos.product.GetAllProductsResponse;
 import org.atomiv.template.lite.web.restapi.dtos.product.UpdateProductResponse;
@@ -53,19 +51,40 @@ public class CustomerServiceImpl implements CustomerService {
 
         var records = new ArrayList<GetAllCustomersRecordResponse>();
 
+
         for(Customer customer : customers) {
             var record = new GetAllCustomersRecordResponse();
             record.setId(customer.getId());
             record.setFirstName(customer.getFirstName());
             record.setLastName(customer.getLastName());
-//            record.setAddresses(customer.getAddresses());
-//            record.setHomeAddress(customer.getHomeAddress());
-//            record.setOrders(customer.getOrders());
+
+
+            var homeAddressRecords = new ArrayList<GetAllHomeAddressesRecordResponse>();
+
+//            for(HomeAddress homeAddress : homeAddresses ) {
+                var homeAddressRecord = new GetAllHomeAddressesRecordResponse();
+                homeAddressRecord.setId(customer.getHomeAddress().getId());
+                homeAddressRecord.setCity(customer.getHomeAddress().getCity());
+                homeAddressRecords.add(homeAddressRecord);
+
+                record.setHomeAddress(homeAddressRecord);
+//            }
+
+            // JELENA
+//            records.add(homeAddressRecord);
+
             records.add(record);
+
+
         }
 
         var response = new GetAllCustomersResponse();
+        var homeAddressResponse = new GetAllHomeAddressesResponse();
+//        homeAddressResponse.setRecords(homeAddressRecords);
         response.setRecords(records);
+//        response.setRecords(homeAddressRecords);
+
+
 
         return response;
     }
@@ -105,7 +124,6 @@ public class CustomerServiceImpl implements CustomerService {
             addressResponses.add(addressResponse);
         }
         response.setAddresses(addressResponses);
-
 
 
 
