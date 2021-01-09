@@ -1,9 +1,6 @@
 package org.atomiv.template.lite.web.restapi.services;
 
-import org.atomiv.template.lite.web.restapi.dtos.address.CreateAddressRequest;
-import org.atomiv.template.lite.web.restapi.dtos.address.CreateAddressResponse;
-import org.atomiv.template.lite.web.restapi.dtos.address.GetAddressResponse;
-import org.atomiv.template.lite.web.restapi.dtos.address.GetAllAddressesRecordResponse;
+import org.atomiv.template.lite.web.restapi.dtos.address.*;
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.*;
 import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
@@ -229,10 +226,21 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setOrders(orders); // ???
 
 
+
+        var addresses = new ArrayList<Address>();
+        for (UpdateAddressRequest addressRequest : request.getAddresses()) {
+            var address = new Address();
+            address.setId(addressRequest.getId());
+            address.setCity(addressRequest.getCity());
+            addresses.add(address);
+        }
+        customer.setAddresses(addresses);
+
+
+
 //        var homeAddress = optionalCustomer.get().getHomeAddress();
         var homeAddress = new HomeAddress();
         UpdateHomeAddressRequest homeAddressRequest = request.getHomeAddress();
-//        homeAddress.setId(optionalCustomer.get().getHomeAddress().getId());
         homeAddress.setId(homeAddressRequest.getId());
         homeAddress.setCity(homeAddressRequest.getCity());
         customer.setHomeAddress(homeAddress);
@@ -248,6 +256,16 @@ public class CustomerServiceImpl implements CustomerService {
 //        response.setAddresses(customer.getAddresses());
 //        response.setHomeAddress(customer.getHomeAddress());
 //        response.setOrders(customer.getOrders());
+
+
+        var addressResponses = new ArrayList<UpdateAddressResponse>();
+        for (Address address : customer.getAddresses()) {
+            var addressResponse = new UpdateAddressResponse();
+            addressResponse.setId(address.getId());
+            addressResponse.setCity(address.getCity());
+            addressResponses.add(addressResponse);
+        }
+        response.setAddresses(addressResponses);
 
 
         var homeAddressResponse = new UpdateHomeAddressResponse();
