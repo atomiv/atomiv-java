@@ -3,6 +3,7 @@ package org.atomiv.template.lite.web.restapi.services;
 import org.atomiv.template.lite.web.restapi.dtos.address.CreateAddressRequest;
 import org.atomiv.template.lite.web.restapi.dtos.address.CreateAddressResponse;
 import org.atomiv.template.lite.web.restapi.dtos.address.GetAddressResponse;
+import org.atomiv.template.lite.web.restapi.dtos.address.GetAllAddressesRecordResponse;
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.*;
 import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
@@ -61,28 +62,31 @@ public class CustomerServiceImpl implements CustomerService {
 
             var homeAddressRecords = new ArrayList<GetAllHomeAddressesRecordResponse>();
 
-//            for(HomeAddress homeAddress : homeAddresses ) {
                 var homeAddressRecord = new GetAllHomeAddressesRecordResponse();
                 homeAddressRecord.setId(customer.getHomeAddress().getId());
                 homeAddressRecord.setCity(customer.getHomeAddress().getCity());
                 homeAddressRecords.add(homeAddressRecord);
 
                 record.setHomeAddress(homeAddressRecord);
-//            }
 
-            // JELENA
-//            records.add(homeAddressRecord);
+//            ------------------------
+            var addressRecords = new ArrayList<GetAllAddressesRecordResponse>();
+
+            for (Address address : customer.getAddresses()) {
+                var addressRecord = new GetAllAddressesRecordResponse();
+                addressRecord.setId(address.getId());
+                addressRecord.setCity(address.getCity());
+                addressRecords.add(addressRecord);
+                record.setAddresses(addressRecords);
+            }
+            record.setAddresses(addressRecords);
 
             records.add(record);
-
 
         }
 
         var response = new GetAllCustomersResponse();
-        var homeAddressResponse = new GetAllHomeAddressesResponse();
-//        homeAddressResponse.setRecords(homeAddressRecords);
         response.setRecords(records);
-//        response.setRecords(homeAddressRecords);
 
 
 

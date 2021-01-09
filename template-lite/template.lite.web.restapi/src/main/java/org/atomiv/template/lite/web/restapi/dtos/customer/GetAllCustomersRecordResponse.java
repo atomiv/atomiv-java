@@ -1,8 +1,10 @@
 package org.atomiv.template.lite.web.restapi.dtos.customer;
 
 import lombok.Data;
+import org.atomiv.template.lite.web.restapi.dtos.address.GetAllAddressesRecordResponse;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.GetAllHomeAddressesRecordResponse;
-import org.atomiv.template.lite.web.restapi.dtos.home_address.GetAllHomeAddressesResponse;
+
+import java.util.List;
 
 @Data
 public class GetAllCustomersRecordResponse {
@@ -14,12 +16,10 @@ public class GetAllCustomersRecordResponse {
     private String lastName;
 
 //    private List<Address> addresses;
+    private List<GetAllAddressesRecordResponse> addresses;
 
-    // JELENA - or should it be
-    // GetAllHomeAddressesResponse ??
     private GetAllHomeAddressesRecordResponse homeAddress;
 
-//    private HomeAddress homeAddress;
 
 //    private List<Order> orders;
 }
