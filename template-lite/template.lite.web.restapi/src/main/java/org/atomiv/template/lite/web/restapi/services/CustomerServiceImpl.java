@@ -253,8 +253,6 @@ public class CustomerServiceImpl implements CustomerService {
         response.setId(customer.getId());
         response.setFirstName(customer.getFirstName());
         response.setLastName(customer.getLastName());
-//        response.setAddresses(customer.getAddresses());
-//        response.setHomeAddress(customer.getHomeAddress());
 //        response.setOrders(customer.getOrders());
 
 

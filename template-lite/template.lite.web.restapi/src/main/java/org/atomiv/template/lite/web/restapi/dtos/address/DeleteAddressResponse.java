@@ -4,4 +4,6 @@ import lombok.Data;
 
 @Data
 public class DeleteAddressResponse {
+    private Long id;
+    private String city;
 }

@@ -15,10 +15,8 @@ public class UpdateCustomerRequest {
 
     private String lastName;
 
-//    private List<Address> addresses;
     private List<UpdateAddressRequest> addresses;
 
-//    private HomeAddress homeAddress;
     private UpdateHomeAddressRequest homeAddress;
 
 //    private List<Order> orders;
