@@ -89,7 +89,6 @@ public class CustomerServiceImpl implements CustomerService {
         response.setRecords(records);
 
 
-
         return response;
     }
 
@@ -135,18 +134,6 @@ public class CustomerServiceImpl implements CustomerService {
         homeAddressResponse.setId(customer.getHomeAddress().getId());
         homeAddressResponse.setCity(customer.getHomeAddress().getCity());
         response.setHomeAddress(homeAddressResponse);
-
-
-
-//        var addresses = new ArrayList<Address>();
-//        for (GetAddressResponse addressResponse : response.getAddresses() ) {
-//            var address = new Address();
-//            address.setId(customer.getHomeAddress().getId());
-//            address.setCity(customer.getHomeAddress().getCity());
-//            addresses.add(address);
-//        }
-//        customer.setAddresses(addresses);
-
 
 
 //        response.setOrders(customer.getOrders());
@@ -224,6 +211,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public UpdateCustomerResponse updateCustomer(UpdateCustomerRequest request) {
 
+        var orders = (List<Order>) orderRepository.findAll(); // ?????
+
         var id = request.getId();
         var optionalCustomer = customerRepository.findById(id);
 
@@ -236,8 +225,19 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setFirstName(request.getFirstName());
         customer.setLastName(request.getLastName());
 //        customer.setAddresses(request.getAddresses());
-//        customer.setHomeAddress(request.getHomeAddress());
 //        customer.setOrders(request.getOrders());
+        customer.setOrders(orders); // ???
+
+
+//        var homeAddress = optionalCustomer.get().getHomeAddress();
+        var homeAddress = new HomeAddress();
+        UpdateHomeAddressRequest homeAddressRequest = request.getHomeAddress();
+//        homeAddress.setId(optionalCustomer.get().getHomeAddress().getId());
+        homeAddress.setId(homeAddressRequest.getId());
+        homeAddress.setCity(homeAddressRequest.getCity());
+        customer.setHomeAddress(homeAddress);
+
+
 
         customerRepository.save(customer);
 
@@ -248,6 +248,13 @@ public class CustomerServiceImpl implements CustomerService {
 //        response.setAddresses(customer.getAddresses());
 //        response.setHomeAddress(customer.getHomeAddress());
 //        response.setOrders(customer.getOrders());
+
+
+        var homeAddressResponse = new UpdateHomeAddressResponse();
+        homeAddressResponse.setId(homeAddress.getId());
+        homeAddressResponse.setCity(homeAddress.getCity());
+        response.setHomeAddress(homeAddressResponse);
+
 
         return response;
 
