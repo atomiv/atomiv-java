@@ -231,36 +231,40 @@ public class CustomerServiceImpl implements CustomerService {
         var addresses = new ArrayList<Address>();
         for (UpdateAddressRequest addressRequest : request.getAddresses()) {
             var address = new Address();
-//            address.setId(customer.); // TODO
-//            address.setId(addressRequest.getId()); // ??? NO
-//            address.setId(address.getId()); // TODO
+//            address.setId(addressRequest.getId());
+//            address.setId(address.getId());
+//            address.setId(customer.getAddresses().getId());
             // TODO - issue - id is not being set when updating, it's creating a new id
             // TODO when it's updated, says id: null, so it creates a new one
-            address.setId(address.getId());
+//            TODO :: ID IS STILL NULL when 'update'
+//            address.setId(address.getId()); // TODO it is still null
+            addressRequest.setId(address.getId()); // TODO WORKING
+//            address.setId(addressRequest.getId()); // TODO WORKING
             address.setCity(addressRequest.getCity());
             address.setCustomer(customer);
             addresses.add(address);
         }
+        // TODO guessing
+//        for (Address address : customer.getAddresses()) {
+////            var address1 = new Address();
+//            address.setId(address.getId());
+////            address1.setId(address.getId());
+//            addresses.add(address);
+//        }
         customer.setAddresses(addresses);
 
 
-        //        ------------------
+
         var homeAddress = new HomeAddress();
         UpdateHomeAddressRequest homeAddressRequest = request.getHomeAddress();
         homeAddress.setId(customer.getHomeAddress().getId()); // TODO
         homeAddress.setCity(homeAddressRequest.getCity());
         homeAddress.setCustomer(customer); // TODO cust=null for the address without this
         customer.setHomeAddress(homeAddress);
-//        ---------------------------
-
-
-//        var homeAddress = optionalCustomer.get().getHomeAddress();
 
 
 
-        // cust becomes null at this step...
         customerRepository.save(customer);
-
 
 
         var response = new UpdateCustomerResponse();
@@ -274,6 +278,7 @@ public class CustomerServiceImpl implements CustomerService {
         for (Address address : customer.getAddresses()) {
             var addressResponse = new UpdateAddressResponse();
 //            addressResponse.setId(customer.getAddresses().getId()); // TODO ??? yes
+            addressResponse.setId(address.getId()); // TODO
             addressResponse.setCity(address.getCity());
             addressResponses.add(addressResponse);
         }
@@ -283,7 +288,7 @@ public class CustomerServiceImpl implements CustomerService {
         var homeAddressResponse = new UpdateHomeAddressResponse();
         HomeAddress homeAddress1 = customer.getHomeAddress();
 
-        homeAddressResponse.setId(customer.getHomeAddress().getId()); // TODO ?? when it is updated a new id+1 is created like Create
+        homeAddressResponse.setId(customer.getHomeAddress().getId()); // TODO
         homeAddressResponse.setCity(homeAddress1.getCity());
 
         response.setHomeAddress(homeAddressResponse);
@@ -298,23 +303,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 // ----------------------------------------------------
-        //@PutMapping("/customers/{id}")
-        // CHECK
-        //    Customer replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id){
-        //        return customerRepository.findById(id)
-        //                .map(customer -> {
-        //                    customer.setUser(newCustomer.getUser());
-        //                    customer.setWallet(newCustomer.getWallet());
-        //                    return customerRepository.save(customer);
-        //                })
-        //                .orElseGet(() -> {
-        //                    newCustomer.setId(id);
-        //                    return customerRepository.save(newCustomer);
-        //                });
-        //    }
-
-
-
 //        @PutMapping(value = "/{customerId}")
 //        public ResponseEntity<Customer> updateCustomer(@PathVariable Integer customerId, @RequestBody Customer newCustomer) {
 //
