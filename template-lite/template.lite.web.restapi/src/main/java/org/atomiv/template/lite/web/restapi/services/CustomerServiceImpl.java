@@ -238,8 +238,8 @@ public class CustomerServiceImpl implements CustomerService {
             // TODO when it's updated, says id: null, so it creates a new one
 //            TODO :: ID IS STILL NULL when 'update'
 //            address.setId(address.getId()); // TODO it is still null
-            addressRequest.setId(address.getId()); // TODO WORKING
-//            address.setId(addressRequest.getId()); // TODO WORKING
+//            addressRequest.setId(address.getId()); // TODO working but prior entry remains, id becomes null
+            address.setId(addressRequest.getId()); // TODO WORKING
             address.setCity(addressRequest.getCity());
             address.setCustomer(customer);
             addresses.add(address);
@@ -284,7 +284,8 @@ public class CustomerServiceImpl implements CustomerService {
         }
         response.setAddresses(addressResponses);
 
-//------------------------------
+
+
         var homeAddressResponse = new UpdateHomeAddressResponse();
         HomeAddress homeAddress1 = customer.getHomeAddress();
 
@@ -292,11 +293,6 @@ public class CustomerServiceImpl implements CustomerService {
         homeAddressResponse.setCity(homeAddress1.getCity());
 
         response.setHomeAddress(homeAddressResponse);
-//        --------------------------------
-//        var homeAddressResponse = new UpdateHomeAddressResponse();
-//        homeAddressResponse.setId(homeAddress.getId());
-//        homeAddressResponse.setCity(homeAddress.getCity());
-//        response.setHomeAddress(homeAddressResponse);
 
 
         return response;
