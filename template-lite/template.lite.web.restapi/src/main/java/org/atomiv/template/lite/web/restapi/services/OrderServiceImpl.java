@@ -181,30 +181,32 @@ public class OrderServiceImpl implements OrderService {
         var orderItems = new ArrayList<OrderItem>();
         for (UpdateOrderItemRequest orderItemRequest : request.getOrderItems()) {
             var orderItem = new OrderItem();
-            var product = orderItem.getProduct();
+//            var product = orderItem.getProduct();
+            var product = productRepository.findById(orderItemRequest.getProductId()).get();
 
             orderItem.setId(orderItemRequest.getId());
             orderItem.setQuantity(orderItemRequest.getQuantity());
             orderItem.setProduct(product);
             orderItem.setOrder(order);
             orderItems.add(orderItem);
+            order.getOrderItems().clear();
         }
-        order.setOrderItems(orderItems);
+        order.getOrderItems().addAll(orderItems);
 
         orderRepository.save(order);
 
         var response = new UpdateOrderResponse();
         response.setId(order.getId());
         response.setOrderAddress(order.getOrderAddress());
-//        response.setCustomerId();
-//        response.setCustomerFirstName();
+        response.setCustomerId(order.getCustomer().getId());
+        response.setCustomerFirstName(order.getCustomer().getFirstName());
 
         var orderItemResponses = new ArrayList<UpdateOrderItemResponse>();
         for (OrderItem orderItem : order.getOrderItems()) {
             var product = orderItem.getProduct();
             var orderItemResponse = new UpdateOrderItemResponse();
             orderItemResponse.setId(orderItem.getId());
-            orderItemResponse.setQuantity(orderItemResponse.getQuantity());
+            orderItemResponse.setQuantity(orderItem.getQuantity());
             orderItemResponse.setProductId(product.getId());
             orderItemResponse.setProductName(product.getName());
             orderItemResponses.add(orderItemResponse);

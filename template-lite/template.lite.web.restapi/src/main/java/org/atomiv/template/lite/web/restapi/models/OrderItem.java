@@ -20,15 +20,14 @@ public class OrderItem {
 
     // Order + OrderItem -----------------
     //@ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference // needed otherwise there's an error.
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne()// TODO: JC. issues with UPDATE. cascade = CascadeType.ALL, optional = false
     @JoinColumn(name = "order_id")
     private Order order;
 
 
 
     //    TODO: if it's unidirectional @OneToMany ???
-    @ManyToOne(optional = false)//optional is not necessary. doesn't work if cascade.. cascade = CascadeType.ALL
+    @ManyToOne()//TODO issues with UPDATE.. optional = false  PUT IT BACK //optional is not necessary. doesn't work if cascade.. cascade = CascadeType.ALL
     //referenced column = id
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")//--> replace @JoinColumn with @MapsId
     private Product product;

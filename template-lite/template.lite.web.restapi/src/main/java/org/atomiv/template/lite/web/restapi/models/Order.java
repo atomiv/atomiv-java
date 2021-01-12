@@ -71,8 +71,9 @@ public class Order {
 
 
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 //    // @OrderBy("id ASC")
+    @OrderBy("id")
     private List<OrderItem> orderItems;
 
 

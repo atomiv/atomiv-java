@@ -207,7 +207,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public UpdateCustomerResponse updateCustomer(UpdateCustomerRequest request) {
 
-        var orders = (List<Order>) orderRepository.findAll(); // ?????
+        var orders = (List<Order>) orderRepository.findAll();
 
         var id = request.getId();
         var optionalCustomer = customerRepository.findById(id);
