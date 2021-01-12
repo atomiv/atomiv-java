@@ -1,8 +1,8 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
-import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderRequest;
-import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderResponse;
+import org.atomiv.template.lite.web.restapi.dtos.order.*;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
+import org.atomiv.template.lite.web.restapi.exceptions.OrderNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.Order;
 import org.atomiv.template.lite.web.restapi.services.CustomerService;
 import org.atomiv.template.lite.web.restapi.services.OrderService;
@@ -38,23 +38,26 @@ public class OrdersController {
 
 
     @GetMapping(path = "")
-    public ResponseEntity<List<Order>> getAllOrders()
+    public ResponseEntity<GetAllOrdersResponse> getAllOrders()
     {
-        List<Order> list = orderService.getAllOrders();
-        return new ResponseEntity<List<Order>>(list, HttpStatus.OK);
+        var response = orderService.getAllOrders();
+        return new ResponseEntity<GetAllOrdersResponse>(response, HttpStatus.OK);
     }
 
 
 
     @GetMapping("{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable("id") Long id)
+    public ResponseEntity<GetOrderResponse> getOrderById(@PathVariable("id") Long id)
     {
-        try {
-            return new ResponseEntity<Order>(orderService.getOrderById(id), HttpStatus.OK);
-        } catch (CustomerNotFoundException exception) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Order Not Found");
+        var response = orderService.getOrderById(id);
+
+        if(response == null) {
+            throw new OrderNotFoundException("Order not found");
+//          throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Order Not Found");
         }
+
+        return new ResponseEntity<GetOrderResponse>(response, HttpStatus.OK);
+
     }
 
 
@@ -67,14 +70,17 @@ public class OrdersController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable(value = "id") Long id, @Valid @RequestBody Order order)
+    public ResponseEntity<UpdateOrderResponse> updateOrder(@PathVariable(value = "id") Long id, @Valid @RequestBody UpdateOrderRequest request)
     {
-        return new ResponseEntity<Order>(orderService.updateOrder(order), HttpStatus.OK);
+        var response = orderService.updateOrder(request);
+        return new ResponseEntity<UpdateOrderResponse>(response, HttpStatus.OK);
     }
 
 
     @DeleteMapping("{id}")
-    public void deleteOrder(@PathVariable Long id) {
+//    public void deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrderById(id);
+        return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
     }
 }

@@ -143,8 +143,14 @@ public class CustomersController {
     @PutMapping("{id}")
     public ResponseEntity<UpdateCustomerResponse> updateCustomer(@PathVariable(value = "id") Long id, @Valid @RequestBody UpdateCustomerRequest request)
         {
-            var response = customerService.updateCustomer(request);
-            return new ResponseEntity<UpdateCustomerResponse>(response, HttpStatus.OK);
+            try {
+                var response = customerService.updateCustomer(request);
+                return new ResponseEntity<UpdateCustomerResponse>(response, HttpStatus.OK);
+            } catch(Exception ex) {
+                throw ex;
+            }
+
+
         }
 
 

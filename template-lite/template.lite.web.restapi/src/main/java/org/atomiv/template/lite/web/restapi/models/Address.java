@@ -23,11 +23,11 @@ public class Address {
 
 
 //    @ManyToOne(cascade = CascadeType.ALL) - Cascade not needed
-    @JsonBackReference
     //@ManyToOne(optional = false, fetch = FetchType.LAZY)//JC
     @ManyToOne()
 //    @MapsId("customer_id") //generated id... @MapsId //
     //  @JoinColumn(name = "customer_id", nullable = false // later
+    // @JoinColumn(name = "TEACHER_ID", referencedColumnName = "ID")
     @JoinColumn(name = "customer_id")// added because customer id 2 columns
     private Customer customer;
 

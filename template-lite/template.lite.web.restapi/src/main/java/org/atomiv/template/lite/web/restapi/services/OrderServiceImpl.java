@@ -1,10 +1,10 @@
 package org.atomiv.template.lite.web.restapi.services;
 
-import org.atomiv.template.lite.web.restapi.dtos.order_item.CreateOrderItemRequest;
-import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderRequest;
-import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderResponse;
-import org.atomiv.template.lite.web.restapi.dtos.order_item.CreateOrderItemResponse;
+import org.atomiv.template.lite.web.restapi.dtos.customer.GetCustomerResponse;
+import org.atomiv.template.lite.web.restapi.dtos.order.*;
+import org.atomiv.template.lite.web.restapi.dtos.order_item.*;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
+import org.atomiv.template.lite.web.restapi.exceptions.OrderNotFoundException;
 import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.*;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
@@ -31,21 +31,85 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<Order> getAllOrders() {
+    public GetAllOrdersResponse getAllOrders() {
 
         // List<Tutorial> tutorials = tutorialRepository.findAll(Sort.by(orders));
-        return (List<Order>) orderRepository.findAll();
+//        return (List<Order>) orderRepository.findAll();
+
+        var orders = (List<Order>) orderRepository.findAll();
+
+        var records = new ArrayList<GetAllOrdersRecordResponse>();
+
+
+        for(Order order : orders) {
+            var record = new GetAllOrdersRecordResponse();
+            record.setId(order.getId());
+            record.setOrderAddress(order.getOrderAddress());
+            record.setCustomerId(order.getCustomer().getId());
+            record.setCustomerFirstName(order.getCustomer().getFirstName());
+
+
+            var orderItemRecords = new ArrayList<GetAllOrderItemsRecordResponse>();
+
+            for (OrderItem orderItem : order.getOrderItems()) {
+                var product = orderItem.getProduct();
+                var orderItemRecord = new GetAllOrderItemsRecordResponse();
+
+                orderItemRecord.setId(orderItem.getId());
+                orderItemRecord.setQuantity(orderItem.getQuantity());
+                orderItemRecord.setProductId(product.getId());
+                orderItemRecord.setProductName(product.getName());
+                orderItemRecords.add(orderItemRecord);
+            }
+            record.setOrderItems(orderItemRecords);
+
+            records.add(record);
+        }
+
+        var response = new GetAllOrdersResponse();
+        response.setRecords(records);
+
+
+        return response;
     }
 
 
     @Override
-    public Order getOrderById(long id) {
+    public GetOrderResponse getOrderById(long id) {
+
         Optional<Order> optionalOrder = orderRepository.findById(id);
 
-        if(optionalOrder.isPresent())
-            return optionalOrder.get();
-        else
-            throw new ResourceNotFoundException(new CustomerNotFoundException("Customer Not Found"));
+        if(optionalOrder.isEmpty()) {
+            throw new OrderNotFoundException("Order not found");
+        }
+
+        var order = optionalOrder.get();
+
+        var customer= order.getCustomer();
+
+
+        var response = new GetOrderResponse();
+        response.setId(order.getId());
+        response.setOrderAddress(order.getOrderAddress());
+        response.setCustomerId(customer.getId());
+        response.setCustomerFirstName(customer.getFirstName());
+
+        var orderItemResponses = new ArrayList<GetOrderItemResponse>();
+        for (OrderItem orderItem : order.getOrderItems()) {
+            var product = orderItem.getProduct();
+            var orderItemResponse = new GetOrderItemResponse();
+
+            orderItemResponse.setId(orderItem.getId());
+            orderItemResponse.setQuantity(orderItem.getQuantity());
+            orderItemResponse.setProductId(product.getId());
+            orderItemResponse.setProductName(product.getName());
+            orderItemResponses.add(orderItemResponse);
+        }
+        response.setOrderItems(orderItemResponses);
+
+
+        return response;
+
     }
 
 
@@ -83,8 +147,8 @@ public class OrderServiceImpl implements OrderService {
         // CHECK
         for (OrderItem orderItem : order.getOrderItems()) {
             var product = orderItem.getProduct();
-
             var orderItemResponse = new CreateOrderItemResponse();
+
             orderItemResponse.setId(orderItem.getId());
             orderItemResponse.setQuantity(orderItem.getQuantity());
             orderItemResponse.setProductId(product.getId());
@@ -97,92 +161,67 @@ public class OrderServiceImpl implements OrderService {
 
         return response;
 
-
-//        for(OrderItem orderItem : order.getOrderItems()) {
-////            orderItem.setQuantity(orderItem.getQuantity());
-////            orderItem.setId(orderItem.getId());
-////            orderItem.setProduct(orderItem.getProduct());
-////            orderItem.setOrder(orderItem.getOrder());
-//
-////            orderItem.setOrder(order);
-////            orderItem.setOrder(order);
-////            orderRepository.save(order);
-//
-//            orderItemRepository.save(orderItem);
-//        }
-//
-//        return orderRepository.save(order);
-//---------------------------
-        //OrderItem orderItem = new OrderItem();
-        //orderItem.setQuantity(orderItem.getQuantity());
-
-//-------------------------
-//        List<OrderItem> orderItems = order.getOrderItems();
-//
-//        for (OrderItem orderItem : orderItems) {
-//            orderItem.setOrder(orderItem.setQuantity());
-//        }
-//---------------------------
-//        for (OrderItem orderItem : order.getOrderItems()) {
-//            orderItem.setOrder(order);
-//            //orderRepository.save(orderItem);
-//            order.getOrderItems().add(orderItem);
-//        }
-//        return orderRepository.save(order);
-//---------------------------------
-
-
-//        Order savedOrder = orderRepository.save(order);
-//        return savedOrder;
-//
-// -----------------------------------
-
-//        Order newOrder = new Order();
-//        newOrder.setOrderAddress(new String());
-//
-//        order.getOrderItems()
-//                .forEach(orderItem -> {
-//                    OrderItem orderItem1 = new OrderItem();
-//                    orderItem1.setId(orderItem.getId());
-//
-//                    orderItem1.setOrder(newOrder);
-//                    orderItem1.setQuantity(orderItem.getQuantity());
-//
-//                    newOrder.getOrderItems().add(orderItem);
-//                });
-//
-//
-//        return orderRepository.save(newOrder);
-
-
-
     }
 
 
     @Override
-    public Order updateOrder(Order order) {
+    public UpdateOrderResponse updateOrder(UpdateOrderRequest request) {
 
-        Optional<Order> existingOrder = orderRepository.findById(order.getId());
-        if(existingOrder.isEmpty()) {
-            throw new RuntimeException("Cannot find the customer with id " + order.getId());
+        var id = request.getId();
+        var optionalOrder = orderRepository.findById(id);
+
+        if(optionalOrder.isEmpty()) {
+            throw new OrderNotFoundException("Order not found");
         }
-        existingOrder.get().setOrderAddress(order.getOrderAddress());
-        existingOrder.get().setOrderItems(order.getOrderItems());
-        // products
-        // existingCustomer.get().setAddresses(customer.getAddresses());
-//        existingOrder.get().setProducts(order.getProducts());
-        return orderRepository.save(existingOrder.get());
-    }
 
+        var order = optionalOrder.get();
+        order.setOrderAddress(request.getOrderAddress());
+//        order.setCustomer();
+
+        var orderItems = new ArrayList<OrderItem>();
+        for (UpdateOrderItemRequest orderItemRequest : request.getOrderItems()) {
+            var orderItem = new OrderItem();
+            var product = orderItem.getProduct();
+
+            orderItem.setId(orderItemRequest.getId());
+            orderItem.setQuantity(orderItemRequest.getQuantity());
+            orderItem.setProduct(product);
+            orderItem.setOrder(order);
+            orderItems.add(orderItem);
+        }
+        order.setOrderItems(orderItems);
+
+        orderRepository.save(order);
+
+        var response = new UpdateOrderResponse();
+        response.setId(order.getId());
+        response.setOrderAddress(order.getOrderAddress());
+//        response.setCustomerId();
+//        response.setCustomerFirstName();
+
+        var orderItemResponses = new ArrayList<UpdateOrderItemResponse>();
+        for (OrderItem orderItem : order.getOrderItems()) {
+            var product = orderItem.getProduct();
+            var orderItemResponse = new UpdateOrderItemResponse();
+            orderItemResponse.setId(orderItem.getId());
+            orderItemResponse.setQuantity(orderItemResponse.getQuantity());
+            orderItemResponse.setProductId(product.getId());
+            orderItemResponse.setProductName(product.getName());
+            orderItemResponses.add(orderItemResponse);
+        }
+        response.setOrderItems(orderItemResponses);
+
+        return response;
+    }
 
 
 
 
         @Override
     public void deleteOrderById(long id) {
+
         orderRepository.deleteById(id);
     }
-
 
 
 

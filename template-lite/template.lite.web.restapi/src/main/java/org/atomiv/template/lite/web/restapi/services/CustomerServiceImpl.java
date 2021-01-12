@@ -74,7 +74,6 @@ public class CustomerServiceImpl implements CustomerService {
                 addressRecord.setId(address.getId());
                 addressRecord.setCity(address.getCity());
                 addressRecords.add(addressRecord);
-                record.setAddresses(addressRecords);
             }
             record.setAddresses(addressRecords);
 
@@ -118,7 +117,7 @@ public class CustomerServiceImpl implements CustomerService {
 //        for (Person p : list/persons) {
         var addressResponses = new ArrayList<GetAddressResponse>();
         for (Address address : customer.getAddresses() ) {
-            var addressResponse = new GetAddressResponse();
+            var addressResponse = new GetAddressResponse(); // var -> GetAddressResponse
             addressResponse.setId(address.getId());
             addressResponse.setCity(address.getCity());
             addressResponses.add(addressResponse);
@@ -177,7 +176,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
 
         var response = new CreateCustomerResponse();
-        response.setId(customer.getId()); // TODO
+        response.setId(customer.getId());
         response.setFirstName(customer.getFirstName());
         response.setLastName(customer.getLastName());
 //        response.setOrders(customer.getOrders());
@@ -186,7 +185,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         for (Address address : customer.getAddresses()) {
             var addressResponse = new CreateAddressResponse();
-            addressResponse.setId(address.getId()); // TODO
+            addressResponse.setId(address.getId());
             addressResponse.setCity(address.getCity());
 
             addressResponses.add(addressResponse);
@@ -195,7 +194,7 @@ public class CustomerServiceImpl implements CustomerService {
         response.setAddresses(addressResponses);
 
         var homeAddressResponse = new CreateHomeAddressResponse();
-        homeAddressResponse.setId(customer.getHomeAddress().getId()); // TODO or homeAddress.getId
+        homeAddressResponse.setId(homeAddress.getId());
         homeAddressResponse.setCity(homeAddress.getCity());
 
         response.setHomeAddress(homeAddressResponse);
@@ -226,32 +225,28 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 
-// TODO how is request.getId handled for addresses. is it necessary to mention anywhere
 
         var addresses = new ArrayList<Address>();
         for (UpdateAddressRequest addressRequest : request.getAddresses()) {
             var address = new Address();
-//            address.setId(addressRequest.getId());
-//            address.setId(address.getId());
 //            address.setId(customer.getAddresses().getId());
-            // TODO - issue - id is not being set when updating, it's creating a new id
-            // TODO when it's updated, says id: null, so it creates a new one
-//            TODO :: ID IS STILL NULL when 'update'
-//            address.setId(address.getId()); // TODO it is still null
-//            addressRequest.setId(address.getId()); // TODO working but prior entry remains, id becomes null
             address.setId(addressRequest.getId()); // TODO WORKING
             address.setCity(addressRequest.getCity());
             address.setCustomer(customer);
             addresses.add(address);
+//            customer.addAddress(address); // TODO - new thing but maybe there's issues
+            customer.getAddresses().clear();
         }
-        // TODO guessing
-//        for (Address address : customer.getAddresses()) {
-////            var address1 = new Address();
-//            address.setId(address.getId());
-////            address1.setId(address.getId());
-//            addresses.add(address);
-//        }
-        customer.setAddresses(addresses);
+//        customer.setAddresses(addresses);
+        customer.getAddresses().addAll(addresses);
+
+
+
+//        var addresses = new ArrayList<Address>();
+//        var address = new Address();
+//        addresses.add(address);
+
+
 
 
 
@@ -334,6 +329,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteAllCustomers() {
+
         customerRepository.deleteAll();
     }
 

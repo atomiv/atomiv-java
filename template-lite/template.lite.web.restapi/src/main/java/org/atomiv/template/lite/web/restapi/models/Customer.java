@@ -31,10 +31,19 @@ public class Customer {
 
 //    @OneToMany(mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL, orphanRemoval = true)
     //Unidirectional association with one-to-many
+//    , orphanRemoval = true ?// issues
+    // added mappedBy, fetch and orphanRemoval
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+//    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id") // removed this, added mappedBy above for bidirectional. Added referencedColumnName so  customer_customer_d isn't created on top of customer_id in teh Addresses table
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy="customer", cascade=CascadeType.ALL)
+    /*
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id") // removed this, added mappedBy above for bidirectional. Added referencedColumnName so  customer_customer_d isn't created on top of customer_id in teh Addresses table
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")// necessary???
     private List<Address> addresses;
-
+    */
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval=true)
+    @OrderBy("id") // add everywhere
+    private List<Address> addresses;
 
 
     // Implementing with a Shared Primary Key in JPA
@@ -68,6 +77,12 @@ public class Customer {
 
 
     public Customer() {
+    }
+
+    // for orphan removal??
+    public void addAddress(Address address) {
+        this.addresses.add(address);
+        address.setCustomer(this);
     }
 
 
