@@ -53,7 +53,6 @@ public class OrdersController {
 
         if(response == null) {
             throw new OrderNotFoundException("Order not found");
-//          throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Order Not Found");
         }
 
         return new ResponseEntity<GetOrderResponse>(response, HttpStatus.OK);

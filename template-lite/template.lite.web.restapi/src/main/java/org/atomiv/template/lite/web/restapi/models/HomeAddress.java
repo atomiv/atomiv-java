@@ -1,14 +1,12 @@
 package org.atomiv.template.lite.web.restapi.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity//(name = "HomeAddress")
 @Table(name = "home_address")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 public class HomeAddress {
     @Id
@@ -45,11 +43,10 @@ public class HomeAddress {
     //@JoinColumn(name = "idStock", nullable = false)
     //private Stock stock;
 
-    @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)// added fetch
 //    @MapsId // don't know if this is stuffing up with the order being null when i GET,
 //    the column with the homeAddress id is not being created. yes, it was only creating the customerId column.
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", updatable = false)
     private Customer customer;
 
 

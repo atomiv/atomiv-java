@@ -35,34 +35,10 @@ public class CustomersController {
 //    List products = Arrays.asList(
 //            new Product("1","G Tech", "G Tech Hard drive", 230.45, 25),
 //            new Product("2","WD SSD", "WD HDD", 150, 15),
-//            new Product("3","Samsung SSD", "Samsung Solid State Drive", 100, 12),
-//            new Product("5","Sandisk Pen Drive", "Sandisk Pen Drive", 12, 200)
 //    );
 
-    // --------------------------------------------------
 
-//    private static Map<String, Product> productRepo = new HashMap<>();
-//    static {
-//        Product honey = new Product();
-//        honey.setId("1");
-//        honey.setName("Honey");
-//        productRepo.put(honey.getId(), honey);
-//
-//        Product almond = new Product();
-//        almond.setId("2");
-//        almond.setName("Almond");
-//        productRepo.put(almond.getId(), almond);
-//    }
-//--------------------------------------
-    //@RequestMapping(value ="/book3", produces =MediaType.APPLICATION_JSON_VALUE )
-    //public ResponseEntity<Book> bookInfo3() {
-    //    Book book = new Book();
-    //    book.setBookName("Ramayan");
-    //    book.setWriter("Valmiki");
-    //    return ResponseEntity.accepted().body(book);
-    //}
-//    ---------------------------------
-
+    // @RequestMapping(value ="/book3", produces =MediaType.APPLICATION_JSON_VALUE )
 
 
 //    @GetMapping("/customers/orders/{customer_first_name}")
@@ -94,7 +70,6 @@ public class CustomersController {
     //
     @GetMapping("{id}")
     // public Resource<User> ... Resource or ResponseEntity
-    // public Company getCompanyById(
     // Long or long
     // GLOBAL HANDLER
     public ResponseEntity<GetCustomerResponse> getCustomerById(@PathVariable("id") Long id)

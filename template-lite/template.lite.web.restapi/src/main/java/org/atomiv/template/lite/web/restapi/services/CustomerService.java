@@ -18,6 +18,18 @@ public interface CustomerService {
     // List<Customer> findByFirstName(String firstName);
 
     // Long count();
+    // long countAll = Customer.count();
+    // long countActive = Customer.count("status", Status.Active)
+//    @GET
+//    public long count(){
+//        return customerRepository.count();
+//    }
+
+//    long countActive = personRepository.count("status", Status.Active);
+
+    // customerRepository.delete("status", Status.Active);
+
+    // List<Customer> customers = Customer.list("order by name,birth");
 
     CreateCustomerResponse createCustomer(CreateCustomerRequest request);
 
