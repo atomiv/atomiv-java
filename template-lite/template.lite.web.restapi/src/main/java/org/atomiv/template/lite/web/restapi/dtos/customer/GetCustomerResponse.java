@@ -17,10 +17,7 @@ public class GetCustomerResponse {
 
     private List<GetAddressResponse> addresses;
 
-//    private List<Address> addresses;
-
     private GetHomeAddressResponse homeAddress;
-//    private HomeAddress homeAddress;
 
 //    private List<Order> orders;
 }

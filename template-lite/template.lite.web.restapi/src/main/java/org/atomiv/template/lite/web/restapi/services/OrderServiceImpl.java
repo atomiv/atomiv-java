@@ -135,6 +135,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setOrderItems(orderItems);
+        // TODO ERROR HAPPENS HERE i.e. in the line above
+        // Method threw 'java.lang.StackOverflowError' exception. Cannot evaluate Order.toString()
         orderRepository.save(order);
 
         var response = new CreateOrderResponse();
@@ -144,7 +146,7 @@ public class OrderServiceImpl implements OrderService {
         response.setCustomerFirstName(order.getCustomer().getFirstName());
 
         var orderItemResponses = new ArrayList<CreateOrderItemResponse>();
-        // CHECK
+
         for (OrderItem orderItem : order.getOrderItems()) {
             var product = orderItem.getProduct();
             var orderItemResponse = new CreateOrderItemResponse();

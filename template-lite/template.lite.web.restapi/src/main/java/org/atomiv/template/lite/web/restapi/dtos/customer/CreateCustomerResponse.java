@@ -4,6 +4,7 @@ import lombok.Data;
 import org.atomiv.template.lite.web.restapi.dtos.address.CreateAddressResponse;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.CreateHomeAddressResponse;
 import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderResponse;
+import org.atomiv.template.lite.web.restapi.dtos.order.GetAllOrdersResponse;
 
 import java.util.List;
 
@@ -20,7 +21,6 @@ public class CreateCustomerResponse {
 
     private CreateHomeAddressResponse homeAddress;
 
-    private List<CreateOrderResponse> orders;
-
+//    private List<GetAllOrdersResponse> orders;
 //    private List<Order> orders;
 }

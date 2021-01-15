@@ -99,6 +99,7 @@ public class Customer {
     // This is not good practice ,as you are using string concatenation
     // StringBuilder is a better choice in such a situation
     // TODO what is the purpose of this
+    // to prevent the error when debugging: Method threw 'java.lang.StackOverflow' exception. Cannot evaluate org.atomiv.template.lite.web.restapi.models.Customer.toString() .. also HomeAddress.toString()
     @Override
     public String toString() {
         return "Customer {" +

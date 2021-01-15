@@ -15,7 +15,6 @@ public class GetAllCustomersRecordResponse {
 
     private String lastName;
 
-//    private List<Address> addresses;
     private List<GetAllAddressesRecordResponse> addresses;
 
     private GetAllHomeAddressesRecordResponse homeAddress;

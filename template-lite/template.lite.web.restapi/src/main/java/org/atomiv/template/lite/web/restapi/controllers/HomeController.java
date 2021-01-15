@@ -30,10 +30,10 @@ public class HomeController {
      */
     @GetMapping("/")
     public String index() {
-        // return "index page";
+         return "index page";
 
         // -> org.atomiv.template.lite.web.restapi.controllers.HomeController@410ae5ac
-        return super.toString();
+//        return super.toString();
 //        System.out.println(customer);
 //        System.out.println("hello");
     }

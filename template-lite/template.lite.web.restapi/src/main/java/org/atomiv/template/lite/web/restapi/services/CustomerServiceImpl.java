@@ -142,19 +142,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CreateCustomerResponse createCustomer(CreateCustomerRequest request) {
         //logger.debug("save->customer:"+customer);
-//        customer.getAddresses();
-        //order.getOrderItems().add(orderItem);
 
 //        var order = orderRepository.findById(request.getOrderId()).get();
-        // required: List, provided: Iterable
-        // JELENA
-        var orders = (List<Order>) orderRepository.findAll();
+        // TODO orders is null when creating a customer.. so should this field even be shown
+//        var orders = (List<Order>) orderRepository.findAll();
 
         var customer = new Customer();
         customer.setFirstName(request.getFirstName());
         customer.setLastName(request.getLastName());
-
-        customer.setOrders(orders);
+//        customer.setOrders(orders);
 
         var addresses = new ArrayList<Address>();
 
@@ -229,8 +225,7 @@ public class CustomerServiceImpl implements CustomerService {
         var addresses = new ArrayList<Address>();
         for (UpdateAddressRequest addressRequest : request.getAddresses()) {
             var address = new Address();
-//            address.setId(customer.getAddresses().getId());
-            address.setId(addressRequest.getId()); // TODO WORKING
+            address.setId(addressRequest.getId());
             address.setCity(addressRequest.getCity());
             address.setCustomer(customer);
             addresses.add(address);
@@ -248,13 +243,11 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 
-
-
         var homeAddress = new HomeAddress();
         UpdateHomeAddressRequest homeAddressRequest = request.getHomeAddress();
-        homeAddress.setId(customer.getHomeAddress().getId()); // TODO
+        homeAddress.setId(homeAddressRequest.getId());
         homeAddress.setCity(homeAddressRequest.getCity());
-        homeAddress.setCustomer(customer); // TODO cust=null for the address without this
+        homeAddress.setCustomer(customer);
         customer.setHomeAddress(homeAddress);
 
 
@@ -272,8 +265,7 @@ public class CustomerServiceImpl implements CustomerService {
         var addressResponses = new ArrayList<UpdateAddressResponse>();
         for (Address address : customer.getAddresses()) {
             var addressResponse = new UpdateAddressResponse();
-//            addressResponse.setId(customer.getAddresses().getId()); // TODO ??? yes
-            addressResponse.setId(address.getId()); // TODO
+            addressResponse.setId(address.getId());
             addressResponse.setCity(address.getCity());
             addressResponses.add(addressResponse);
         }
@@ -284,7 +276,7 @@ public class CustomerServiceImpl implements CustomerService {
         var homeAddressResponse = new UpdateHomeAddressResponse();
         HomeAddress homeAddress1 = customer.getHomeAddress();
 
-        homeAddressResponse.setId(customer.getHomeAddress().getId()); // TODO
+        homeAddressResponse.setId(homeAddress1.getId());
         homeAddressResponse.setCity(homeAddress1.getCity());
 
         response.setHomeAddress(homeAddressResponse);

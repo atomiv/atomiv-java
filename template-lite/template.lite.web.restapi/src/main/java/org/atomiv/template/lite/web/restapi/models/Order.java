@@ -16,7 +16,6 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "orders")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Order {
 
     @Id
@@ -34,23 +33,12 @@ public class Order {
 //    @Column(name = "order_status")
 //    private boolean orderStatus;
 
-    // ----------------------------------------------
-//    // Relationships
-//    // Customer
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JsonBackReference(value = "customer") // stop serialization
-//    private Customer customer;
-//
-    //----------------------------------------------------------
-
-
-
     //@OnDelete(action = OnDeleteAction.CASCADE)
     //@JoinColumn(name = "user_id", nullable = false)
 
 
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false) // TODO JC added optional
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
 //    @JoinColumn(name = "order_id", referencedColumnName = "customer_id", insertable=false, updatable=false)
 // Key (order_id)=(3) is not present in table "customers". //for order=1, puts in customer=1, ord=2 puts in automatically ord=2... if customer=3 doesn't exist can't create ord=3
     @JoinColumn(name = "customer_id")
@@ -58,25 +46,12 @@ public class Order {
 
 
 
-
-
-
-
-
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-//    // @OrderBy("id ASC")
-    @OrderBy("id")
+    @OrderBy("id ASC")
     private List<OrderItem> orderItems;
 
 
 
-
-
-//    option1:
-//    @OneToMany(mappedBy = "order")
-//    private List<OrderItem> orderItems = new ArrayList<>();
-//    option 2:
 //    @OneToMany()
 //    @JoinColumn(name = "order_id")
 //    private List<OrderItem> orderItems = new ArrayList<>();
@@ -88,10 +63,12 @@ public class Order {
 
 
 
-//    @Override
-//    public String toString() {
-//        return "Order [orderId=" + id + ", orderNo=" + orderAddress  + "]";
-//    }
+    @Override
+    public String toString() {
+        return "Order [orderId=" + id + ", orderNo=" + orderAddress  + "]";
+        // customer_id
+        // orderItems
+    }
 
 
 
@@ -107,13 +84,6 @@ public class Order {
 //    }
 
 
-
-
-
-    //    @Override
-//    public String toString() {
-//        return "Order [orderId=" + id + ", orderAddress=" + orderAddress  + "]";
-//    }
 }
 
 
