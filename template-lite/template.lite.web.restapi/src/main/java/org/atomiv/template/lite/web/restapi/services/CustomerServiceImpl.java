@@ -2,7 +2,10 @@ package org.atomiv.template.lite.web.restapi.services;
 
 import org.atomiv.template.lite.web.restapi.dtos.address.*;
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
+import org.atomiv.template.lite.web.restapi.dtos.customer_order.GetCustomerOrderResponse;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.*;
+import org.atomiv.template.lite.web.restapi.dtos.order.GetOrderResponse;
+import org.atomiv.template.lite.web.restapi.dtos.order_item.GetOrderItemResponse;
 import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
 import org.atomiv.template.lite.web.restapi.dtos.product.GetAllProductsResponse;
 import org.atomiv.template.lite.web.restapi.dtos.product.UpdateProductResponse;
@@ -107,17 +110,48 @@ public class CustomerServiceImpl implements CustomerService {
 
         var customer= optionalCustomer.get();
 
+
         var response = new GetCustomerResponse();
         response.setId(customer.getId());
         response.setFirstName(customer.getFirstName());
         response.setLastName(customer.getLastName());
 
 
+        // TODO ------------------------
+        var customerOrderResponses = new ArrayList<GetCustomerOrderResponse>();
+        for (Order order : customer.getOrders()) {
+            var customerOrderResponse = new GetCustomerOrderResponse();
+            customerOrderResponse.setId(order.getId());
+            customerOrderResponse.setOrderAddress(order.getOrderAddress());
+
+            var orderItemResponses = new ArrayList<GetOrderItemResponse>();
+            for (OrderItem orderItem : order.getOrderItems()) {
+                var product = orderItem.getProduct();
+                var orderItemResponse = new GetOrderItemResponse();
+
+                orderItemResponse.setId(orderItem.getId());
+                orderItemResponse.setQuantity(orderItem.getQuantity());
+                orderItemResponse.setProductId(product.getId());
+                orderItemResponse.setProductName(product.getName());
+                orderItemResponses.add(orderItemResponse);
+            }
+//          customerOrderResponse.setOrderItems(order.getOrderItems());
+            customerOrderResponse.setOrderItems(orderItemResponses);
+
+            customerOrderResponses.add(customerOrderResponse);
+        }
+        response.setOrders(customerOrderResponses);
+
+
+
+
+
+
 
 //        for (Person p : list/persons) {
         var addressResponses = new ArrayList<GetAddressResponse>();
         for (Address address : customer.getAddresses() ) {
-            var addressResponse = new GetAddressResponse(); // var -> GetAddressResponse
+            var addressResponse = new GetAddressResponse();
             addressResponse.setId(address.getId());
             addressResponse.setCity(address.getCity());
             addressResponses.add(addressResponse);
@@ -132,7 +166,6 @@ public class CustomerServiceImpl implements CustomerService {
         response.setHomeAddress(homeAddressResponse);
 
 
-//        response.setOrders(customer.getOrders());
 
         return response;
     }

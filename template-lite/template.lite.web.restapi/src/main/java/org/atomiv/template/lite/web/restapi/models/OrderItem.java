@@ -21,14 +21,14 @@ public class OrderItem {
 
     //@ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne()// TODO: cascade = CascadeType.ALL, optional = false
-    @JoinColumn(name = "order_id", updatable = false)
+    @JoinColumn(name = "order_id", updatable = false) // TODO. Add:nullable = false
     private Order order;
 
 
 
     @ManyToOne()//optional = false // doesn't work if cascade.. cascade = CascadeType.ALL
     //referenced column = id
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")//--> replace @JoinColumn with @MapsId
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id")//TODO nullable = false...//--> replace @JoinColumn with @MapsId
     private Product product;
 
 

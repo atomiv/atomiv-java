@@ -1,6 +1,7 @@
 package org.atomiv.template.lite.web.restapi.services;
 
 import org.atomiv.template.lite.web.restapi.dtos.customer.GetCustomerResponse;
+import org.atomiv.template.lite.web.restapi.dtos.customer_order.GetCustomerOrderResponse;
 import org.atomiv.template.lite.web.restapi.dtos.order.*;
 import org.atomiv.template.lite.web.restapi.dtos.order_item.*;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
@@ -111,6 +112,45 @@ public class OrderServiceImpl implements OrderService {
         return response;
 
     }
+
+
+// TODO check
+    @Override
+    public GetCustomerOrderResponse getCustomerOrderById(long id) {
+
+        Optional<Order> optionalOrder = orderRepository.findById(id);
+
+        if(optionalOrder.isEmpty()) {
+            throw new OrderNotFoundException("Order not found");
+        }
+
+        var order = optionalOrder.get();
+
+        var customer= order.getCustomer();
+
+
+        var response = new GetCustomerOrderResponse();
+        response.setId(order.getId());
+        response.setOrderAddress(order.getOrderAddress());
+
+        var orderItemResponses = new ArrayList<GetOrderItemResponse>();
+        for (OrderItem orderItem : order.getOrderItems()) {
+            var product = orderItem.getProduct();
+            var orderItemResponse = new GetOrderItemResponse();
+
+            orderItemResponse.setId(orderItem.getId());
+            orderItemResponse.setQuantity(orderItem.getQuantity());
+            orderItemResponse.setProductId(product.getId());
+            orderItemResponse.setProductName(product.getName());
+            orderItemResponses.add(orderItemResponse);
+        }
+        response.setOrderItems(orderItemResponses);
+
+
+        return response;
+
+    }
+
 
 
     @Override

@@ -28,7 +28,7 @@ public class Address {
 //    @MapsId("customer_id") //generated id... @MapsId //
     //  @JoinColumn(name = "customer_id", nullable = false // later
     // @JoinColumn(name = "TEACHER_ID", referencedColumnName = "ID")
-    @JoinColumn(name = "customer_id", insertable = true, updatable = false)
+    @JoinColumn(name = "customer_id", insertable = true, updatable = false)//TODO nullable = false
     private Customer customer;
 
 

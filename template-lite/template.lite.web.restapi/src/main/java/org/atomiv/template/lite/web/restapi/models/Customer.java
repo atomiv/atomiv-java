@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * The type Customer
  */
+//@Entity public class CustomerOrder implements Serializable {
 @Entity//(name = "Customers")
 @Table(name = "customers")
 @Data
@@ -26,6 +27,29 @@ public class Customer {
 
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
+
+
+//    @OrderBy("title ASC")
+
+//@Column(name = "id", updatable = false, nullable = false)
+
+//    @Column(name = "name")
+//    @Email(message = "*Please provide a valid tag")
+//    @NotEmpty(message = "*Please provide an tag")
+//    private String name;
+
+//    @Column(name = "name")
+//    @NotNull
+//    private String name;
+
+//private BillingAddress billingAddress;
+
+//    @NotEmpty (message = "  The username must not be blank.")
+//    private String username;
+//
+//    @NotEmpty (message = "  The password must not be blank.")
+//    private String password;
+//    private boolean enabled;
 
 
 

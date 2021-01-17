@@ -14,7 +14,15 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
     public List<Customer> findByFirstName(String firstName);
+
+//    public List<Customer> findCustomerByOrder(Order order);
+//    --> in CustomerServiceImpl
+//            List<Customer> customer = customerRepository.findCustomerByOrder(order);
+
 }
+
+
+
 
 
 //    // TO DO pass in product id

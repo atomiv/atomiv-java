@@ -37,11 +37,16 @@ public class Order {
     //@JoinColumn(name = "user_id", nullable = false)
 
 
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Column(name = "create_date", nullable = false, updatable = false)
+//    @CreationTimestamp
+//    private java.util.Date createDate;
+
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
 //    @JoinColumn(name = "order_id", referencedColumnName = "customer_id", insertable=false, updatable=false)
 // Key (order_id)=(3) is not present in table "customers". //for order=1, puts in customer=1, ord=2 puts in automatically ord=2... if customer=3 doesn't exist can't create ord=3
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id")// TODO nullable = false
     private Customer customer;
 
 
