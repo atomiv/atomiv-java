@@ -105,7 +105,9 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
 
         if(optionalCustomer.isEmpty()) {
-            throw new CustomerNotFoundException("Customer Not Found");
+            throw new ResourceNotFoundException(
+                    new CustomerNotFoundException("Customer Not Found")
+            );
         }
 
         var customer= optionalCustomer.get();
@@ -135,15 +137,11 @@ public class CustomerServiceImpl implements CustomerService {
                 orderItemResponse.setProductName(product.getName());
                 orderItemResponses.add(orderItemResponse);
             }
-//          customerOrderResponse.setOrderItems(order.getOrderItems());
             customerOrderResponse.setOrderItems(orderItemResponses);
 
             customerOrderResponses.add(customerOrderResponse);
         }
         response.setOrders(customerOrderResponses);
-
-
-
 
 
 

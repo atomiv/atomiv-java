@@ -28,6 +28,8 @@ public class Customer {
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
+//    Address shippingAddress;
+//    Address billingAddress;
 
 //    @OrderBy("title ASC")
 
@@ -116,7 +118,13 @@ public class Customer {
 //        this.addresses.add(address);
 //    }
 
-
+/*
+public void addCustomer(String name) {
+        Customer c = new Customer();
+        c.name = name;
+        repo.save(c);
+    }
+ */
 
 
     // I suggest you make use of your IDE's features to generate the toString method. Don't hand-code it
