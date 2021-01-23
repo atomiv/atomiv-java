@@ -2,13 +2,8 @@ package org.atomiv.template.lite.web.restapi.services;
 
 import org.atomiv.template.lite.web.restapi.dtos.address.*;
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
-import org.atomiv.template.lite.web.restapi.dtos.customer_order.GetCustomerOrderResponse;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.*;
-import org.atomiv.template.lite.web.restapi.dtos.order.GetOrderResponse;
 import org.atomiv.template.lite.web.restapi.dtos.order_item.GetOrderItemResponse;
-import org.atomiv.template.lite.web.restapi.dtos.product.CreateProductResponse;
-import org.atomiv.template.lite.web.restapi.dtos.product.GetAllProductsResponse;
-import org.atomiv.template.lite.web.restapi.dtos.product.UpdateProductResponse;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.*;
@@ -99,7 +94,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    // Long or long
     public GetCustomerResponse getCustomerById(long id) {
 
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
@@ -117,33 +111,6 @@ public class CustomerServiceImpl implements CustomerService {
         response.setId(customer.getId());
         response.setFirstName(customer.getFirstName());
         response.setLastName(customer.getLastName());
-
-
-        // TODO ------------------------
-        var customerOrderResponses = new ArrayList<GetCustomerOrderResponse>();
-        for (Order order : customer.getOrders()) {
-            var customerOrderResponse = new GetCustomerOrderResponse();
-            customerOrderResponse.setId(order.getId());
-            customerOrderResponse.setOrderAddress(order.getOrderAddress());
-
-            var orderItemResponses = new ArrayList<GetOrderItemResponse>();
-            for (OrderItem orderItem : order.getOrderItems()) {
-                var product = orderItem.getProduct();
-                var orderItemResponse = new GetOrderItemResponse();
-
-                orderItemResponse.setId(orderItem.getId());
-                orderItemResponse.setQuantity(orderItem.getQuantity());
-                orderItemResponse.setProductId(product.getId());
-                orderItemResponse.setProductName(product.getName());
-                orderItemResponses.add(orderItemResponse);
-            }
-            customerOrderResponse.setOrderItems(orderItemResponses);
-
-            customerOrderResponses.add(customerOrderResponse);
-        }
-        response.setOrders(customerOrderResponses);
-
-
 
 
 //        for (Person p : list/persons) {

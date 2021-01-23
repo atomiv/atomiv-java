@@ -1,7 +1,6 @@
 package org.atomiv.template.lite.web.restapi.services;
 
 import org.atomiv.template.lite.web.restapi.dtos.customer.GetCustomerResponse;
-import org.atomiv.template.lite.web.restapi.dtos.customer_order.GetCustomerOrderResponse;
 import org.atomiv.template.lite.web.restapi.dtos.order.*;
 import org.atomiv.template.lite.web.restapi.dtos.order_item.*;
 import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
@@ -29,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private ProductRepository productRepository;
+
 
 
     @Override
@@ -114,38 +114,38 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-// TODO check
     @Override
-    public GetCustomerOrderResponse getCustomerOrderById(long id) {
+    public GetOrdersByCustomerIdResponse getOrdersByCustomerId(long customerId) {
 
-        Optional<Order> optionalOrder = orderRepository.findById(id);
+        var orders = orderRepository.findByCustomerId(customerId);
 
-        if(optionalOrder.isEmpty()) {
-            throw new OrderNotFoundException("Order not found");
+//        var customer= order.getCustomer();
+
+        var records = new ArrayList<GetOrdersByCustomerIdRecordResponse>();
+
+
+        for(Order order : orders) {
+            var record = new GetOrdersByCustomerIdRecordResponse();
+            record.setId(order.getId());
+            record.setOrderAddress(order.getOrderAddress());
+
+            var orderItemResponses = new ArrayList<GetAllOrderItemsRecordResponse>();
+            for (OrderItem orderItem : order.getOrderItems()) {
+                var product = orderItem.getProduct();
+                var orderItemResponse = new GetAllOrderItemsRecordResponse();
+
+                orderItemResponse.setId(orderItem.getId());
+                orderItemResponse.setQuantity(orderItem.getQuantity());
+                orderItemResponse.setProductId(product.getId());
+                orderItemResponse.setProductName(product.getName());
+                orderItemResponses.add(orderItemResponse);
+            }
+            record.setOrderItems(orderItemResponses);
+            records.add(record);
         }
 
-        var order = optionalOrder.get();
-
-        var customer= order.getCustomer();
-
-
-        var response = new GetCustomerOrderResponse();
-        response.setId(order.getId());
-        response.setOrderAddress(order.getOrderAddress());
-
-        var orderItemResponses = new ArrayList<GetOrderItemResponse>();
-        for (OrderItem orderItem : order.getOrderItems()) {
-            var product = orderItem.getProduct();
-            var orderItemResponse = new GetOrderItemResponse();
-
-            orderItemResponse.setId(orderItem.getId());
-            orderItemResponse.setQuantity(orderItem.getQuantity());
-            orderItemResponse.setProductId(product.getId());
-            orderItemResponse.setProductName(product.getName());
-            orderItemResponses.add(orderItemResponse);
-        }
-        response.setOrderItems(orderItemResponses);
-
+        var response = new GetOrdersByCustomerIdResponse();
+        response.setRecords(records);
 
         return response;
 

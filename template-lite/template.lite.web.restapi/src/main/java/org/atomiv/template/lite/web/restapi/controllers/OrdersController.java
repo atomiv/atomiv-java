@@ -1,21 +1,15 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
-import org.atomiv.template.lite.web.restapi.dtos.customer_order.GetAllCustomerOrdersResponse;
-import org.atomiv.template.lite.web.restapi.dtos.customer_order.GetCustomerOrderResponse;
 import org.atomiv.template.lite.web.restapi.dtos.order.*;
-import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
 import org.atomiv.template.lite.web.restapi.exceptions.OrderNotFoundException;
-import org.atomiv.template.lite.web.restapi.models.Order;
 import org.atomiv.template.lite.web.restapi.services.CustomerService;
 import org.atomiv.template.lite.web.restapi.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("api/orders")
@@ -46,8 +40,8 @@ public class OrdersController {
         return new ResponseEntity<GetAllOrdersResponse>(response, HttpStatus.OK);
     }
 
-//TODO ???
-    @GetMapping("order/{id}")
+
+    @GetMapping("{id}")
     public ResponseEntity<GetOrderResponse> getOrderById(@PathVariable("id") Long id)
     {
         var response = orderService.getOrderById(id);
@@ -57,22 +51,20 @@ public class OrdersController {
         }
 
         return new ResponseEntity<GetOrderResponse>(response, HttpStatus.OK);
-
     }
 
 
 
-    // TODO check put it in CustomersController??
-    @GetMapping("{id}")
-    public ResponseEntity<GetCustomerOrderResponse> getCustomerOrderById(@PathVariable("id") Long id)
+    @GetMapping("order/{customerId}")
+    public ResponseEntity<GetOrdersByCustomerIdResponse> getOrdersByCustomerId(@PathVariable("customerId") long customerId)
     {
-        var response = orderService.getCustomerOrderById(id);
+        var response = orderService.getOrdersByCustomerId(customerId);
 
         if(response == null) {
             throw new OrderNotFoundException("Order not found");
         }
 
-        return new ResponseEntity<GetCustomerOrderResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<GetOrdersByCustomerIdResponse>(response, HttpStatus.OK);
     }
 
 

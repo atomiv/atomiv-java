@@ -1,4 +1,4 @@
-package org.atomiv.template.lite.web.restapi.dtos.customer_order;
+package org.atomiv.template.lite.web.restapi.dtos.order;
 
 import lombok.Data;
 import org.atomiv.template.lite.web.restapi.dtos.order_item.GetAllOrderItemsRecordResponse;
@@ -6,7 +6,7 @@ import org.atomiv.template.lite.web.restapi.dtos.order_item.GetAllOrderItemsReco
 import java.util.List;
 
 @Data
-public class GetAllCustomerOrdersRecordResponse {
+public class GetOrdersByCustomerIdRecordResponse {
     private Long id;
     private String orderAddress;
     private List<GetAllOrderItemsRecordResponse> orderItems;

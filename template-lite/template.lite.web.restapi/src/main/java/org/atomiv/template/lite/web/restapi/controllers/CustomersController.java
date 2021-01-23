@@ -20,31 +20,12 @@ import java.util.List;
 /**
  * The type Customer Controller
  */
-// Create Rest Controllers and Map API Requests
 @RestController
 @RequestMapping("api/customers")
 public class CustomersController {
 
-    // private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private CustomerService customerService;
-
-
-// -------------------------------------
-//    List products = Arrays.asList(
-//            new Product("1","G Tech", "G Tech Hard drive", 230.45, 25),
-//            new Product("2","WD SSD", "WD HDD", 150, 15),
-//    );
-
-
-    // @RequestMapping(value ="/book3", produces =MediaType.APPLICATION_JSON_VALUE )
-
-
-//    @GetMapping("/customers/orders/{customer_first_name}")
-//    public List<Customer_Orders> findAllByFirstName(@PathVariable(value="customer_first_name") String customer_first_name) {
-//        return customerService.findAllFirstName(customer_first_name);
-//    }
 
 
     /**
@@ -67,12 +48,8 @@ public class CustomersController {
      * @param id the customer id
      * @return the customer by id
      */
-    //
     @GetMapping("{id}")
-    // public Resource<User> ... Resource or ResponseEntity
-    // Long or long
-    // GLOBAL HANDLER
-    public ResponseEntity<GetCustomerResponse> getCustomerById(@PathVariable("id") Long id)
+    public ResponseEntity<GetCustomerResponse> getCustomerById(@PathVariable("id") long id)
     {
         var response = customerService.getCustomerById(id);
 
@@ -84,19 +61,10 @@ public class CustomersController {
     }
 
 
-//    // not via path variables but query
-//    @GetMapping("/search/firstname/{firstname}")
-//    public List<Customer> searchByFirstName(@PathVariable String firstName){
-//        return customerService.findByFirstName(firstName);
-////        Customer customer = customerRepository.findByCustomerName(customerName);
-////        return customer;
-//    }
-
-
     /**
      * Create customer
      *
-     * @param customer the customer
+     * @param request the customer request
      * @return the customer
      */
     @PostMapping(path = "")
@@ -107,16 +75,15 @@ public class CustomersController {
     }
 
 
+//     * @throws ResourceNotFoundException the resource not found exception
     /**
-     * Update customer response entity
-     *
+     * Update the customer response entity
      * @param id the customer id
-     * @param customer the customer details
+     * @param request the customer details
      * @return the response entity
-     * @throws ResourceNotFoundException the resource not found exception
      */
     @PutMapping("{id}")
-    public ResponseEntity<UpdateCustomerResponse> updateCustomer(@PathVariable(value = "id") Long id, @Valid @RequestBody UpdateCustomerRequest request)
+    public ResponseEntity<UpdateCustomerResponse> updateCustomer(@PathVariable(value = "id") long id, @Valid @RequestBody UpdateCustomerRequest request)
         {
             try {
                 var response = customerService.updateCustomer(request);
@@ -148,7 +115,6 @@ public class CustomersController {
 
 
 
-
     @DeleteMapping("")
     public void deleteAllCustomers() {
 
@@ -160,92 +126,11 @@ public class CustomersController {
 
 
 
-// https://www.javadevjournal.com/spring/exception-handling-for-rest-with-spring/
-// TODO is this good?
-
-//    @GetMapping("/customer/{id}")
-//    public Customer getCustomer(@PathVariable long id) throws CustomerNotFoundException {
-//        if (id == 1) {
-//            throw new CustomerNotFoundException();
-//        }
-//        return new Customer();
-//    }
-//
-//    @ExceptionHandler({CustomerNotFoundException.class})
-//    public String handleException() {
-//        return "bad_request";
-//    }
 
 
 
 
 
-//    HTTP Patch request example
-//
-//    @PatchMapping("/customers/{id}")
-//    public ResponseEntity < ? > updateResource(@RequestParam("email") String email, @PathVariable("id") String id) {
-//        Customer newCustomer = customerService.updateCustomer(email, id);
-//        return new ResponseEntity < > (newCustomer, HttpStatus.OK);
 
 
-// ---------------------------------
-
-//@GetMapping("getAllCustomer")
-//    public ResultInfo getAllCustomer() {
-//        logger.info("getAllCustomer");
-//        ResultInfo<Customer> resultInfo= new ResultInfo<>();
-//        List<Customer> lCustomer=customerService.findAll();
-//        resultInfo.setLData(lCustomer);
-//        if(lCustomer.size()==0){
-//            resultInfo.setErrCode("0001");
-//            resultInfo.setErrmsg("查无数据");
-//        }else{
-//
-//            resultInfo.setErrCode("0000");
-//            resultInfo.setErrmsg("查询成功");
-//        }
-//        return resultInfo;
-//    }
-//
-//@GetMapping("getCustomer")
-//    public ResultInfo getCustomer(String CustomerId) {
-//        logger.info("getCustomer请求参数:" + CustomerId);
-//        ResultInfo<Customer> resultInfo= new ResultInfo<>();
-//
-//        if(CustomerId==null || "".equals(CustomerId.trim())){
-//            resultInfo.setErrCode("1001");
-//            resultInfo.setErrmsg("查询Id为空");
-//            return resultInfo;
-//        }
-//
-//        List<Customer> customer=customerService.findCustomerById(Integer.parseInt(CustomerId));
-////        Long lCnt=customerService.count();
-//        resultInfo.setLData(customer);
-////        logger.info("lCnt="+lCnt);
-//        if(customer.size()==0)
-//        {
-//            resultInfo.setErrCode("0001");
-//            resultInfo.setErrmsg("查无数据");
-//
-//        }else{
-//            resultInfo.setErrCode("0000");
-//            resultInfo.setErrmsg("查询成功");
-//        }
-//        return resultInfo;
-//    }
-//
-//
-//
-//    @PostMapping("saveCustomer")
-//    public ResultInfo<Customer> saveCustomer(Customer customer) {
-//        logger.info("saveCustomer请求参数:" + customer.toString());
-//        ResultInfo resultInfo = new ResultInfo();
-//        List<Customer> lCustomer = new ArrayList();
-//        Customer newCustomer = customerService.save(customer);
-//        lCustomer.add(newCustomer);
-//        resultInfo.setLData(lCustomer);
-//        resultInfo.setErrmsg("数据保存成功");
-//        resultInfo.setErrCode("0000");
-//        return resultInfo;
-//    }
 
