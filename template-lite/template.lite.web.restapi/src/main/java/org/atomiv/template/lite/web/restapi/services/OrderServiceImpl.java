@@ -1,11 +1,7 @@
 package org.atomiv.template.lite.web.restapi.services;
 
-import org.atomiv.template.lite.web.restapi.dtos.customer.GetCustomerResponse;
 import org.atomiv.template.lite.web.restapi.dtos.order.*;
 import org.atomiv.template.lite.web.restapi.dtos.order_item.*;
-import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
-import org.atomiv.template.lite.web.restapi.exceptions.OrderNotFoundException;
-import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.*;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.atomiv.template.lite.web.restapi.repositories.OrderRepository;
@@ -80,9 +76,9 @@ public class OrderServiceImpl implements OrderService {
 
         Optional<Order> optionalOrder = orderRepository.findById(id);
 
-        if(optionalOrder.isEmpty()) {
-            throw new OrderNotFoundException("Order not found");
-        }
+//        if(optionalOrder.isEmpty()) {
+//            throw new OrderNotFoundException("Order not found");
+//        }
 
         var order = optionalOrder.get();
 
@@ -118,8 +114,6 @@ public class OrderServiceImpl implements OrderService {
     public GetOrdersByCustomerIdResponse getOrdersByCustomerId(long customerId) {
 
         var orders = orderRepository.findByCustomerId(customerId);
-
-//        var customer= order.getCustomer();
 
         var records = new ArrayList<GetOrdersByCustomerIdRecordResponse>();
 
@@ -175,8 +169,6 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setOrderItems(orderItems);
-        // TODO ERROR HAPPENS HERE i.e. in the line above
-        // Method threw 'java.lang.StackOverflowError' exception. Cannot evaluate Order.toString()
         orderRepository.save(order);
 
         var response = new CreateOrderResponse();
@@ -212,9 +204,9 @@ public class OrderServiceImpl implements OrderService {
         var id = request.getId();
         var optionalOrder = orderRepository.findById(id);
 
-        if(optionalOrder.isEmpty()) {
-            throw new OrderNotFoundException("Order not found");
-        }
+//        if(optionalOrder.isEmpty()) {
+//            throw new OrderNotFoundException("Order not found");
+//        }
 
         var order = optionalOrder.get();
         order.setOrderAddress(request.getOrderAddress());

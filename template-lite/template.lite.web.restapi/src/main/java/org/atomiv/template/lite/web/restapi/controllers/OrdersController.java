@@ -1,7 +1,6 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
 import org.atomiv.template.lite.web.restapi.dtos.order.*;
-import org.atomiv.template.lite.web.restapi.exceptions.OrderNotFoundException;
 import org.atomiv.template.lite.web.restapi.services.CustomerService;
 import org.atomiv.template.lite.web.restapi.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,23 +45,23 @@ public class OrdersController {
     {
         var response = orderService.getOrderById(id);
 
-        if(response == null) {
-            throw new OrderNotFoundException("Order not found");
-        }
+//        if(response == null) {
+//            throw new OrderNotFoundException("Order not found");
+//        }
 
         return new ResponseEntity<GetOrderResponse>(response, HttpStatus.OK);
     }
 
 
 
-    @GetMapping("order/{customerId}")
+    @GetMapping("customer/{customerId}")
     public ResponseEntity<GetOrdersByCustomerIdResponse> getOrdersByCustomerId(@PathVariable("customerId") long customerId)
     {
         var response = orderService.getOrdersByCustomerId(customerId);
 
-        if(response == null) {
-            throw new OrderNotFoundException("Order not found");
-        }
+//        if(response == null) {
+//            throw new OrderNotFoundException("Order not found");
+//        }
 
         return new ResponseEntity<GetOrdersByCustomerIdResponse>(response, HttpStatus.OK);
     }

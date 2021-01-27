@@ -36,6 +36,7 @@ public class ApiErrorResponse {
         public ApiErrorResponseBuilder() {}
 
         public static ApiErrorResponseBuilder anApiErrorResponse() {
+
             return new ApiErrorResponseBuilder();
         }
 

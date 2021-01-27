@@ -1,4 +1,4 @@
-package org.atomiv.template.lite.web.restapi.exceptions;
+package org.atomiv.template.lite.web.restapi.exceptions.remove;
 
 //@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Customer Not Found")
 public class CustomerNotFoundException extends RuntimeException {

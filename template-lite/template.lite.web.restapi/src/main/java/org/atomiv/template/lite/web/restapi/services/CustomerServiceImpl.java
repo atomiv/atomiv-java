@@ -3,9 +3,9 @@ package org.atomiv.template.lite.web.restapi.services;
 import org.atomiv.template.lite.web.restapi.dtos.address.*;
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.*;
-import org.atomiv.template.lite.web.restapi.dtos.order_item.GetOrderItemResponse;
-import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
-import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
+import org.atomiv.template.lite.web.restapi.exceptions.remove.CustomerNotFoundException;
+import org.atomiv.template.lite.web.restapi.exceptions.working.ResourceNotFoundException;
+import org.atomiv.template.lite.web.restapi.exceptions.working.TaskNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.*;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.atomiv.template.lite.web.restapi.repositories.OrderRepository;
@@ -93,15 +93,16 @@ public class CustomerServiceImpl implements CustomerService {
 //    }
 
 
+    // TODO throws ResourceNotFoundException ??
     @Override
-    public GetCustomerResponse getCustomerById(long id) {
+    public GetCustomerResponse getCustomerById(long id) throws ResourceNotFoundException {
 
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
 
         if(optionalCustomer.isEmpty()) {
-            throw new ResourceNotFoundException(
-                    new CustomerNotFoundException("Customer Not Found")
-            );
+            // WORKS TOO
+            throw new ResourceNotFoundException("Customer not found with id ...  :" + id);
+//            throw new TaskNotFoundException("hello");
         }
 
         var customer= optionalCustomer.get();
@@ -141,14 +142,11 @@ public class CustomerServiceImpl implements CustomerService {
     public CreateCustomerResponse createCustomer(CreateCustomerRequest request) {
         //logger.debug("save->customer:"+customer);
 
-//        var order = orderRepository.findById(request.getOrderId()).get();
         // TODO orders is null when creating a customer.. so should this field even be shown
-//        var orders = (List<Order>) orderRepository.findAll();
 
         var customer = new Customer();
         customer.setFirstName(request.getFirstName());
         customer.setLastName(request.getLastName());
-//        customer.setOrders(orders);
 
         var addresses = new ArrayList<Address>();
 
@@ -173,7 +171,6 @@ public class CustomerServiceImpl implements CustomerService {
         response.setId(customer.getId());
         response.setFirstName(customer.getFirstName());
         response.setLastName(customer.getLastName());
-//        response.setOrders(customer.getOrders());
 
         var addressResponses = new ArrayList<CreateAddressResponse>();
 
@@ -207,8 +204,7 @@ public class CustomerServiceImpl implements CustomerService {
         var optionalCustomer = customerRepository.findById(id);
 
         if(optionalCustomer.isEmpty()) {
-            throw new CustomerNotFoundException("Customer not found");
-            // throw new RuntimeException("Cannot find the customer with id " + customer.getId());
+            throw new ResourceNotFoundException("Customer not found with id ...  :" + id);
         }
 
         var customer = optionalCustomer.get();
@@ -302,8 +298,14 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public void deleteCustomerById(long id) {
-//        Optional<Customer> optionalCustomer = customerRepository.deleteById(id);
+    public void deleteCustomerById(long id) throws ResourceNotFoundException {
+
+        // TODO check 2 blocks below
+        Optional<Customer> optionalCustomer = customerRepository.findById(id);
+
+        if(optionalCustomer.isEmpty()) {
+            throw new ResourceNotFoundException("Customer not found with id ...  :" + id);
+        }
 
         customerRepository.deleteById(id);
 
@@ -314,6 +316,19 @@ public class CustomerServiceImpl implements CustomerService {
         //                }
         //        ).orElseThrow(() -> new RuntimeException("Customer [customerId=" + customerId + "] can't be found"));
     }
+    /*
+    @DeleteMapping("/employees/{id}")
+    public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long employeeId)
+        throws ResourceNotFoundException {
+        Employee employee = employeeRepository.findById(employeeId)
+        .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
+
+       employeeRepository.delete(employee);
+       Map<String, Boolean> response = new HashMap<>();
+       response.put("deleted", Boolean.TRUE);
+       return response;
+    }
+     */
 
 
 

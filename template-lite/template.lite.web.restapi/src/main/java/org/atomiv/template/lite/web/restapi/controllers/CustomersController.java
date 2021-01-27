@@ -1,21 +1,14 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
-import org.atomiv.template.lite.web.restapi.dtos.product.GetProductResponse;
-import org.atomiv.template.lite.web.restapi.exceptions.CustomerNotFoundException;
-import org.atomiv.template.lite.web.restapi.exceptions.ResourceNotFoundException;
-import org.atomiv.template.lite.web.restapi.models.Customer;
-import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
+import org.atomiv.template.lite.web.restapi.exceptions.working.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * The type Customer Controller
@@ -53,12 +46,31 @@ public class CustomersController {
     {
         var response = customerService.getCustomerById(id);
 
-        if(response == null) {
-            throw new CustomerNotFoundException("Customer not found");
-        }
+
+// not necessary
+//        if(response == null) {
+////            throw new CustomerNotFoundException("Customer not found");
+//            throw new ResourceNotFoundException("Customer not found with id :" + id);
+//        }
 
         return new ResponseEntity<GetCustomerResponse>(response, HttpStatus.OK);
+
+        //return this.userRepository.findById(userId)
+        //				.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
     }
+
+//    @GetMapping("/getCustomer/{name}")
+//    public ResponseEntity<GetCustomerResponse> getCustomerByName(@PathVariable("name") String name)
+//    {
+//        var response = customerService.getCustomerByName(name);
+//
+//        if(response == null) {
+////            throw new CustomerNotFoundException("Customer not found");
+//    throw new ServiceException("Employee Not Found : " + firstName, HttpStatus.CONFLICT.value());
+//        }
+//
+//        return new ResponseEntity<GetCustomerResponse>(response, HttpStatus.OK);
+//    }
 
 
     /**
@@ -68,10 +80,18 @@ public class CustomersController {
      * @return the customer
      */
     @PostMapping(path = "")
+    //customerRequest request) throws ServiceException2 {
     public ResponseEntity<CreateCustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request)
     {
         var response= customerService.createCustomer(request);
         return new ResponseEntity<CreateCustomerResponse>(response, HttpStatus.OK);
+
+//        if (employee.getName() == null || employee.getName().isEmpty()) {
+//			throw new ServiceException("Name should not be empty or null", HttpStatus.BAD_REQUEST.value());
+//
+//		} else {
+//			return dao.save(employee);
+//		}
     }
 
 

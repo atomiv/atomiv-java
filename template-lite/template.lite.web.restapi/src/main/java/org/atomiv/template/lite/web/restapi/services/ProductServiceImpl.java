@@ -1,7 +1,6 @@
 package org.atomiv.template.lite.web.restapi.services;
 
 import org.atomiv.template.lite.web.restapi.dtos.product.*;
-import org.atomiv.template.lite.web.restapi.exceptions.ProductNotFoundException;
 import org.atomiv.template.lite.web.restapi.models.Product;
 import org.atomiv.template.lite.web.restapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +46,9 @@ public class ProductServiceImpl implements ProductService {
 
         Optional<Product> optionalProduct = productRepository.findById(id);
 
-        if(optionalProduct.isEmpty()) {
-            throw new ProductNotFoundException("Product Not Found");
-        }
+//        if(optionalProduct.isEmpty()) {
+//            throw new ProductNotFoundException("Product Not Found");
+//        }
 
         var product = optionalProduct.get();
 
@@ -89,9 +88,9 @@ public class ProductServiceImpl implements ProductService {
         var id = request.getId();
         var optionalProduct = productRepository.findById(id);
 
-        if(optionalProduct.isEmpty()) {
-            throw new ProductNotFoundException("Product Not Found");
-        }
+//        if(optionalProduct.isEmpty()) {
+//            throw new ProductNotFoundException("Product Not Found");
+//        }
 
         var product = optionalProduct.get(); // Product product = optionalProduct.get() ??
         product.setName(request.getName());
