@@ -1,4 +1,4 @@
-package org.atomiv.template.lite.web.restapi.web;
+package org.atomiv.template.lite.web.restapi.exceptions.remove;
 
 public class Message {
     private String timestamp;

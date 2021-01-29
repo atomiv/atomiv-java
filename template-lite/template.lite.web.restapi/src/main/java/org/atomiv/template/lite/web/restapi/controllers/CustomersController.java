@@ -1,7 +1,7 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
-import org.atomiv.template.lite.web.restapi.exceptions.working.ResourceNotFoundException;
+import org.atomiv.template.lite.web.restapi.exceptions.remove.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

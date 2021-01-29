@@ -15,24 +15,27 @@ public class ErrorDetails {
     private int status;
 //    private Throwable throwable;
     private HttpStatus error; // private String error;
+    private String exception;
     private String message;
     private String customMessage;
-    private String exceptionClass; // exception
     private String path; // details // same as "path"
 
     public ErrorDetails(Date timestamp,
 //                        Throwable throwable,
                         int status,
                         HttpStatus error,
-                        String message, String customMessage, String exceptionClass, String path) {
+                        String exception,
+                        String message,
+                        String customMessage,
+                        String path) {
         super();
         this.timestamp = timestamp;
         this.status = status;
 //        this.throwable = throwable;
         this.error = error;
+        this.exception = exception;
         this.message = message;
         this.customMessage = customMessage;
-        this.exceptionClass = exceptionClass;
         this.path = path;
     }
 

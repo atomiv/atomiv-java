@@ -3,9 +3,8 @@ package org.atomiv.template.lite.web.restapi.services;
 import org.atomiv.template.lite.web.restapi.dtos.address.*;
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.*;
-import org.atomiv.template.lite.web.restapi.exceptions.remove.CustomerNotFoundException;
-import org.atomiv.template.lite.web.restapi.exceptions.working.ResourceNotFoundException;
-import org.atomiv.template.lite.web.restapi.exceptions.working.TaskNotFoundException;
+import org.atomiv.template.lite.web.restapi.exceptions.remove.ResourceNotFoundException;
+import org.atomiv.template.lite.web.restapi.exceptions.working.ExistenceException;
 import org.atomiv.template.lite.web.restapi.models.*;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.atomiv.template.lite.web.restapi.repositories.OrderRepository;
@@ -93,15 +92,15 @@ public class CustomerServiceImpl implements CustomerService {
 //    }
 
 
-    // TODO throws ResourceNotFoundException ??
+    // TODO throws ExistenceException ??
     @Override
-    public GetCustomerResponse getCustomerById(long id) throws ResourceNotFoundException {
+    public GetCustomerResponse getCustomerById(long id) throws ExistenceException {
 
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
 
         if(optionalCustomer.isEmpty()) {
             // WORKS TOO
-            throw new ResourceNotFoundException("Customer not found with id ...  :" + id);
+            throw new ExistenceException("Customer not found with id ...  :" + id);
 //            throw new TaskNotFoundException("hello");
         }
 
