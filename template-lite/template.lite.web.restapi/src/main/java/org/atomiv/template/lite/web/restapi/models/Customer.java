@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class Customer {
     private Long id;
 
     @NotEmpty(message = "Please fill in the customer name.")
+    @NotBlank
     @Column(name = "first_name", nullable = false)
     private String firstName;
 

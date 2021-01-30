@@ -1,4 +1,4 @@
-package org.atomiv.template.lite.web.restapi.controllers;
+package org.atomiv.template.lite.web.restapi.exceptions.remove;
 
 import org.atomiv.template.lite.web.restapi.util.ErrorMessage;
 import org.springframework.http.HttpStatus;

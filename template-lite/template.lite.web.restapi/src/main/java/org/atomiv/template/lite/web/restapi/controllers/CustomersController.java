@@ -59,6 +59,8 @@ public class CustomersController {
         //				.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
     }
 
+
+
 //    @GetMapping("/getCustomer/{name}")
 //    public ResponseEntity<GetCustomerResponse> getCustomerByName(@PathVariable("name") String name)
 //    {
@@ -73,6 +75,7 @@ public class CustomersController {
 //    }
 
 
+
     /**
      * Create customer
      *
@@ -80,7 +83,6 @@ public class CustomersController {
      * @return the customer
      */
     @PostMapping(path = "")
-    //customerRequest request) throws ServiceException2 {
     public ResponseEntity<CreateCustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request)
     {
         var response= customerService.createCustomer(request);
@@ -105,14 +107,8 @@ public class CustomersController {
     @PutMapping("{id}")
     public ResponseEntity<UpdateCustomerResponse> updateCustomer(@PathVariable(value = "id") long id, @Valid @RequestBody UpdateCustomerRequest request)
         {
-            try {
-                var response = customerService.updateCustomer(request);
-                return new ResponseEntity<UpdateCustomerResponse>(response, HttpStatus.OK);
-            } catch(Exception ex) {
-                throw ex;
-            }
-
-
+            var response = customerService.updateCustomer(request);
+            return new ResponseEntity<UpdateCustomerResponse>(response, HttpStatus.OK);
         }
 
 
@@ -129,8 +125,7 @@ public class CustomersController {
 
         // TODO Java Rest API return No Content
         return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
-//        if(customer==null)
-//            throw new CustomerNotFoundException("id: " + id);
+
     }
 
 

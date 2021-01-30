@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
@@ -19,7 +20,7 @@ public class GlobalExceptionHandler {
 
 
     // handle specific exception
-    // 404 NOT FOUND
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ExistenceException.class)
     // public final
     // public ResponseEntity<Object> -- if using throwable
@@ -38,7 +39,6 @@ public class GlobalExceptionHandler {
                         httpStatus,
                         exception.getClass().getSimpleName(),// getPackageName() = org.atomiv.template.lite.web.restapi.exceptions.working, // getCanonicalName // exception.toString(),
                         exception.getMessage(),
-                        "this is a new message",
                         request.getDescription(false));
         // (errorDetails, new HttpHeaders(), httpStatus);
         return new ResponseEntity<ErrorDetails>(errorDetails, httpStatus);
@@ -57,9 +57,8 @@ public class GlobalExceptionHandler {
                         new Date(),
                         httpStatus.value(),
                         httpStatus,
-                        exception.getMessage(),
-                        "this is a new message2",
                         exception.getClass().getSimpleName(),
+                        exception.getMessage(),
                         request.getDescription(false));
         return new ResponseEntity<>(errorDetails, httpStatus);
     }
@@ -70,7 +69,7 @@ public class GlobalExceptionHandler {
     // 500 INTERNAL SERVER
     // ApplicationException
     // @ExceptionHandler(Exception.class)
-    @ExceptionHandler(ApplicationException.class)
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleApplicationException(ApplicationException exception, WebRequest request){
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -79,9 +78,8 @@ public class GlobalExceptionHandler {
                         new Date(),
                         httpStatus.value(),
                         httpStatus,
-                        exception.getMessage(),
-                        "this is a new message00",
                         exception.getClass().getSimpleName(),
+                        exception.getMessage(),
                         request.getDescription(false));
         return new ResponseEntity<>(errorDetails, httpStatus);
     }

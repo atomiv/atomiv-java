@@ -5,6 +5,7 @@ import org.atomiv.template.lite.web.restapi.dtos.customer.*;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.*;
 import org.atomiv.template.lite.web.restapi.exceptions.remove.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.exceptions.working.ExistenceException;
+import org.atomiv.template.lite.web.restapi.exceptions.working.ValidationException;
 import org.atomiv.template.lite.web.restapi.models.*;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.atomiv.template.lite.web.restapi.repositories.OrderRepository;
@@ -92,16 +93,13 @@ public class CustomerServiceImpl implements CustomerService {
 //    }
 
 
-    // TODO throws ExistenceException ??
     @Override
     public GetCustomerResponse getCustomerById(long id) throws ExistenceException {
 
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
 
         if(optionalCustomer.isEmpty()) {
-            // WORKS TOO
             throw new ExistenceException("Customer not found with id ...  :" + id);
-//            throw new TaskNotFoundException("hello");
         }
 
         var customer= optionalCustomer.get();
@@ -113,7 +111,6 @@ public class CustomerServiceImpl implements CustomerService {
         response.setLastName(customer.getLastName());
 
 
-//        for (Person p : list/persons) {
         var addressResponses = new ArrayList<GetAddressResponse>();
         for (Address address : customer.getAddresses() ) {
             var addressResponse = new GetAddressResponse();
@@ -123,14 +120,10 @@ public class CustomerServiceImpl implements CustomerService {
         }
         response.setAddresses(addressResponses);
 
-
-
         var homeAddressResponse = new GetHomeAddressResponse();
         homeAddressResponse.setId(customer.getHomeAddress().getId());
         homeAddressResponse.setCity(customer.getHomeAddress().getCity());
         response.setHomeAddress(homeAddressResponse);
-
-
 
         return response;
     }
@@ -141,7 +134,23 @@ public class CustomerServiceImpl implements CustomerService {
     public CreateCustomerResponse createCustomer(CreateCustomerRequest request) {
         //logger.debug("save->customer:"+customer);
 
-        // TODO orders is null when creating a customer.. so should this field even be shown
+        // TODO
+        // if (employee.getName() == null || employee.getName().isEmpty()) {
+        ////			throw new ServiceException("Name should not be empty or null", HttpStatus.BAD_REQUEST.value());
+
+        // request.getParameter("ID_A") != null && !request.getParameter("ID_A").isEmpty()
+        //|| request.getParameter("Password_A") && !request.getParameter("Password_A").isEmpty()
+
+        // if ((isNullOrBlank(request.getParameter("ID_A"))||
+        //     isNullOrBlank(request.getParameter("Password_A"))
+        //    ) &&
+        //    (isNullOrBlank(request.getParameter("ID_B"))||
+        //     isNullOrBlank(request.getParameter("Password_B")))) {
+        // TODO write in Fluent notation
+        if (request.getFirstName() == null || request.getFirstName().isEmpty()) {
+            throw new ValidationException("Some fields are null or empty");
+        }
+
 
         var customer = new Customer();
         customer.setFirstName(request.getFirstName());
@@ -164,7 +173,11 @@ public class CustomerServiceImpl implements CustomerService {
         homeAddress.setCustomer(customer);
 
         customer.setHomeAddress(homeAddress);
+
+
         customerRepository.save(customer);
+
+
 
         var response = new CreateCustomerResponse();
         response.setId(customer.getId());
@@ -189,7 +202,13 @@ public class CustomerServiceImpl implements CustomerService {
 
         response.setHomeAddress(homeAddressResponse);
 
+
+
+
+
         return response;
+
+
 
     }
 
@@ -203,7 +222,7 @@ public class CustomerServiceImpl implements CustomerService {
         var optionalCustomer = customerRepository.findById(id);
 
         if(optionalCustomer.isEmpty()) {
-            throw new ResourceNotFoundException("Customer not found with id ...  :" + id);
+            throw new ValidationException("Validation issue for customer:" + id);
         }
 
         var customer = optionalCustomer.get();
@@ -229,13 +248,6 @@ public class CustomerServiceImpl implements CustomerService {
         customer.getAddresses().addAll(addresses);
 
 
-
-//        var addresses = new ArrayList<Address>();
-//        var address = new Address();
-//        addresses.add(address);
-
-
-
         var homeAddress = new HomeAddress();
         UpdateHomeAddressRequest homeAddressRequest = request.getHomeAddress();
         homeAddress.setId(homeAddressRequest.getId());
@@ -243,10 +255,7 @@ public class CustomerServiceImpl implements CustomerService {
         homeAddress.setCustomer(customer);
         customer.setHomeAddress(homeAddress);
 
-
-
         customerRepository.save(customer);
-
 
         var response = new UpdateCustomerResponse();
         response.setId(customer.getId());
@@ -263,7 +272,6 @@ public class CustomerServiceImpl implements CustomerService {
             addressResponses.add(addressResponse);
         }
         response.setAddresses(addressResponses);
-
 
 
         var homeAddressResponse = new UpdateHomeAddressResponse();
@@ -297,13 +305,13 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public void deleteCustomerById(long id) throws ResourceNotFoundException {
+    public void deleteCustomerById(long id) throws ExistenceException {
 
         // TODO check 2 blocks below
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
 
         if(optionalCustomer.isEmpty()) {
-            throw new ResourceNotFoundException("Customer not found with id ...  :" + id);
+            throw new ExistenceException("Customer not found with id ...  :" + id);
         }
 
         customerRepository.deleteById(id);
