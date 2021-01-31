@@ -205,14 +205,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         response.setHomeAddress(homeAddressResponse);
 
-
-
-
-
         return response;
-
-
-
     }
 
 

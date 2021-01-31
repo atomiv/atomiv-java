@@ -3,12 +3,12 @@ package org.atomiv.template.lite.web.restapi.dtos.customer;
 import lombok.Data;
 import org.atomiv.template.lite.web.restapi.dtos.address.UpdateAddressRequest;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.UpdateHomeAddressRequest;
+import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
 
+import javax.validation.Constraint;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.ValidationException;
+import javax.validation.constraints.*;
 import java.util.List;
 
 
@@ -17,19 +17,19 @@ public class UpdateCustomerRequest {
 
     private Long id;
 
-//    @Valid
-    @NotNull(message = "First Name should not be empty") // not displayed - why??
-    @NotEmpty // not working !!
-    @NotBlank
-    @Min(2)
     private String firstName;
 
+    /* DISPLAY THIS MESSAGE - last part of it
+    javax.validation.ConstraintViolationException: Validation failed for classes [org.atomiv.template.lite.web.restapi.models.Customer] during update time for groups [javax.validation.groups.Default, ]\nList of constraint violations:[\n\tConstraintViolationImpl{interpolatedMessage='Last name can't be less than 3 or bigger than 9', propertyPath=lastName, rootBeanClass=class org.atomiv.template.lite.web.restapi.models.Customer, messageTemplate='Last name can't be less than 3 or bigger than 9'}\n]
+     */
+
+    @Size(min = 3, max = 9, message = "Last name can't be less than 3 or bigger than 9")
+    @NotNull
+    @NotEmpty(message = "Last name {value} ${value} must not be blank")
     private String lastName;
 
     private List<UpdateAddressRequest> addresses;
 
     private UpdateHomeAddressRequest homeAddress;
 
-//    private List<Order> orders;
-    // should this be updated from here???
 }

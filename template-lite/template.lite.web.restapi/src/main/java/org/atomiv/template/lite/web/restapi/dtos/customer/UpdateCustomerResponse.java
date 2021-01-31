@@ -18,11 +18,6 @@ public class UpdateCustomerResponse {
 
     private Long id;
 
-//    @Valid
-    @NotNull(message = "First Name should not be empty") // not displayed - why??
-    @NotEmpty // not working !!
-    @NotBlank
-    @Min(2)
     private String firstName;
 
     private String lastName;

@@ -13,13 +13,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import java.util.Set;
 
 /**
  * The type Customer Controller
  */
 @RestController
-//@Validated // TODO JC ????
+//@Validated
 @RequestMapping("api/customers")
 public class CustomersController {
 
@@ -121,8 +123,12 @@ public class CustomersController {
      * @return the response entity
      */
     @PutMapping("{id}")
-    public ResponseEntity<UpdateCustomerResponse> updateCustomer(@PathVariable(value = "id") long id, @Valid @RequestBody UpdateCustomerRequest request)
+    // BindingResult bindingResult instead of Errors errors
+    public ResponseEntity<UpdateCustomerResponse> updateCustomer(@PathVariable(value = "id") long id, @Valid @RequestBody UpdateCustomerRequest request, Errors errors)
         {
+            if (errors.hasErrors()) {
+                throw new ValidationException("Some fields are not properly filled in");
+            }
             var response = customerService.updateCustomer(request);
             return new ResponseEntity<UpdateCustomerResponse>(response, HttpStatus.OK);
         }

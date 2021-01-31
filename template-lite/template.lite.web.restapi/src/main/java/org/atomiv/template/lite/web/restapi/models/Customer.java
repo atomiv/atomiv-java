@@ -32,6 +32,7 @@ public class Customer {
     // @Min and @Max are used for validating numeric fields which could be String(representing number), int, short, byte etc and their respective primitive wrappers.
     //
     //@Size is used to check the length constraints on the fields.
+    // TODO doesn't say this message when error 422 unprocessable
     @Size(min = 3, max = 9, message = "Last name can't be less than 3 or bigger than 9")
     @Column(name = "last_name") // , length = 8
     @NotNull // same as 'nullable = false' // 400 error - 400 Bad Request
