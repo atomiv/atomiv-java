@@ -1,10 +1,8 @@
 package org.atomiv.template.lite.web.restapi.web;
 
 import lombok.Data;
-import org.atomiv.template.lite.web.restapi.exceptions.remove.ResourceNotFoundException;
-import org.atomiv.template.lite.web.restapi.exceptions.working.ApplicationException;
-import org.atomiv.template.lite.web.restapi.exceptions.working.ExistenceException;
-import org.atomiv.template.lite.web.restapi.exceptions.working.ValidationException;
+import org.atomiv.template.lite.web.restapi.exceptions.ExistenceException;
+import org.atomiv.template.lite.web.restapi.exceptions.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,75 +16,59 @@ import java.util.Date;
 @Data
 public class GlobalExceptionHandler {
 
-
     // handle specific exception
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ExistenceException.class)
     // public final
     // public ResponseEntity<Object> -- if using throwable
-    // (Exception e)
-//    ResponseEntity<?>
     public ResponseEntity<ErrorDetails> handleResourceNotFound
     (ExistenceException exception, WebRequest request) {
         // return handleExceptionInternal(exception, exception.getMessage(), new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE, request);
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-
-        ErrorDetails errorDetails =
-                new ErrorDetails(
-                        new Date(), // ZonedDateTime.now(ZoneId.of("Z")
-//                        exception,
-                        httpStatus.value(),
-                        httpStatus,
-                        exception.getClass().getSimpleName(),// getPackageName() = org.atomiv.template.lite.web.restapi.exceptions.working, // getCanonicalName // exception.toString(),
-                        exception.getMessage(),
-                        request.getDescription(false));
-        // (errorDetails, new HttpHeaders(), httpStatus);
-        return new ResponseEntity<ErrorDetails>(errorDetails, httpStatus);
+        return getResponseEntity(exception, request, httpStatus);
     }
 
 
 
     // handle specific exception
-    // 422 UNPROCESSABLE ENTITY
     @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<?> handleValidationException(ValidationException exception, WebRequest request){
-        HttpStatus httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
-
-        ErrorDetails errorDetails =
-                new ErrorDetails(
-                        new Date(),
-                        httpStatus.value(),
-                        httpStatus,
-                        exception.getClass().getSimpleName(),
-                        exception.getMessage(),
-                        request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, httpStatus);
+//    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorDetails> handleValidationException(ValidationException exception, WebRequest request){
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        return getResponseEntity(exception, request, httpStatus);
     }
 
 
+    // TODO AuthorizationException
+    // TODO justification for ApplicationException
 
-    // TODO. handle global exception
-    // 500 INTERNAL SERVER
-    // ApplicationException
-    // @ExceptionHandler(Exception.class)
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleApplicationException(ApplicationException exception, WebRequest request){
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ErrorDetails> handleException(Exception exception, WebRequest request){
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-
-        ErrorDetails errorDetails =
-                new ErrorDetails(
-                        new Date(),
-                        httpStatus.value(),
-                        httpStatus,
-                        exception.getClass().getSimpleName(),
-                        exception.getMessage(),
-                        request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, httpStatus);
+//        exception.setMessage("");
+        return getResponseEntity(exception, request, httpStatus);
     }
 
 
+    private ResponseEntity<ErrorDetails> getResponseEntity(Exception exception, WebRequest request, HttpStatus httpStatus) {
+        var errorDetails = new ErrorDetails(
+                new Date(), // ZonedDateTime.now(ZoneId.of("Z")
+//                        exception,
+                httpStatus.value(),
+                httpStatus,
+                exception.getClass().getSimpleName(),// getPackageName() = org.atomiv.template.lite.web.restapi.exceptions.working, // getCanonicalName // exception.toString(),
+                exception.getMessage(),
+                // (errorDetails, new HttpHeaders(), httpStatus);
+                request.getDescription(false));
 
-//    @ExceptionHandler(TaskNotFoundException.class) //@ExceptionHandler(value = { Exception.class })
+        return new ResponseEntity(errorDetails, httpStatus);
+    }
+
+// // TODO return ResponseEntity or your custom Message - VC
+//    @ExceptionHandler(TaskNotFoundException.class)
 //    @ResponseBody
 //    @ResponseStatus(value = HttpStatus.NOT_FOUND)
 //    private Message handleMessage(TaskNotFoundException e) {

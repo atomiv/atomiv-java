@@ -1,4 +1,6 @@
-package org.atomiv.template.lite.web.restapi.exceptions.working;
+package org.atomiv.template.lite.web.restapi.exceptions;
+
+import org.atomiv.template.lite.web.restapi.exceptions.ApplicationException;
 
 // resource not found
 public class ExistenceException extends ApplicationException {

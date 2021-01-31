@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.util.List;
 
 /**
@@ -22,13 +22,29 @@ public class Customer {
     @Column(name = "customer_id")
     private Long id;
 
-    @NotEmpty(message = "Please fill in the customer name.")
-    @NotBlank
-    @Column(name = "first_name", nullable = false)
+//    @NotEmpty(message = "Please fill in the customer name.")
+//    @NotBlank
+//    @NotEmpty
+    @Column(name = "first_name", nullable = false) // 500 error
+//    @Min(2)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, length = 50)
+    // nullable = false
+    // @Min and @Max are used for validating numeric fields which could be String(representing number), int, short, byte etc and their respective primitive wrappers.
+    //
+    //@Size is used to check the length constraints on the fields.
+    @Size(min = 3, max = 9, message = "Last name can't be less than 1 or bigger than 9")
+    @Column(name = "last_name", length = 8) // 8 registered before, now it's 9
+    @NotNull // same as 'nullable = false' // 400 error - 400 Bad Request
+    @NotEmpty
+    @NotBlank
     private String lastName;
+
+
+    // @NotNull
+    //    @Size(min = 2, max = 14)
+    //    private String licensePlate;
+
 
 //    Address shippingAddress;
 //    Address billingAddress;

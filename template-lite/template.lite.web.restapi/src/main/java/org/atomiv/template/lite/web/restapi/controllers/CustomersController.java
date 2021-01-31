@@ -1,11 +1,13 @@
 package org.atomiv.template.lite.web.restapi.controllers;
 
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
+import org.atomiv.template.lite.web.restapi.exceptions.ValidationException;
 import org.atomiv.template.lite.web.restapi.exceptions.remove.ResourceNotFoundException;
 import org.atomiv.template.lite.web.restapi.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,8 +43,11 @@ public class CustomersController {
      * @param id the customer id
      * @return the customer by id
      */
+    // @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces =
+    //    "application/json")
     @GetMapping("{id}")
-    public ResponseEntity<GetCustomerResponse> getCustomerById(@PathVariable("id") long id)
+    // TODO JC added @Valid
+    public ResponseEntity<GetCustomerResponse> getCustomerById(@Valid @PathVariable("id") long id)
     {
         var response = customerService.getCustomerById(id);
 
@@ -83,7 +88,7 @@ public class CustomersController {
      * @return the customer
      */
     @PostMapping(path = "")
-    public ResponseEntity<CreateCustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request)
+    public ResponseEntity<CreateCustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request) throws ValidationException
     {
         var response= customerService.createCustomer(request);
         return new ResponseEntity<CreateCustomerResponse>(response, HttpStatus.OK);
@@ -120,7 +125,8 @@ public class CustomersController {
      * @throws ResourceNotFoundException the resource not found
      */
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
+    // TODO JC added @Valid
+    public ResponseEntity<?> deleteCustomer(@Valid @PathVariable Long id) {
         customerService.deleteCustomerById(id);
 
         // TODO Java Rest API return No Content

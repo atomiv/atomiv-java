@@ -3,9 +3,8 @@ package org.atomiv.template.lite.web.restapi.services;
 import org.atomiv.template.lite.web.restapi.dtos.address.*;
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
 import org.atomiv.template.lite.web.restapi.dtos.home_address.*;
-import org.atomiv.template.lite.web.restapi.exceptions.remove.ResourceNotFoundException;
-import org.atomiv.template.lite.web.restapi.exceptions.working.ExistenceException;
-import org.atomiv.template.lite.web.restapi.exceptions.working.ValidationException;
+import org.atomiv.template.lite.web.restapi.exceptions.ExistenceException;
+import org.atomiv.template.lite.web.restapi.exceptions.ValidationException;
 import org.atomiv.template.lite.web.restapi.models.*;
 import org.atomiv.template.lite.web.restapi.repositories.CustomerRepository;
 import org.atomiv.template.lite.web.restapi.repositories.OrderRepository;
@@ -98,7 +97,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
 
-        if(optionalCustomer.isEmpty()) {
+        if(optionalCustomer.isEmpty()) {// result == null ??
             throw new ExistenceException("Customer not found with id ...  :" + id);
         }
 
@@ -147,9 +146,9 @@ public class CustomerServiceImpl implements CustomerService {
         //    (isNullOrBlank(request.getParameter("ID_B"))||
         //     isNullOrBlank(request.getParameter("Password_B")))) {
         // TODO write in Fluent notation
-        if (request.getFirstName() == null || request.getFirstName().isEmpty()) {
-            throw new ValidationException("Some fields are null or empty");
-        }
+//        if (request.getFirstName() == null || request.getFirstName().isEmpty()) {
+//            throw new ValidationException("Some fields are null or empty");
+//        }
 
 
         var customer = new Customer();
@@ -214,7 +213,15 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
-    public UpdateCustomerResponse updateCustomer(UpdateCustomerRequest request) {
+    public UpdateCustomerResponse updateCustomer(UpdateCustomerRequest request) throws ValidationException {
+
+//        if (request.getFirstName() == null) {
+//            throw new ValidationException("First name is null");
+//        }
+
+//        if (request.getFirstName().isEmpty()) {
+//            throw new ValidationException("First name is empty");
+//        }
 
         var orders = (List<Order>) orderRepository.findAll();
 
@@ -222,7 +229,7 @@ public class CustomerServiceImpl implements CustomerService {
         var optionalCustomer = customerRepository.findById(id);
 
         if(optionalCustomer.isEmpty()) {
-            throw new ValidationException("Validation issue for customer:" + id);
+            throw new ExistenceException("Customer does not exist with id:" + id);
         }
 
         var customer = optionalCustomer.get();
@@ -307,7 +314,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteCustomerById(long id) throws ExistenceException {
 
-        // TODO check 2 blocks below
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
 
         if(optionalCustomer.isEmpty()) {
