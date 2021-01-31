@@ -133,6 +133,9 @@ public class CustomerServiceImpl implements CustomerService {
     public CreateCustomerResponse createCustomer(CreateCustomerRequest request) {
         //logger.debug("save->customer:"+customer);
 
+        // // if (result.hasErrors()) {
+//        if (message.hasErrors)
+
         // TODO
         // if (employee.getName() == null || employee.getName().isEmpty()) {
         ////			throw new ServiceException("Name should not be empty or null", HttpStatus.BAD_REQUEST.value());
@@ -149,6 +152,7 @@ public class CustomerServiceImpl implements CustomerService {
 //        if (request.getFirstName() == null || request.getFirstName().isEmpty()) {
 //            throw new ValidationException("Some fields are null or empty");
 //        }
+
 
 
         var customer = new Customer();

@@ -21,11 +21,10 @@ public class CreateCustomerResponse {
     private String firstName;
 
     // TODO - add validation here ?????????
-//    @Valid
+//    @Size(min = 3, max = 9, message = "Last name can't be less than 3 or bigger than 9")
+////    @Column(name = "last_name", length = 8) // 8 registered before, now it's 9
+//    @NotNull // same as 'nullable = false' // 400 error - 400 Bad Request
 //    @NotBlank
-//    @NotEmpty
-//    @Min(value = 1, message = "Last name can't be less than 1 or bigger than 50")
-//    @Max(11) // YES
     private String lastName;
 
     private List<CreateAddressResponse> addresses;

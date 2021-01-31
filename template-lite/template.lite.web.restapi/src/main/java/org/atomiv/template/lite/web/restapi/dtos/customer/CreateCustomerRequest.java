@@ -6,6 +6,7 @@ import org.atomiv.template.lite.web.restapi.dtos.home_address.CreateHomeAddressR
 import org.atomiv.template.lite.web.restapi.dtos.order.CreateOrderRequest;
 import org.atomiv.template.lite.web.restapi.dtos.order.GetAllOrdersResponse;
 
+import javax.persistence.Column;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
@@ -21,14 +22,18 @@ public class CreateCustomerRequest {
 //    @Min(2)
     private String firstName;
 
-//    @Valid
 //    @Min(value = 1, message = "Last name can't be less than 1 or bigger than 50")
 //    @Max(10) // working but 500 error is thrown
 //    @NotNull(message = "Last Name should not be empty")
-//    @NotBlank
-//    @NotEmpty
     // @Size(max = 50, message = "LastName should not exceed 50 characters")
     // @Size(min=2, max=20)
+
+    // TODO I get 400 Bad Request, but if I have the code below it throws the catch all
+    // TODO need stuff below so that in postman ErrorDetails<> comes up
+    @Size(min = 3, max = 9, message = "Last name can't be less than 3 or bigger than 9")
+//    @Column(name = "last_name", length = 8) // 8 registered before, now it's 9
+    @NotNull // same as 'nullable = false' // 400 error - 400 Bad Request
+    @NotBlank
     private String lastName;
 
     private List<CreateAddressRequest> addresses;

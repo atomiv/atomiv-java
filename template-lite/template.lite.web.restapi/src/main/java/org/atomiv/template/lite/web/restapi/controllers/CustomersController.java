@@ -3,11 +3,14 @@ package org.atomiv.template.lite.web.restapi.controllers;
 import org.atomiv.template.lite.web.restapi.dtos.customer.*;
 import org.atomiv.template.lite.web.restapi.exceptions.ValidationException;
 import org.atomiv.template.lite.web.restapi.exceptions.remove.ResourceNotFoundException;
+import org.atomiv.template.lite.web.restapi.exceptions.remove.TaskNotFoundException;
 import org.atomiv.template.lite.web.restapi.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,6 +19,7 @@ import javax.validation.Valid;
  * The type Customer Controller
  */
 @RestController
+//@Validated // TODO JC ????
 @RequestMapping("api/customers")
 public class CustomersController {
 
@@ -88,8 +92,15 @@ public class CustomersController {
      * @return the customer
      */
     @PostMapping(path = "")
-    public ResponseEntity<CreateCustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request) throws ValidationException
+    // TODO Errors --> Impl
+    public ResponseEntity<CreateCustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request, Errors errors) throws ValidationException
     {
+        // if (result.hasErrors()) {
+        if (errors.hasErrors()) {
+//            return new ResponseEntity(new ApiErrors(errors), HttpStatus.BAD_REQUEST);
+            throw new ValidationException("Some fields are null or empty---");
+        }
+
         var response= customerService.createCustomer(request);
         return new ResponseEntity<CreateCustomerResponse>(response, HttpStatus.OK);
 
