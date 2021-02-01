@@ -17,9 +17,8 @@ public class CreateCustomerRequest {
     // @valid annotation
     // @NotEmpty is Hibernate specific you should use @NotNull if you want to validate your beans through JSR-303. ???
 //    @NotNull (message = "First Name should not be empty") // not displayed - why??
-//    @NotEmpty // not working !!
-//    @NotBlank
-//    @Min(2)
+    @NotEmpty(message = "Please fill in the customer name.")
+    @NotBlank(message = "First name must not be blank")
     private String firstName;
 
 //    @Min(value = 1, message = "Last name can't be less than 1 or bigger than 50")

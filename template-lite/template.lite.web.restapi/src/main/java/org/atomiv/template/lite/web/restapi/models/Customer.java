@@ -22,8 +22,8 @@ public class Customer {
     @Column(name = "customer_id")
     private Long id;
 
-//    @NotEmpty(message = "Please fill in the customer name.")
-//    @NotBlank
+    @NotEmpty(message = "Please fill in the customer name.")
+    @NotBlank(message = "First name must not be blank")
     @Column(name = "first_name", nullable = false) // 500 error
 //    @Min(2)
     private String firstName;

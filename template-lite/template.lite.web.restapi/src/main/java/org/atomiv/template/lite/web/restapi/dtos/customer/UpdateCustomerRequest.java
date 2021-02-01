@@ -23,7 +23,7 @@ public class UpdateCustomerRequest {
     javax.validation.ConstraintViolationException: Validation failed for classes [org.atomiv.template.lite.web.restapi.models.Customer] during update time for groups [javax.validation.groups.Default, ]\nList of constraint violations:[\n\tConstraintViolationImpl{interpolatedMessage='Last name can't be less than 3 or bigger than 9', propertyPath=lastName, rootBeanClass=class org.atomiv.template.lite.web.restapi.models.Customer, messageTemplate='Last name can't be less than 3 or bigger than 9'}\n]
      */
 
-    @Size(min = 3, max = 9, message = "Last name can't be less than 3 or bigger than 9")
+    @Size(min = 3, max = 8, message = "Last name can't be less than 3 or bigger than 6")
     @NotNull
     @NotEmpty(message = "Last name {value} ${value} must not be blank")
     private String lastName;

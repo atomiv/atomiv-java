@@ -10,6 +10,7 @@ import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -108,7 +109,6 @@ public class GlobalExceptionHandler {
 //    Validator validator = getValidator();
 //      validator.validate(testBean).stream().forEach(ValidatedValueExample::printError);
 
-
         var errorDetails = new ErrorDetails(
 //                exception,
                 new Date(), // ZonedDateTime.now(ZoneId.of("Z")
@@ -116,6 +116,7 @@ public class GlobalExceptionHandler {
                 httpStatus,
                 exception.getClass().getSimpleName(),// getPackageName() = org.atomiv.template.lite.web.restapi.exceptions.working, // getCanonicalName // exception.toString(),
                 exception.getMessage(), // show the interpolated message
+//                exception.getMessage(), // TODO: customMessage2 /n
 //                exception.setMessage(err),
                 request.getDescription(false));
 

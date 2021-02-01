@@ -9,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import java.io.BufferedWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,8 +56,7 @@ public class CustomersController {
     // @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces =
     //    "application/json")
     @GetMapping("{id}")
-    // TODO JC added @Valid
-    public ResponseEntity<GetCustomerResponse> getCustomerById(@Valid @PathVariable("id") long id)
+    public ResponseEntity<GetCustomerResponse> getCustomerById(@PathVariable("id") long id)
     {
         var response = customerService.getCustomerById(id);
 
@@ -97,10 +100,77 @@ public class CustomersController {
     // TODO Errors --> Impl
     public ResponseEntity<CreateCustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request, Errors errors) throws ValidationException
     {
+        /*
+        int [] intArray = {1, 3, 5, 7, 9};
+    for(int currentValue : intArray) {
+      System.out.println(currentValue);
+    }
+
+
+    String myString = "hello";
+
+    for(char c : myString.toCharArray()) {
+      System.out.print(c);
+    }
+
+
+
+
+String [] myStrings  = {
+      "alpha",
+      "beta",
+      "gamma",
+      "delta"
+    };
+
+    for(String currentString : myStrings) {
+      System.out.println(currentString);
+    }
+
+
+
+    List<String> myList = new ArrayList<String>();
+    myList.add("alpha");
+    myList.add("beta");
+    myList.add("gamma");
+    myList.add("delta");
+
+    for(String currentItem : myList) {
+      System.out.println(currentItem);
+    }
+
+    https://funnelgarden.com/java-for-loop/
+
+
+
+         */
+
+
+
+
+
         // if (result.hasErrors()) {
+        // debug
         if (errors.hasErrors()) {
+            var allErrors = errors.getAllErrors();
+
+            var myMessage = new ArrayList<String>();
+            StringBuffer text = new StringBuffer();
+
+            for (ObjectError error : allErrors) {
+                var customMessage2 = error.getDefaultMessage() + '\n' + "\r\n" + System.lineSeparator() + "<br>" + "---";
+                var apple = text.append(customMessage2.toString()).append('\n');
+                myMessage.add(apple.toString());
+
+//                System.out.println("Hello" + '\n' + "World");
+            }
 //            return new ResponseEntity(new ApiErrors(errors), HttpStatus.BAD_REQUEST);
-            throw new ValidationException("Some fields are null or empty---");
+//            throw new ValidationException("Some fields are null or empty---");
+//            throw new ValidationException(pear);
+//            String customMessage2;
+            throw new ValidationException(myMessage.toString());
+
+
         }
 
         var response= customerService.createCustomer(request);
@@ -142,8 +212,7 @@ public class CustomersController {
      * @throws ResourceNotFoundException the resource not found
      */
     @DeleteMapping("{id}")
-    // TODO JC added @Valid
-    public ResponseEntity<?> deleteCustomer(@Valid @PathVariable Long id) {
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomerById(id);
 
         // TODO Java Rest API return No Content

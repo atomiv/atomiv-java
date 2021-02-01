@@ -17,6 +17,7 @@ public class ErrorDetails {
     private HttpStatus error; // private String error;
     private String exception;
     private String message;
+//    private String customMessage;
     private String path; // details // same as "path"
 
     public ErrorDetails(//Throwable throwable,
@@ -25,6 +26,7 @@ public class ErrorDetails {
                         HttpStatus error,
                         String exception,
                         String message,
+//                        String customMessage,
                         String path) {
         super();
 //        this.throwable = throwable;
@@ -33,6 +35,7 @@ public class ErrorDetails {
         this.error = error;
         this.exception = exception;
         this.message = message;
+//        this.customMessage = customMessage;
         this.path = path;
     }
 
