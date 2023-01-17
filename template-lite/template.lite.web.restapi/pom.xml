@@ -72,11 +72,22 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 <!--			<version>5.4.24.Final</version>-->
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
 	<build>
 		<plugins>
+<!--			original-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -89,6 +100,12 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-jar-plugin</artifactId>-->
+<!--			</plugin>-->
+
 <!--			java-demo -->
 <!--			<plugin>-->
 <!--				<groupId>org.apache.maven.plugins</groupId>-->
